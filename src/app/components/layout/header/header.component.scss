@@ -1,0 +1,119 @@
+.header-placeholder {
+  height: 80px;
+  width: 100%;
+}
+
+.header-wrapper {
+  height: 80px;
+  background-color: white;
+  box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.05);
+  padding: 0 20px 0 25px;
+  z-index: 11;
+  position: fixed;
+  top: 0;
+
+  .menu-icon {
+    display: none;
+  }
+
+  .nav-options {
+    width: 576px;
+
+    .profile-name {
+      white-space: break-spaces;
+      max-width: 100px;
+      text-align: center;
+      cursor: auto;
+    }
+
+    .header-hidden {
+      display: none;
+    }
+  }
+
+  * {
+    user-select: none;
+  }
+}
+
+.nav-options {
+  * {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 14px;
+  }
+
+  .nav-link {
+    font-family: "Ubuntu";
+    cursor: pointer;
+    color: #949ea0;
+  }
+
+  .create-account {
+    font-family: "Montserrat";
+    background: linear-gradient(270deg, #ecbcb3 0%, #eaa79e 100%);
+    box-shadow: 0px 15px 20px rgba(234, 168, 159, 0.2);
+    width: 140px;
+    height: 40px;
+    border: 0;
+    border-radius: 50px;
+    color: #ffffff;
+  }
+
+  .login-link {
+    color: #df9186;
+  }
+
+  .nav-profile {
+    border-radius: 50%;
+    width: 40px;
+    margin-left: 30px;
+  }
+}
+
+.sidenav {
+  background-color: white;
+  height: calc(100vh - 80px);
+  transition: 0.5s;
+  width: 0px;
+  position: fixed;
+  z-index: 10;
+
+  &.open {
+    width: min(768px, 100vw);
+    padding: 8px 0 8px 31px;
+  }
+
+  .nav-options {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    height: min(372px, 100vh - 80px - 16px);
+    transition: width 2s;
+  }
+
+  .nav-link {
+    white-space: nowrap;
+  }
+
+  .sidenav-hidden {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header-wrapper {
+    .menu-icon {
+      display: block;
+    }
+
+    .nav-options {
+      display: none;
+    }
+  }
+
+  .sidenav {
+    display: flex;
+  }
+}

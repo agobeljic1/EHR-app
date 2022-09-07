@@ -1,0 +1,39 @@
+<form [formGroup]="form">
+  <div class="modal">
+    <div
+      class="modal-content d-flex flex-direction-column justify-content-between align-items-center"
+    >
+      <img
+        src="assets/close-icon.svg"
+        alt="close"
+        class="close-icon"
+        (click)="closeLogin.emit()"
+      />
+      <label class="modal-title">Welcome Back</label>
+
+      <app-form-field
+        name="emailAddress"
+        label="Email address"
+        type="email"
+        class="email-field"
+        [formGroup]="form"
+      ></app-form-field>
+      <app-form-field
+        name="password"
+        label="Password"
+        type="password"
+        class="password-field"
+        [formGroup]="form"
+      ></app-form-field>
+
+      <button
+        class="login-button d-flex align-items-center justify-content-center"
+        (click)="submitLogin()"
+        [disabled]="loading$ | async"
+      >
+        <label>Login to your Account</label>
+        <app-spinner *ngIf="loading$ | async"></app-spinner>
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,59 @@
+<div class="modal">
+  <div
+    class="modal-content d-flex flex-direction-column justify-content-between align-items-center"
+  >
+    <img
+      src="assets/close-icon.svg"
+      alt="close"
+      class="close-icon"
+      (click)="closeRegister.emit()"
+    />
+    <label class="modal-title">Create an Account</label>
+    <div class="d-flex justify-content-between w-full name-fields">
+      <app-form-field
+        name="firstName"
+        label="First Name"
+        type="text"
+        class="first-name-field"
+        [formGroup]="form"
+      ></app-form-field>
+      <app-form-field
+        name="lastName"
+        label="Last Name"
+        type="text"
+        class="last-name-field"
+        [formGroup]="form"
+      ></app-form-field>
+    </div>
+
+    <app-form-field
+      name="birthDate"
+      label="Date of Birth"
+      type="date"
+      class="date-field"
+      [formGroup]="form"
+    ></app-form-field>
+    <app-form-field
+      name="emailAddress"
+      label="Email Address"
+      type="email"
+      class="email-field"
+      [formGroup]="form"
+    ></app-form-field>
+    <app-form-field
+      name="password"
+      label="Password"
+      type="password"
+      class="password-field"
+      [formGroup]="form"
+    ></app-form-field>
+
+    <button
+      class="register-button d-flex align-items-center justify-content-center"
+      (click)="submitRegister()"
+    >
+      <label>Create Account</label>
+      <app-spinner *ngIf="loading$ | async"></app-spinner>
+    </button>
+  </div>
+</div>

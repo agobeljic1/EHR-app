@@ -1,0 +1,91 @@
+.modal-content {
+  width: 590px;
+  padding: 60px 110px;
+
+  .close-icon {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    cursor: pointer;
+  }
+
+  * {
+    font-family: "Ubuntu";
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  .modal-title {
+    font-size: 20px;
+    line-height: 20px;
+    text-align: center;
+    color: #334144;
+  }
+
+  .profile-icon {
+    margin-right: 30px;
+    border-radius: 50%;
+  }
+
+  .profile-title-wrapper {
+    margin-bottom: 30px;
+
+    .profile-title-text {
+      font-weight: 300;
+      font-size: 25px;
+      line-height: 25px;
+
+      color: #334144;
+    }
+
+    .profile-title-subtext {
+      font-size: 13px;
+      line-height: 13px;
+      margin-top: 6px;
+
+      color: #949ea0;
+    }
+  }
+
+  .profile-info-title {
+    font-size: 10px;
+    line-height: 10px;
+
+    color: #949ea0;
+  }
+
+  .profile-info-value {
+    font-size: 18px;
+    line-height: 13px;
+
+    color: #334144;
+  }
+
+  .profile-info-row {
+    margin-bottom: 31px;
+
+    .profile-info-title {
+      margin-bottom: 16px;
+    }
+  }
+
+  .logout-button {
+    width: 150px;
+    height: 50px;
+    border-radius: 3px;
+    background: linear-gradient(270deg, #ecbcb3 0%, #eaa79e 100%);
+    box-shadow: 0px 15px 20px rgba(234, 168, 159, 0.2);
+    margin-top: 40px;
+    border-radius: 3px;
+    border: 0;
+    color: white;
+    font-size: 14px;
+    line-height: 14px;
+    text-align: center;
+    cursor: pointer;
+
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 14px;
+  }
+}
