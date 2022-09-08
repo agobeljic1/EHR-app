@@ -1,15 +1,29 @@
-<label class="field-label" [formGroup]="formGroup">
-  <input
-    class="input"
-    [attr.type]="type"
-    [attr.name]="name"
-    autocomplete="current-password"
-    [formControlName]="name"
-  />
-  <span [attr.data-label]="label"></span>
-  <ng-container *ngIf="formGroup.get(name)?.errors as errorObj">
-    <label class="error-message" *ngFor="let error of Object.keys(errorObj)">{{
-      formErrorsConfig[error]
-    }}</label>
-  </ng-container>
-</label>
+<ng-container [ngSwitch]="type">
+  <mat-form-field
+    [formGroup]="formGroup"
+    appearance="outline"
+    class="form-field"
+    *ngSwitchCase="'date'"
+  >
+    <mat-label>{{ label }}</mat-label>
+    <input matInput [formControlName]="name" [matDatepicker]="picker" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error>{{ getErrorMessage() }}</mat-error>
+  </mat-form-field>
+  <mat-form-field
+    [formGroup]="formGroup"
+    appearance="outline"
+    class="form-field"
+    *ngSwitchDefault
+  >
+    <mat-label>{{ label }}</mat-label>
+    <input
+      matInput
+      [formControlName]="name"
+      [attr.type]="type"
+      [attr.name]="name"
+    />
+    <mat-error>{{ getErrorMessage() }}</mat-error>
+  </mat-form-field>
+</ng-container>

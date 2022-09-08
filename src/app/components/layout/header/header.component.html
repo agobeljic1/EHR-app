@@ -1,82 +1,58 @@
 <ng-container *ngLet="loading$ | async as loading">
   <ng-container *ngLet="loggedUser$ | async as loggedUser">
-    <ng-container *ngLet="loginOpen$ | async as loginOpen">
-      <ng-container *ngLet="registerOpen$ | async as registerOpen">
-        <ng-container *ngLet="profileOpen$ | async as profileOpen">
-          <div class="header-placeholder"></div>
-          <div
-            class="header-wrapper d-flex justify-content-between align-items-center w-full"
-          >
-            <img
-              class="logo-wrapper cursor-pointer"
-              routerLink="home"
-              src="assets/full-logo.svg"
-            />
+    <div class="header-placeholder"></div>
+    <div
+      class="header-wrapper d-flex justify-content-between align-items-center w-full"
+    >
+      <img
+        class="logo-wrapper cursor-pointer"
+        routerLink="home"
+        src="assets/full-logo.svg"
+      />
 
-            <ng-container *ngIf="loading">
-              <app-spinner [dark]="true"></app-spinner>
-            </ng-container>
-            <ng-container *ngIf="!loading">
-              <ng-container
-                *ngTemplateOutlet="
-                  navbarOptions;
-                  context: { loggedUser: loggedUser }
-                "
-              ></ng-container>
-              <img
-                *ngIf="sidenavOpen"
-                class="menu-icon cursor-pointer"
-                src="assets/close-icon.svg"
-                alt="Menu"
-                (click)="toggleSidenav()"
-              />
-              <img
-                *ngIf="!sidenavOpen"
-                class="menu-icon cursor-pointer"
-                src="assets/hamburger-icon.svg"
-                alt="Menu"
-                (click)="toggleSidenav()"
-              />
-            </ng-container>
-          </div>
-          <div
-            class="sidenav d-none flex-direction-column justify-content-center"
-            [class.open]="sidenavOpen"
-          >
-            <ng-container *ngIf="sidenavOpen">
-              <ng-container
-                *ngTemplateOutlet="
-                  navbarOptions;
-                  context: { loggedUser: loggedUser }
-                "
-              ></ng-container
-            ></ng-container>
-          </div>
-
-          <app-login-modal
-            *ngIf="loginOpen"
-            (closeLogin)="closeLogin()"
-          ></app-login-modal>
-          <app-register-modal
-            *ngIf="registerOpen"
-            (closeRegister)="closeRegister()"
-          ></app-register-modal>
-          <app-profile-modal
-            *ngIf="profileOpen"
-            (closeProfile)="closeProfile()"
-            [user]="loggedUser"
-          ></app-profile-modal>
-        </ng-container>
+      <ng-container *ngIf="loading">
+        <app-spinner [dark]="true"></app-spinner>
       </ng-container>
-    </ng-container>
+      <ng-container *ngIf="!loading">
+        <ng-container
+          *ngTemplateOutlet="navbarOptions; context: { loggedUser: loggedUser }"
+        ></ng-container>
+        <img
+          *ngIf="sidenavOpen"
+          class="menu-icon cursor-pointer"
+          src="assets/close-icon.svg"
+          alt="Menu"
+          (click)="toggleSidenav()"
+        />
+        <img
+          *ngIf="!sidenavOpen"
+          class="menu-icon cursor-pointer"
+          src="assets/hamburger-icon.svg"
+          alt="Menu"
+          (click)="toggleSidenav()"
+        />
+      </ng-container>
+    </div>
+    <div
+      class="sidenav d-none flex-direction-column justify-content-center"
+      [class.open]="sidenavOpen"
+    >
+      <ng-container *ngIf="sidenavOpen">
+        <ng-container
+          *ngTemplateOutlet="navbarOptions; context: { loggedUser: loggedUser }"
+        ></ng-container
+      ></ng-container>
+    </div>
   </ng-container>
 </ng-container>
 
 <ng-template #navbarOptions let-loggedUser="loggedUser">
   <div class="nav-options d-flex justify-content-between align-items-center">
     <label class="nav-link" routerLink="home">Home</label>
-    <label class="nav-link header-hidden">Settings</label>
-    <label *ngIf="!loggedUser" class="nav-link login-link" (click)="openLogin()"
+    <label
+      *ngIf="!loggedUser"
+      class="nav-link login-link"
+      (click)="onLoginClick()"
       >Login</label
     >
     <label *ngIf="loggedUser" class="nav-link profile-name">{{
@@ -86,12 +62,12 @@
       *ngIf="loggedUser"
       src="assets/navbar-profile-image.png"
       class="nav-profile sidenav-hidden cursor-pointer"
-      (click)="openProfile()"
+      (click)="onProfileClick()"
     />
     <button
       *ngIf="!loggedUser"
       class="create-account text-align-center cursor-pointer"
-      (click)="openRegister()"
+      (click)="onRegisterClick()"
     >
       New Account
     </button>

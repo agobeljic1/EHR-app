@@ -1,8 +1,17 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  OnInit,
+  Optional,
+  Output,
+} from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { AuthActions, AuthSelectors } from 'src/app/store/auth';
+import { formConfig } from './login.form-config';
 
 @Component({
   selector: 'app-login-modal',
@@ -10,24 +19,50 @@ import { AuthActions, AuthSelectors } from 'src/app/store/auth';
   styleUrls: ['./login-modal.component.scss'],
 })
 export class LoginModalComponent implements OnInit {
-  @Output() closeLogin: EventEmitter<void> = new EventEmitter();
+  private readonly destroy$ = new Subject();
 
   form!: FormGroup;
   loading$!: Observable<boolean>;
+  close$!: Observable<boolean>;
   showSuccessMessage$!: Observable<boolean>;
 
-  constructor(private formBuilder: FormBuilder, private store: Store) {}
+  formConfig = formConfig;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private store: Store,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
 
   ngOnInit(): void {
     this.createForm();
     this.loading$ = this.store.select(AuthSelectors.selectLoadingLogin as any);
+
+    this.store
+      .select(AuthSelectors.selectToken as any)
+      .pipe(
+        filter((token) => !!token),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.close();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   private createForm(): void {
-    this.form = this.formBuilder.group({
-      emailAddress: [undefined, [Validators.required, Validators.email]],
-      password: [undefined, Validators.required],
-    });
+    const formBuilderConfig = Object.entries(this.formConfig).reduce(
+      (acc, [key, val]) => {
+        acc[key] = val.attributes;
+        return acc;
+      },
+      {}
+    );
+    this.form = this.formBuilder.group(formBuilderConfig);
   }
 
   submitLogin() {
@@ -35,5 +70,9 @@ export class LoginModalComponent implements OnInit {
     if (this.form.valid) {
       this.store.dispatch(AuthActions.loginUser({ user: this.form.value }));
     }
+  }
+
+  close() {
+    this.store.dispatch(AuthActions.closeLogin());
   }
 }

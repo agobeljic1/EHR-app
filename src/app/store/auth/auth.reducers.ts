@@ -23,6 +23,7 @@ import {
   openProfile,
   openRegister,
   updateToken,
+  logoutUserSuccess,
 } from './auth.actions';
 import { User } from 'src/app/models/user/User';
 
@@ -75,7 +76,7 @@ export const authReducer = createReducer(
     return {
       ...state,
       loadingRegister: false,
-      showRegisterSuccessMessage: true,
+      registerOpen: false,
     };
   }),
   on(registerUserFailure, (state) => {
@@ -92,7 +93,7 @@ export const authReducer = createReducer(
     ...state,
     token,
     loadingLogin: false,
-    showLoginSuccessMessage: true,
+    loginOpen: false,
   })),
   on(loginUserFailure, (state) => ({
     ...state,
@@ -102,6 +103,10 @@ export const authReducer = createReducer(
     ...state,
     user: null,
     token: null,
+  })),
+  on(logoutUserSuccess, (state) => ({
+    ...state,
+    profileOpen: false,
   })),
   on(refreshToken, (state) => {
     return {

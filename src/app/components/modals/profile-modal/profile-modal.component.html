@@ -1,57 +1,52 @@
-<div class="modal">
-  <div
-    class="modal-content d-flex flex-direction-column justify-content-between align-items-center"
-  >
+<div *ngLet="loggedUser$ | async as user" class="profile-wrapper">
+  <img
+    src="assets/close-icon.svg"
+    alt="close"
+    class="close-icon"
+    (click)="close()"
+  />
+  <div class="profile-title-wrapper d-flex align-items-center w-full">
     <img
-      src="assets/close-icon.svg"
+      src="assets/user-profile-image.png"
       alt="close"
-      class="close-icon"
-      (click)="closeProfile.emit()"
+      width="80px"
+      height="80px"
+      class="profile-icon"
     />
-    <div class="profile-title-wrapper d-flex align-items-center w-full">
-      <img
-        src="assets/user-profile-image.png"
-        alt="close"
-        (click)="closeProfile.emit()"
-        width="80px"
-        height="80px"
-        class="profile-icon"
-      />
-      <div class="d-flex justify-content-between flex-direction-column w-full">
-        <label class="profile-title-text d-block">{{
-          user ? user.firstName + " " + user.lastName : "Unknown"
-        }}</label>
-        <label class="profile-title-subtext d-block">{{
-          user.admin ? "Admin" : "Regular user"
-        }}</label>
-      </div>
-    </div>
-
-    <div class="profile-info-row w-full">
-      <label class="profile-info-title d-block">First name</label>
-      <label class="profile-info-value d-block">{{
-        user?.firstName || "Unkown"
+    <div class="d-flex justify-content-between flex-direction-column w-full">
+      <label class="profile-title-text d-block">{{
+        user ? user.firstName + " " + user.lastName : "Unknown"
+      }}</label>
+      <label class="profile-title-subtext d-block">{{
+        user?.admin ? "Admin" : "Regular user"
       }}</label>
     </div>
-    <div class="profile-info-row w-full">
-      <label class="profile-info-title d-block">Last name</label>
-      <label class="profile-info-value d-block">{{
-        user?.lastName || "Unkown"
-      }}</label>
-    </div>
-    <div class="profile-info-row w-full">
-      <label class="profile-info-title d-block">Date of Birth</label>
-      <label class="profile-info-value d-block">{{
-        user?.birthDate || "Unknown" | date
-      }}</label>
-    </div>
-    <div class="profile-info-row w-full">
-      <label class="profile-info-title d-block">Email address</label>
-      <label class="profile-info-value d-block">{{
-        user?.emailAddress || "Unknown"
-      }}</label>
-    </div>
-
-    <button class="logout-button" (click)="logout()">Logout</button>
   </div>
+
+  <div class="profile-info-row w-full">
+    <label class="profile-info-title d-block">First name</label>
+    <label class="profile-info-value d-block">{{
+      user?.firstName || "Unkown"
+    }}</label>
+  </div>
+  <div class="profile-info-row w-full">
+    <label class="profile-info-title d-block">Last name</label>
+    <label class="profile-info-value d-block">{{
+      user?.lastName || "Unkown"
+    }}</label>
+  </div>
+  <div class="profile-info-row w-full">
+    <label class="profile-info-title d-block">Date of Birth</label>
+    <label class="profile-info-value d-block">{{
+      user?.birthDate || "Unknown" | date
+    }}</label>
+  </div>
+  <div class="profile-info-row w-full">
+    <label class="profile-info-title d-block">Email address</label>
+    <label class="profile-info-value d-block">{{
+      user?.emailAddress || "Unknown"
+    }}</label>
+  </div>
+
+  <button class="logout-button" (click)="logout()">Logout</button>
 </div>

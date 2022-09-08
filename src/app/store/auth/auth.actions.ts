@@ -42,6 +42,8 @@ export const loadUserFailure = createAction(
 
 export const logoutUser = createAction('[User API] Logout User');
 
+export const logoutUserSuccess = createAction('[User API] Logout User Success');
+
 export const refreshToken = createAction('[User API] Refresh Token');
 
 export const refreshTokenSuccess = createAction(

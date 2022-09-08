@@ -16,10 +16,12 @@ import { FormFieldComponent } from './components/shared/form-field/form-field.co
 import { RegisterModalComponent } from './components/modals/register-modal/register-modal.component';
 import { ProfileModalComponent } from './components/modals/profile-modal/profile-modal.component';
 import { HomePageComponent } from './components/pages/home-page/home-page.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SpinnerComponent } from './components/shared/spinner/spinner.component';
 import { LetDirective } from './directives/let/let.directive';
 import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
+import { MaterialModule } from './material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -38,9 +40,12 @@ import { NotFoundPageComponent } from './components/pages/not-found-page/not-fou
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([AuthEffects]),
+    MaterialModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     { provide: 'BASE_API_URL', useValue: environment.apiUrl },

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,27 +6,19 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './form-field.component.html',
   styleUrls: ['./form-field.component.scss'],
 })
-export class FormFieldComponent implements OnInit {
+export class FormFieldComponent {
   @Input() name!: string;
   @Input() label!: string;
   @Input() type!: string;
   @Input() formGroup!: FormGroup;
-
-  Object = Object;
-
-  formErrorsConfig: { [key: string]: string } = {};
+  @Input() errorConfig!: { [key: string]: string };
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.setFormErrorsConfig();
-  }
-
-  private setFormErrorsConfig() {
-    this.formErrorsConfig = {
-      required: `${this.label} is required`,
-      email: `${this.label} needs to be a valid email`,
-      minlength: `${this.label} needs to be at least 6 characters long`,
-    };
+  getErrorMessage() {
+    const errorKey = Object.keys(
+      this.formGroup.controls?.[this.name]?.errors || {}
+    )[0];
+    return (errorKey && this.errorConfig?.[errorKey]) || '';
   }
 }

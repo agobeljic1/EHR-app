@@ -75,12 +75,11 @@ export class AuthEffects {
     )
   );
 
-  closeProfile$ = createEffect(() =>
+  logout$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logoutUser),
       switchMap(() => this.authService.logout()),
-      map(() => AuthActions.closeProfile()),
-      catchError(() => of(AuthActions.closeProfile()))
+      map(() => AuthActions.logoutUserSuccess())
     )
   );
 }

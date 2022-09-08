@@ -1,78 +1,9 @@
-:host {
-  width: 100%;
-  margin-bottom: 12px;
-}
-
 * {
   font-family: "Ubuntu";
   font-style: normal;
   font-weight: 400;
 }
 
-.field-label {
-  position: relative;
-}
-
-span::before {
-  position: absolute;
-  transition: 200ms ease-in-out;
-  content: attr(data-label);
-  left: 16px;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  pointer-events: none;
-  height: 18px;
-  font-size: 18px;
-  color: #949ea0;
-  line-height: 1;
-  font-size: 10px;
-  line-height: 10px;
-  transform: translateY(-10px);
-}
-
-input {
+.form-field {
   width: 100%;
-  border: 1px solid #dfe5ea;
-  background-color: #f5f6f7;
-  border-radius: 4px;
-  height: 56px;
-  padding: 20px 16px 6px;
-  font-size: 13px;
-  line-height: 13px;
-}
-
-input:focus,
-input:active {
-  outline: 0;
-  background-color: white;
-}
-input:focus {
-  box-shadow: 0 0 0 2px #ecbcb3;
-  border-color: transparent;
-}
-
-input:focus ~ span::before {
-  transform: translateY(-28px);
-  background-color: white;
-  padding: 2px 4px;
-  color: #ecbcb3;
-  font-size: 10px;
-  line-height: 10px;
-}
-
-input.ng-invalid.ng-touched {
-  border: 1px solid red;
-}
-
-.error-message {
-  position: absolute;
-  padding: 4px;
-  display: none;
-}
-
-input.ng-invalid.ng-touched ~ .error-message {
-  display: block;
-  color: red;
-  font-size: 10px;
 }

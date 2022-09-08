@@ -1,6 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { AuthActions } from 'src/app/store/auth';
+import { Observable } from 'rxjs';
+import { AuthActions, AuthSelectors } from 'src/app/store/auth';
 
 @Component({
   selector: 'app-profile-modal',
@@ -8,15 +17,19 @@ import { AuthActions } from 'src/app/store/auth';
   styleUrls: ['./profile-modal.component.scss'],
 })
 export class ProfileModalComponent implements OnInit {
-  @Input() user!: any;
-  @Output() closeProfile: EventEmitter<void> = new EventEmitter();
+  loggedUser$!: Observable<any>;
 
   constructor(private readonly store: Store) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loggedUser$ = this.store.select(AuthSelectors.selectUser as any);
+  }
 
   logout(): void {
     this.store.dispatch(AuthActions.logoutUser());
-    this.closeProfile.emit();
+  }
+
+  close() {
+    this.store.dispatch(AuthActions.closeProfile());
   }
 }

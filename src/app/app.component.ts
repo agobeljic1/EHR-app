@@ -9,7 +9,7 @@ import { AuthActions } from './store/auth';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(private store: Store, private authService: AuthService) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.store.dispatch(AuthActions.refreshToken());
