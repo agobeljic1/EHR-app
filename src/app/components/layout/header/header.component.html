@@ -4,11 +4,9 @@
     <div
       class="header-wrapper d-flex justify-content-between align-items-center w-full"
     >
-      <img
-        class="logo-wrapper cursor-pointer"
-        routerLink="home"
-        src="assets/full-logo.svg"
-      />
+      <button class="button-img" routerLink="home">
+        <img class="logo-wrapper cursor-pointer" src="assets/full-logo.svg" />
+      </button>
 
       <ng-container *ngIf="loading">
         <app-spinner [dark]="true"></app-spinner>
@@ -17,20 +15,22 @@
         <ng-container
           *ngTemplateOutlet="navbarOptions; context: { loggedUser: loggedUser }"
         ></ng-container>
-        <img
+        <button
           *ngIf="sidenavOpen"
-          class="menu-icon cursor-pointer"
-          src="assets/close-icon.svg"
-          alt="Menu"
+          class="button-img menu-icon cursor-pointer"
+          routerLink="home"
           (click)="toggleSidenav()"
-        />
-        <img
+        >
+          <img src="assets/close-icon.svg" alt="Menu" />
+        </button>
+        <button
           *ngIf="!sidenavOpen"
-          class="menu-icon cursor-pointer"
-          src="assets/hamburger-icon.svg"
-          alt="Menu"
+          class="button-img menu-icon cursor-pointer"
+          routerLink="home"
           (click)="toggleSidenav()"
-        />
+        >
+          <img src="assets/hamburger-icon.svg" alt="Menu" />
+        </button>
       </ng-container>
     </div>
     <div
@@ -48,26 +48,29 @@
 
 <ng-template #navbarOptions let-loggedUser="loggedUser">
   <div class="nav-options d-flex justify-content-between align-items-center">
-    <label class="nav-link" routerLink="home">Home</label>
+    <label class="nav-link" routerLink="home" tabindex="0">Home</label>
     <label
       *ngIf="!loggedUser"
       class="nav-link login-link"
       (click)="onLoginClick()"
+      tabindex="0"
       >Login</label
     >
     <label *ngIf="loggedUser" class="nav-link profile-name">{{
       loggedUser.firstName + " " + loggedUser.lastName
     }}</label>
-    <img
-      *ngIf="loggedUser"
-      src="assets/navbar-profile-image.png"
-      class="nav-profile sidenav-hidden cursor-pointer"
+    <button
+      class="button-img cursor-pointer sidenav-hidden nav-profile"
       (click)="onProfileClick()"
-    />
+    >
+      <img src="assets/navbar-profile-image.png" class="cursor-pointer" />
+    </button>
+
     <button
       *ngIf="!loggedUser"
       class="create-account text-align-center cursor-pointer"
       (click)="onRegisterClick()"
+      tabindex="0"
     >
       New Account
     </button>

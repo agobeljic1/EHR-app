@@ -1,10 +1,7 @@
 <form [formGroup]="form">
-  <img
-    src="assets/close-icon.svg"
-    alt="close"
-    class="close-icon"
-    (click)="close()"
-  />
+  <button class="close-icon button-img" (click)="close()">
+    <img src="assets/close-icon.svg" alt="close" />
+  </button>
   <label class="modal-title">Welcome Back</label>
   <app-form-field
     name="emailAddress"

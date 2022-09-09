@@ -127,3 +127,12 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.button-img {
+  cursor: pointer;
+  background: transparent;
+  color: transparent;
+  border: 0;
+  display: flex;
+  justify-content: center;
+}

@@ -1,10 +1,7 @@
 <div *ngLet="loggedUser$ | async as user" class="profile-wrapper">
-  <img
-    src="assets/close-icon.svg"
-    alt="close"
-    class="close-icon"
-    (click)="close()"
-  />
+  <button class="close-icon button-img" (click)="close()">
+    <img src="assets/close-icon.svg" alt="close" />
+  </button>
   <div class="profile-title-wrapper d-flex align-items-center w-full">
     <img
       src="assets/user-profile-image.png"
