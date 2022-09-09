@@ -4,13 +4,13 @@ const { createAccessAndRefreshTokens } = require("../utils/Auth");
 
 module.exports = function (app, db) {
   app.post("/signup", async (req, res) => {
-    const { firstName, lastName, birthDate, emailAddress, password } = req.body;
+    const { given, family, birthDate, emailAddress, password } = req.body;
     try {
       const hash = await bcrypt.hash(password, 10);
 
       const newUser = {
-        firstName,
-        lastName,
+        given,
+        family,
         birthDate,
         emailAddress,
         password: hash,

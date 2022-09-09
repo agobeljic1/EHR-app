@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideMockStore } from '@ngrx/store/testing';
 
 import { HomePageComponent } from './home-page.component';
 
@@ -9,9 +8,9 @@ describe('HomePageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HomePageComponent],
-      providers: [provideMockStore()],
-    }).compileComponents();
+      declarations: [ HomePageComponent ]
+    })
+    .compileComponents();
   });
 
   beforeEach(() => {

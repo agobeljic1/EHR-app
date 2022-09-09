@@ -12,18 +12,25 @@
   position: fixed;
   top: 0;
 
+  .logo-wrapper {
+    width: 30px;
+    height: 30px;
+  }
+
   .menu-icon {
     display: none;
   }
 
   .nav-options {
-    width: 376px;
+    width: 676px;
+    gap: 24px;
 
     .profile-name {
       white-space: break-spaces;
       max-width: 100px;
       text-align: center;
       cursor: auto;
+      font-weight: bold;
     }
 
     .header-hidden {
@@ -66,8 +73,6 @@
   }
 
   .nav-profile {
-    margin-left: 30px;
-
     img {
       width: 100%;
       border-radius: 50%;

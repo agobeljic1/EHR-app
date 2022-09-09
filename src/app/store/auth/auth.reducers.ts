@@ -46,8 +46,8 @@ export const initialState: AuthState = {
   loadingUser: false,
   loadingLogin: false,
   loadingRegister: false,
-  loadingRefreshToken: false,
-  loadingProfile: false,
+  loadingRefreshToken: true,
+  loadingProfile: true,
   loginOpen: false,
   registerOpen: false,
   profileOpen: false,
@@ -143,7 +143,12 @@ export const authReducer = createReducer(
   on(fetchProfileSuccess, (state, { user }) => {
     return {
       ...state,
-      user,
+      user: {
+        ...user,
+        nurse: user.role === 'NURSE',
+        doctor: user.role === 'DOCTOR',
+        admin: user.role === 'ADMIN',
+      },
       loadingProfile: false,
     };
   }),

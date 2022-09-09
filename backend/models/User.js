@@ -7,12 +7,21 @@ module.exports = function (sequelize, DataTypes) {
         autoIncrement: true,
         primaryKey: true,
       },
-      firstName: {
+      emailAddress: {
         type: DataTypes.STRING(50),
         allowNull: false,
         unique: false,
       },
-      lastName: {
+      password: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+      },
+      given: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+        unique: false,
+      },
+      family: {
         type: DataTypes.STRING(50),
         allowNull: false,
         unique: false,
@@ -22,18 +31,30 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         unique: false,
       },
-      emailAddress: {
+      gender: {
+        type: DataTypes.STRING(10),
+        allowNull: false,
+        unique: false,
+      },
+      line: {
         type: DataTypes.STRING(50),
         allowNull: false,
-        unique: true,
+        unique: false,
       },
-      password: {
-        type: DataTypes.STRING(255),
+      city: {
+        type: DataTypes.STRING(50),
         allowNull: false,
+        unique: false,
       },
-      admin: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true,
+      country: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+        unique: false,
+      },
+      role: {
+        type: DataTypes.STRING(10),
+        allowNull: false,
+        unique: false,
       },
     },
     {

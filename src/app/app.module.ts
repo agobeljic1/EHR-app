@@ -15,13 +15,21 @@ import { LoginModalComponent } from './components/modals/login-modal/login-modal
 import { FormFieldComponent } from './components/shared/form-field/form-field.component';
 import { RegisterModalComponent } from './components/modals/register-modal/register-modal.component';
 import { ProfileModalComponent } from './components/modals/profile-modal/profile-modal.component';
-import { HomePageComponent } from './components/pages/home-page/home-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SpinnerComponent } from './components/shared/spinner/spinner.component';
 import { LetDirective } from './directives/let/let.directive';
 import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AdmissionsPageComponent } from './components/pages/admissions-page/admissions-page.component';
+import { PatientOverviewPageComponent } from './components/pages/patient-overview-page/patient-overview-page.component';
+import { PatientsPageComponent } from './components/pages/patients-page/patients-page.component';
+import { UsersPageComponent } from './components/pages/users-page/users-page.component';
+import { HomePageComponent } from './components/pages/home-page/home-page.component';
+import { AdminGuard } from './guards/admin.guard';
+import { OrganizationsPageComponent } from './components/pages/organizations-page/organizations-page.component';
+import { OrganizationEffects } from './store/organization/organization.effects';
+import { UpsertOrganizationModalComponent } from './components/modals/upsert-organization-modal/upsert-organization-modal.component';
 
 @NgModule({
   declarations: [
@@ -31,10 +39,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormFieldComponent,
     RegisterModalComponent,
     ProfileModalComponent,
-    HomePageComponent,
     SpinnerComponent,
     LetDirective,
     NotFoundPageComponent,
+    AdmissionsPageComponent,
+    PatientOverviewPageComponent,
+    PatientsPageComponent,
+    UsersPageComponent,
+    HomePageComponent,
+    OrganizationsPageComponent,
+    UpsertOrganizationModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +57,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, OrganizationEffects]),
     MaterialModule,
     BrowserAnimationsModule,
   ],
@@ -54,6 +68,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       useClass: AuthInterceptor,
       multi: true,
     },
+    AdminGuard,
   ],
 
   bootstrap: [AppComponent],

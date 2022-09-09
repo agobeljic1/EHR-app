@@ -1,15 +1,8 @@
-import {
-  Component,
-  EventEmitter,
-  Inject,
-  OnInit,
-  Optional,
-  Output,
-} from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { filter, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AuthActions, AuthSelectors } from 'src/app/store/auth';
 import { formConfig } from './login.form-config';
 
@@ -24,7 +17,6 @@ export class LoginModalComponent implements OnInit {
   form!: FormGroup;
   loading$!: Observable<boolean>;
   close$!: Observable<boolean>;
-  showSuccessMessage$!: Observable<boolean>;
 
   formConfig = formConfig;
 
@@ -37,16 +29,6 @@ export class LoginModalComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.loading$ = this.store.select(AuthSelectors.selectLoadingLogin as any);
-
-    this.store
-      .select(AuthSelectors.selectToken as any)
-      .pipe(
-        filter((token) => !!token),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(() => {
-        this.close();
-      });
   }
 
   ngOnDestroy(): void {

@@ -5,11 +5,11 @@ module.exports = function (app, db) {
       .findOne({
         attributes: [
           "id",
-          "firstName",
-          "lastName",
+          "given",
+          "family",
           "birthDate",
           "emailAddress",
-          "admin",
+          "role",
         ],
         where: {
           id,

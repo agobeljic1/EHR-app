@@ -12,7 +12,7 @@
     />
     <div class="d-flex justify-content-between flex-direction-column w-full">
       <label class="profile-title-text d-block">{{
-        user ? user.firstName + " " + user.lastName : "Unknown"
+        user ? user.given + " " + user.family : "Unknown"
       }}</label>
       <label class="profile-title-subtext d-block">{{
         user?.admin ? "Admin" : "Regular user"
@@ -23,19 +23,19 @@
   <div class="profile-info-row w-full">
     <label class="profile-info-title d-block">First name</label>
     <label class="profile-info-value d-block">{{
-      user?.firstName || "Unkown"
+      user?.given || "Unkown"
     }}</label>
   </div>
   <div class="profile-info-row w-full">
     <label class="profile-info-title d-block">Last name</label>
     <label class="profile-info-value d-block">{{
-      user?.lastName || "Unkown"
+      user?.family || "Unkown"
     }}</label>
   </div>
   <div class="profile-info-row w-full">
     <label class="profile-info-title d-block">Date of Birth</label>
     <label class="profile-info-value d-block">{{
-      user?.birthDate || "Unknown" | date
+      (user?.birthDate | date) || "Unknown"
     }}</label>
   </div>
   <div class="profile-info-row w-full">

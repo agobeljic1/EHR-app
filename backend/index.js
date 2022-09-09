@@ -3,7 +3,10 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const db = require("./models/db.js");
-const { initializeDatabaseAdminUser } = require("./utils/Auth.js");
+const {
+  initializeDatabaseAdminUser,
+  verifyTokenAndSetUser,
+} = require("./utils/Auth.js");
 const port = process.env.PORT || 8000;
 db.sequelize
   .sync()
@@ -21,11 +24,10 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
-const { verifyTokenAndSetUser } = require("./utils/Auth.js");
-
 require("./controllers/AuthController.js")(app, db);
 app.use(verifyTokenAndSetUser);
 require("./controllers/UserController.js")(app, db);
+require("./controllers/OrganizationController.js")(app, db);
 
 app.listen(port, () => {
   console.log("server successfully started on port " + port);

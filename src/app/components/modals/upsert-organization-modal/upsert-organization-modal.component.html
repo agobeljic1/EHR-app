@@ -1,0 +1,53 @@
+<form [formGroup]="form">
+  <button class="close-icon button-img" (click)="close()">
+    <img src="assets/close-icon.svg" alt="close" />
+  </button>
+  <label *ngIf="data.organization" class="modal-title"
+    >Update organization</label
+  >
+  <label *ngIf="!data.organization" class="modal-title"
+    >Create organization</label
+  >
+  <app-form-field
+    name="name"
+    label="Name"
+    type="text"
+    class="name-field"
+    [formGroup]="form"
+    [errorConfig]="formConfig['name'].errorConfig"
+  ></app-form-field>
+  <app-form-field
+    name="line"
+    label="Street"
+    type="text"
+    class="line-field"
+    [formGroup]="form"
+    [errorConfig]="formConfig['line'].errorConfig"
+  ></app-form-field>
+  <app-form-field
+    name="city"
+    label="City"
+    type="text"
+    class="city-field"
+    [formGroup]="form"
+    [errorConfig]="formConfig['city'].errorConfig"
+  ></app-form-field>
+  <app-form-field
+    name="country"
+    label="Country"
+    type="text"
+    class="country-field"
+    [formGroup]="form"
+    [errorConfig]="formConfig['country'].errorConfig"
+  ></app-form-field>
+
+  <button
+    (click)="submitUpsertOrganization()"
+    mat-raised-button
+    color="primary"
+  >
+    <label *ngIf="!data.organization">Create organization</label>
+    <label *ngIf="data.organization">Update organization</label>
+    <app-spinner *ngIf="loading$ | async"></app-spinner>
+  </button>
+</form>

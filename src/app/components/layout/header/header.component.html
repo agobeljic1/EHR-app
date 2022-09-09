@@ -5,7 +5,7 @@
       class="header-wrapper d-flex justify-content-between align-items-center w-full"
     >
       <button class="button-img" routerLink="home">
-        <img class="logo-wrapper cursor-pointer" src="assets/full-logo.svg" />
+        <img class="logo-wrapper cursor-pointer" src="assets/etf-logo.svg" />
       </button>
 
       <ng-container *ngIf="loading">
@@ -47,8 +47,7 @@
 </ng-container>
 
 <ng-template #navbarOptions let-loggedUser="loggedUser">
-  <div class="nav-options d-flex justify-content-between align-items-center">
-    <label class="nav-link" routerLink="home" tabindex="0">Home</label>
+  <div class="nav-options d-flex justify-content-end align-items-center">
     <label
       *ngIf="!loggedUser"
       class="nav-link login-link"
@@ -56,15 +55,54 @@
       tabindex="0"
       >Login</label
     >
-    <label *ngIf="loggedUser" class="nav-link profile-name">{{
-      loggedUser.firstName + " " + loggedUser.lastName
-    }}</label>
-    <button
-      class="button-img cursor-pointer sidenav-hidden nav-profile"
-      (click)="onProfileClick()"
+    <label
+      *ngIf="loggedUser && !loggedUser.admin"
+      class="nav-link"
+      tabindex="0"
+      routerLink="patient-overview"
+      >Patient overview</label
     >
-      <img src="assets/navbar-profile-image.png" class="cursor-pointer" />
-    </button>
+
+    <label
+      *ngIf="loggedUser && !loggedUser.admin"
+      class="nav-link"
+      tabindex="0"
+      routerLink="patients"
+      >Patients</label
+    >
+    <label
+      *ngIf="loggedUser && !loggedUser.admin"
+      class="nav-link"
+      tabindex="0"
+      routerLink="admissions"
+      >Admissions</label
+    >
+    <label
+      *ngIf="loggedUser && loggedUser.admin"
+      class="nav-link"
+      tabindex="0"
+      routerLink="users"
+      >Users</label
+    >
+    <label
+      *ngIf="loggedUser && loggedUser.admin"
+      class="nav-link"
+      tabindex="0"
+      routerLink="organizations"
+      >Organizations</label
+    >
+    <div class="d-flex justify-content-between align-items-center">
+      <label *ngIf="loggedUser" class="nav-link profile-name bold">{{
+        loggedUser.given + " " + loggedUser.family
+      }}</label>
+      <button
+        *ngIf="loggedUser"
+        class="button-img cursor-pointer sidenav-hidden nav-profile"
+        (click)="onProfileClick()"
+      >
+        <img src="assets/navbar-profile-image.png" class="cursor-pointer" />
+      </button>
+    </div>
 
     <button
       *ngIf="!loggedUser"

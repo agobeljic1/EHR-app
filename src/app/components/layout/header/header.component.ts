@@ -87,11 +87,6 @@ export class HeaderComponent implements OnInit {
       disableClose: true,
       data: {},
     });
-
-    this.loginDialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe();
   }
 
   closeLoginModal(): void {
@@ -107,11 +102,6 @@ export class HeaderComponent implements OnInit {
       disableClose: true,
       data: {},
     });
-
-    this.registerDialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe();
   }
 
   closeRegisterModal(): void {
@@ -126,11 +116,6 @@ export class HeaderComponent implements OnInit {
       width: '450px',
       data: {},
     });
-
-    this.profileDialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe();
   }
 
   closeProfileModal(): void {

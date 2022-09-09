@@ -42,3 +42,8 @@ export const selectProfileOpen = createSelector(
   selectAuth,
   (state: AuthState) => state.profileOpen
 );
+
+export const selectLoadingRefreshToken = createSelector(
+  selectAuth,
+  (state: AuthState) => state.loadingRefreshToken
+);
