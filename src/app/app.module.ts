@@ -36,6 +36,8 @@ import { AutocompleteFieldComponent } from './components/shared/autocomplete-fie
 import { EncountersPageComponent } from './components/pages/encounters-page/encounters-page.component';
 import { EncounterEffects } from './store/encounter/encounter.effects';
 import { UpsertEncounterModalComponent } from './components/modals/upsert-encounter-modal/upsert-encounter-modal.component';
+import { UpsertPatientModalComponent } from './components/modals/upsert-patient-modal/upsert-patient-modal.component';
+import { PatientEffects } from './store/patient/patient.effects';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,7 @@ import { UpsertEncounterModalComponent } from './components/modals/upsert-encoun
     AutocompleteFieldComponent,
     EncountersPageComponent,
     UpsertEncounterModalComponent,
+    UpsertPatientModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,6 +76,7 @@ import { UpsertEncounterModalComponent } from './components/modals/upsert-encoun
       OrganizationEffects,
       UserEffects,
       EncounterEffects,
+      PatientEffects,
     ]),
     MaterialModule,
     BrowserAnimationsModule,

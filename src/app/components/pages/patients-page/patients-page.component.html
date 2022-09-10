@@ -1,1 +1,81 @@
-<p>patients-page works!</p>
+<ng-container *ngLet="patients$ | async as patients">
+  <ng-container *ngLet="loading$ | async as loading">
+    <ng-container
+      *ngLet="activeDeletePatientId$ | async as activeDeletePatientId"
+    >
+      <div class="w-full patients-wrapper">
+        <div
+          class="d-flex justify-content-between align-items-center w-full headline-wrapper"
+        >
+          <h2>Patients</h2>
+          <div class="d-flex align-items-center">
+            <app-spinner *ngIf="loading" [dark]="true"></app-spinner>
+            <button
+              (click)="onCreatePatientClick()"
+              mat-raised-button
+              color="primary"
+            >
+              Create new patient
+            </button>
+          </div>
+        </div>
+        <table
+          mat-table
+          [dataSource]="patients"
+          class="mat-elevation-z8 w-full"
+        >
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.given + " " + element.family }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="birthDate">
+            <th mat-header-cell *matHeaderCellDef>Birth Date</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.birthDate | date }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="gender">
+            <th mat-header-cell *matHeaderCellDef>Gender</th>
+            <td mat-cell *matCellDef="let element">{{ element.gender }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="options">
+            <th mat-header-cell *matHeaderCellDef>Options</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="options-buttons-wrapper">
+                <button
+                  (click)="onUpdatePatientClick($event, element)"
+                  mat-raised-button
+                  color="primary"
+                >
+                  <label>Details</label>
+                </button>
+                <button
+                  (click)="onDeletePatientClick($event, element)"
+                  mat-raised-button
+                  color="warn"
+                >
+                  <label>Delete</label>
+                  <app-spinner
+                    *ngIf="activeDeletePatientId === element.id"
+                  ></app-spinner>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            class="patient-row"
+          ></tr>
+        </table>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>

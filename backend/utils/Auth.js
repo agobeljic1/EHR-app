@@ -41,7 +41,7 @@ module.exports.verifyDoctor = function (req, res, next) {
 };
 
 module.exports.verifyNurseOrDoctor = function (req, res, next) {
-  if (req.user?.role === "Nurse" || req.user?.role === "Doctor") {
+  if (req.user?.role !== "Nurse" && req.user?.role !== "Doctor") {
     return res.status(403).json({ error: "Forbidden" });
   }
   next();

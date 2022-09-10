@@ -8,6 +8,7 @@ import {
   organizationReducer,
   OrganizationState,
 } from './organization/organization.reducers';
+import { patientReducer, PatientState } from './patient/patient.reducers';
 import { userReducer, UserState } from './user/user.reducers';
 
 export interface AppState {
@@ -15,6 +16,7 @@ export interface AppState {
   organizationState: OrganizationState;
   userState: UserState;
   encounterState: EncounterState;
+  patientState: PatientState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -22,4 +24,5 @@ export const reducers: ActionReducerMap<AppState> = {
   organizationState: organizationReducer,
   userState: userReducer,
   encounterState: encounterReducer,
+  patientState: patientReducer,
 };

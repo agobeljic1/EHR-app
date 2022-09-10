@@ -28,6 +28,8 @@ require("./controllers/AuthController.js")(app, db);
 app.use(verifyTokenAndSetUser);
 require("./controllers/UserController.js")(app, db);
 require("./controllers/OrganizationController.js")(app, db);
+require("./controllers/PatientController.js")(app, db);
+require("./controllers/EncounterController.js")(app, db);
 
 app.listen(port, () => {
   console.log("server successfully started on port " + port);

@@ -1,1 +1,3 @@
-export interface Patient {}
+export interface Patient {
+  id: string;
+}

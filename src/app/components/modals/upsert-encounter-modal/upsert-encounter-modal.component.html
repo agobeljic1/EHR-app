@@ -2,8 +2,8 @@
   <button class="close-icon button-img" (click)="close()">
     <img src="assets/close-icon.svg" alt="close" />
   </button>
-  <label *ngIf="data.encounter" class="modal-title">Update encounter</label>
-  <label *ngIf="!data.encounter" class="modal-title">Create encounter</label>
+  <label *ngIf="data.encounter" class="modal-title">Update admission</label>
+  <label *ngIf="!data.encounter" class="modal-title">Create admission</label>
   <app-form-field
     name="name"
     label="Name"
@@ -39,8 +39,8 @@
   ></app-form-field>
 
   <button (click)="submitUpsertEncounter()" mat-raised-button color="primary">
-    <label *ngIf="!data.encounter">Create encounter</label>
-    <label *ngIf="data.encounter">Update encounter</label>
+    <label *ngIf="!data.encounter">Create admission</label>
+    <label *ngIf="data.encounter">Update admission</label>
     <app-spinner *ngIf="loading$ | async"></app-spinner>
   </button>
 </form>

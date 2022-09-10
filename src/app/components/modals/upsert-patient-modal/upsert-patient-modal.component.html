@@ -2,8 +2,8 @@
   <button class="close-icon button-img" (click)="close()">
     <img src="assets/close-icon.svg" alt="close" />
   </button>
-  <label *ngIf="data.user" class="modal-title">Update user</label>
-  <label *ngIf="!data.user" class="modal-title">Create user</label>
+  <label *ngIf="data.patient" class="modal-title">Update patient</label>
+  <label *ngIf="!data.patient" class="modal-title">Create patient</label>
   <div class="d-flex justify-content-between w-full name-fields">
     <app-form-field
       name="given"
@@ -22,14 +22,6 @@
       [errorConfig]="formConfig['family'].errorConfig"
     ></app-form-field>
   </div>
-  <app-form-field
-    name="emailAddress"
-    label="Email Address"
-    type="text"
-    class="email-field"
-    [formGroup]="form"
-    [errorConfig]="formConfig['emailAddress'].errorConfig"
-  ></app-form-field>
   <app-form-field
     name="birthDate"
     label="Date of Birth"
@@ -72,18 +64,9 @@
     [formGroup]="form"
     [errorConfig]="formConfig['city'].errorConfig"
   ></app-form-field>
-  <app-form-field
-    name="role"
-    label="Role"
-    type="select"
-    class="role-field"
-    [formGroup]="form"
-    [options]="formConfig['role'].options"
-    [errorConfig]="formConfig['role'].errorConfig"
-  ></app-form-field>
-  <button (click)="submitUpsertUser()" mat-raised-button color="primary">
-    <label *ngIf="!data.user">Create user</label>
-    <label *ngIf="data.user">Update user</label>
+  <button (click)="submitUpsertPatient()" mat-raised-button color="primary">
+    <label *ngIf="!data.patient">Create patient</label>
+    <label *ngIf="data.patient">Update patient</label>
     <app-spinner *ngIf="loading$ | async"></app-spinner>
   </button>
 </form>

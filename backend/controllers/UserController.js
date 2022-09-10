@@ -36,6 +36,7 @@ module.exports = function (app, db) {
     const where = query
       ? {
           [Op.or]: [
+            { id: { [Op.like]: `%${query}%` } },
             { given: { [Op.like]: `%${query}%` } },
             { family: { [Op.like]: `%${query}%` } },
             { emailAddress: { [Op.like]: `%${query}%` } },
@@ -118,6 +119,7 @@ module.exports = function (app, db) {
       family,
       birthDate,
       gender,
+      line,
       city,
       country,
       role,
@@ -131,6 +133,7 @@ module.exports = function (app, db) {
           family,
           birthDate,
           gender,
+          line,
           city,
           country,
           role,
