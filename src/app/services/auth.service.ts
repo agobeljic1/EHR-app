@@ -15,12 +15,6 @@ export class AuthService {
     });
   }
 
-  register(credentials: RegisterCredentials) {
-    return this.httpClient.post('/signup', credentials, {
-      withCredentials: true,
-    });
-  }
-
   refreshToken() {
     return this.httpClient.get('/refresh', {
       withCredentials: true,

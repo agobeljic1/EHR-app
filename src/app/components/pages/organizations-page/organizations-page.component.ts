@@ -19,14 +19,13 @@ export class OrganizationsPageComponent implements OnInit {
 
   organizations$!: Observable<Organization>;
   loading$!: Observable<boolean>;
-  activeDeleteOrganizationId$!: Observable<string | null>;
-  upsertOrganizationData$!: Observable<Organization | null>;
-
-  upsertOrganizationDialogRef!: MatDialogRef<UpsertOrganizationModalComponent> | null;
+  loadingDeleteOrganization$!: Observable<boolean>;
 
   displayedColumns: string[] = ['name', 'line', 'city', 'country', 'options'];
 
-  constructor(private store: Store, private readonly dialog: MatDialog) {}
+  upsertOrganizationDialogRef!: MatDialogRef<UpsertOrganizationModalComponent> | null;
+
+  constructor(private store: Store, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.store.dispatch(OrganizationActions.loadOrganizations());
@@ -37,27 +36,40 @@ export class OrganizationsPageComponent implements OnInit {
       OrganizationSelectors.selectLoadingOrganizations as any
     );
 
-    this.activeDeleteOrganizationId$ = this.store.select(
-      OrganizationSelectors.selectActiveDeleteOrganizationId as any
-    );
-
-    this.upsertOrganizationData$ = this.store.select(
-      OrganizationSelectors.selectUpsertOrganizationData as any
+    this.loadingDeleteOrganization$ = this.store.select(
+      OrganizationSelectors.selectLoadingDeleteOrganization as any
     );
 
     this.store
       .select(OrganizationSelectors.selectUpsertOrganizationOpen as any)
-      .pipe(
-        withLatestFrom(this.upsertOrganizationData$),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(([upsertOrganizationOpen, organization]) => {
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((upsertOrganizationOpen) => {
         if (upsertOrganizationOpen) {
-          this.openUpsertOrganizationModal(organization);
+          this.openUpsertOrganizationModal();
         } else {
           this.closeUpsertOrganizationModal();
         }
       });
+  }
+
+  openUpsertOrganizationModal(): void {
+    this.upsertOrganizationDialogRef = this.dialog.open(
+      UpsertOrganizationModalComponent,
+      {
+        width: '450px',
+        disableClose: true,
+        data: {
+          organization: null,
+        },
+      }
+    );
+  }
+
+  closeUpsertOrganizationModal(): void {
+    if (this.upsertOrganizationDialogRef) {
+      this.upsertOrganizationDialogRef.close();
+      this.upsertOrganizationDialogRef = null;
+    }
   }
 
   onCreateOrganizationClick = () => {
@@ -72,30 +84,17 @@ export class OrganizationsPageComponent implements OnInit {
     );
   };
 
+  onShowOrganizationDetails = (e, organization) => {
+    e.preventDefault();
+    this.store.dispatch(
+      OrganizationActions.showOrganizationDetails({ organization })
+    );
+  };
+
   onDeleteOrganizationClick = (e, organization) => {
     e.stopPropagation();
     this.store.dispatch(
       OrganizationActions.deleteOrganization({ organization })
     );
   };
-
-  openUpsertOrganizationModal(organization: Organization | null): void {
-    this.upsertOrganizationDialogRef = this.dialog.open(
-      UpsertOrganizationModalComponent,
-      {
-        width: '450px',
-        disableClose: true,
-        data: {
-          organization,
-        },
-      }
-    );
-  }
-
-  closeUpsertOrganizationModal(): void {
-    if (this.upsertOrganizationDialogRef) {
-      this.upsertOrganizationDialogRef.close();
-      this.upsertOrganizationDialogRef = null;
-    }
-  }
 }

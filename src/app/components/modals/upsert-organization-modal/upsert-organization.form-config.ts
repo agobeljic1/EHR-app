@@ -1,4 +1,5 @@
 import { Validators } from '@angular/forms';
+import { countries } from 'src/app/constants/countries';
 
 export const formConfig: { [key: string]: any } = {
   name: {
@@ -24,5 +25,6 @@ export const formConfig: { [key: string]: any } = {
     errorConfig: {
       required: 'Country is required',
     },
+    options: countries,
   },
 };

@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdmissionsPageComponent } from './components/pages/admissions-page/admissions-page.component';
+import { EncountersPageComponent } from './components/pages/encounters-page/encounters-page.component';
 import { HomePageComponent } from './components/pages/home-page/home-page.component';
 import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
+import { OrganizationDetailsPageComponent } from './components/pages/organization-details-page/organization-details-page.component';
 import { OrganizationsPageComponent } from './components/pages/organizations-page/organizations-page.component';
 import { PatientOverviewPageComponent } from './components/pages/patient-overview-page/patient-overview-page.component';
 import { PatientsPageComponent } from './components/pages/patients-page/patients-page.component';
@@ -19,7 +20,12 @@ const routes: Routes = [
     component: OrganizationsPageComponent,
     canActivate: [AdminGuard],
   },
-  { path: 'admissions', component: AdmissionsPageComponent },
+  {
+    path: 'organizations/:id',
+    component: OrganizationDetailsPageComponent,
+    canActivate: [AdminGuard],
+  },
+  { path: 'admissions', component: EncountersPageComponent },
   { path: 'patient-overview', component: PatientOverviewPageComponent },
   { path: '**', redirectTo: 'not-found', pathMatch: 'full' },
   { path: 'not-found', component: NotFoundPageComponent },

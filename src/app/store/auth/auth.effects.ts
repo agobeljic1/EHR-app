@@ -1,26 +1,17 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { AuthActions } from '.';
 
 @Injectable()
 export class AuthEffects {
-  constructor(private actions$: Actions, private authService: AuthService) {}
-
-  register$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.registerUser),
-      switchMap(({ user }) => {
-        return this.authService.register(user).pipe(
-          map(() => {
-            return AuthActions.registerUserSuccess();
-          }),
-          catchError(() => of(AuthActions.registerUserFailure()))
-        );
-      })
-    )
-  );
+  constructor(
+    private actions$: Actions,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   login$ = createEffect(() =>
     this.actions$.pipe(
@@ -67,6 +58,8 @@ export class AuthEffects {
       switchMap(() => {
         return this.authService.me().pipe(
           map((response: any) => {
+            console.log('response');
+            console.log(response);
             return AuthActions.fetchProfileSuccess(response);
           }),
           catchError(() => of(AuthActions.fetchProfileFailure()))
@@ -80,6 +73,18 @@ export class AuthEffects {
       ofType(AuthActions.logoutUser),
       switchMap(() => this.authService.logout()),
       map(() => AuthActions.logoutUserSuccess())
+    )
+  );
+
+  redirectToHome$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        AuthActions.logoutUserSuccess,
+        AuthActions.fetchProfileFailure,
+        AuthActions.refreshTokenFailure
+      ),
+      tap(() => this.router.navigateByUrl('')),
+      map(() => AuthActions.redirectToHomeSuccess())
     )
   );
 }

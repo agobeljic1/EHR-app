@@ -1,0 +1,27 @@
+<mat-form-field appearance="outline" class="w-full">
+  <mat-label>{{ label }}</mat-label>
+  <input
+    #autocompleteSearchInput
+    (input)="searchOptions(autocompleteSearchInput.value)"
+    (focus)="searchOptions(autocompleteSearchInput.value)"
+    [name]="name"
+    matInput
+    [placeholder]="placeholder"
+    [matAutocomplete]="auto"
+  />
+  <div *ngIf="loading" class="loading-wrapper">
+    <app-spinner [dark]="true"></app-spinner>
+  </div>
+</mat-form-field>
+
+<mat-autocomplete #auto="matAutocomplete">
+  <ng-container *ngIf="!loading">
+    <mat-option
+      *ngFor="let option of options"
+      [value]="option.displayName"
+      (click)="onSelectCallback.emit(option)"
+    >
+      <span>{{ option.displayName }}</span>
+    </mat-option>
+  </ng-container>
+</mat-autocomplete>

@@ -1,14 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import {
-  loadUser,
-  loadUserSuccess,
-  loadUserFailure,
   loginUser,
   loginUserSuccess,
   loginUserFailure,
-  registerUser,
-  registerUserSuccess,
-  registerUserFailure,
   logoutUser,
   refreshToken,
   refreshTokenFailure,
@@ -19,9 +13,7 @@ import {
   openLogin,
   closeLogin,
   closeProfile,
-  closeRegister,
   openProfile,
-  openRegister,
   updateToken,
   logoutUserSuccess,
 } from './auth.actions';
@@ -32,11 +24,9 @@ export interface AuthState {
   token: string | null;
   loadingUser: boolean;
   loadingLogin: boolean;
-  loadingRegister: boolean;
   loadingRefreshToken: boolean;
   loadingProfile: boolean;
   loginOpen: boolean;
-  registerOpen: boolean;
   profileOpen: boolean;
 }
 
@@ -45,46 +35,14 @@ export const initialState: AuthState = {
   token: null,
   loadingUser: false,
   loadingLogin: false,
-  loadingRegister: false,
   loadingRefreshToken: true,
   loadingProfile: true,
   loginOpen: false,
-  registerOpen: false,
   profileOpen: false,
 };
 
 export const authReducer = createReducer(
   initialState,
-  on(loadUser, (state) => ({
-    ...state,
-    loadingUser: true,
-  })),
-  on(loadUserSuccess, (state, { user }) => ({
-    ...state,
-    user,
-    loadingUser: false,
-  })),
-  on(loadUserFailure, (state) => ({
-    ...state,
-    loadingUser: false,
-  })),
-  on(registerUser, (state) => ({
-    ...state,
-    loadingRegister: true,
-  })),
-  on(registerUserSuccess, (state) => {
-    return {
-      ...state,
-      loadingRegister: false,
-      registerOpen: false,
-    };
-  }),
-  on(registerUserFailure, (state) => {
-    return {
-      ...state,
-      loadingRegister: false,
-    };
-  }),
   on(loginUser, (state) => ({
     ...state,
     loadingLogin: true,
@@ -145,9 +103,9 @@ export const authReducer = createReducer(
       ...state,
       user: {
         ...user,
-        nurse: user.role === 'NURSE',
-        doctor: user.role === 'DOCTOR',
-        admin: user.role === 'ADMIN',
+        nurse: user?.role === 'Nurse',
+        doctor: user?.role === 'Doctor',
+        admin: user?.role === 'Admin',
       },
       loadingProfile: false,
     };
@@ -168,18 +126,6 @@ export const authReducer = createReducer(
     return {
       ...state,
       loginOpen: false,
-    };
-  }),
-  on(openRegister, (state) => {
-    return {
-      ...state,
-      registerOpen: true,
-    };
-  }),
-  on(closeRegister, (state) => {
-    return {
-      ...state,
-      registerOpen: false,
     };
   }),
   on(openProfile, (state) => {

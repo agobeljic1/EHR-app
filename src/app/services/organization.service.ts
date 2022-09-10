@@ -11,6 +11,14 @@ export class OrganizationService {
     return this.httpClient.get('/organizations');
   }
 
+  getOrganizationById(id: string) {
+    return this.httpClient.get(`/organizations/${id}`);
+  }
+
+  getOrganizationUsersById(id: string) {
+    return this.httpClient.get(`/organizations/${id}/users`);
+  }
+
   createOrganization(organization) {
     return this.httpClient.post('/organizations', organization);
   }
@@ -21,5 +29,18 @@ export class OrganizationService {
 
   deleteOrganization(organization) {
     return this.httpClient.delete(`/organizations/${organization.id}`);
+  }
+
+  addNewUserToOrganization(organization, user) {
+    return this.httpClient.post(
+      `/organizations/${organization.id}/users/${user.id}`,
+      {}
+    );
+  }
+
+  removeUserFromOrganization(organization, user) {
+    return this.httpClient.delete(
+      `/organizations/${organization.id}/users/${user.id}`
+    );
   }
 }

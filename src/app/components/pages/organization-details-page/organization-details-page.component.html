@@ -1,0 +1,180 @@
+<ng-container *ngLet="loading$ | async as loading">
+  <ng-container *ngLet="organization$ | async as organization">
+    <ng-container *ngLet="organizationUsers$ | async as organizationUsers">
+      <ng-container *ngLet="loadingUsers$ | async as loadingUsers">
+        <ng-container
+          *ngLet="
+            loadingDeleteOrganization$ | async as loadingDeleteOrganization
+          "
+        >
+          <ng-container
+            *ngLet="
+              selectActiveRemovingUserIdFromOrganization$
+                | async as selectActiveRemovingUserIdFromOrganization
+            "
+          >
+            <div class="w-full organization-details-wrapper">
+              <div
+                class="d-flex justify-content-between align-items-center w-full headline-wrapper"
+              >
+                <div class="d-flex align-items-center">
+                  <h2>Organization details</h2>
+                  <app-spinner [dark]="true" *ngIf="loading"></app-spinner>
+                </div>
+
+                <div class="d-flex align-items-center" *ngIf="!loading">
+                  <button
+                    (click)="onDeleteOrganizationClick(organization)"
+                    mat-raised-button
+                    color="warn"
+                  >
+                    <label>Delete</label>
+                    <app-spinner
+                      *ngIf="loadingDeleteOrganization"
+                    ></app-spinner>
+                  </button>
+                  <button
+                    (click)="onUpdateOrganizationClick(organization)"
+                    mat-raised-button
+                    color="primary"
+                  >
+                    <label>Update</label>
+                  </button>
+                </div>
+              </div>
+              <div>
+                <div class="organization-details">
+                  <div
+                    class="organization-details-row d-flex align-items-center"
+                  >
+                    <label class="details-key">Name:</label>
+                    <label>{{ organization?.name || "" }}</label>
+                  </div>
+
+                  <div
+                    class="organization-details-row d-flex align-items-center"
+                  >
+                    <label class="details-key">Street:</label>
+                    <label>{{ organization?.line || "" }}</label>
+                  </div>
+                  <div
+                    class="organization-details-row d-flex align-items-center"
+                  >
+                    <label class="details-key">City:</label>
+                    <label>{{ organization?.city || "" }}</label>
+                  </div>
+                  <div
+                    class="organization-details-row d-flex align-items-center"
+                  >
+                    <label class="details-key">Country:</label>
+                    <label>{{ organization?.country || "" }}</label>
+                  </div>
+                </div>
+                <div class="organization-users w-full">
+                  <div
+                    class="organization-users-title d-flex align-items-center justify-content-between w-full"
+                  >
+                    <div class="d-flex align-items-center">
+                      <h2>Organization users</h2>
+                      <app-spinner
+                        [dark]="true"
+                        *ngIf="loadingUsers"
+                      ></app-spinner>
+                    </div>
+
+                    <button
+                      (click)="onAddUserToOrganizationClick(organization)"
+                      mat-raised-button
+                      color="primary"
+                    >
+                      <label>Add new user</label>
+                    </button>
+                  </div>
+
+                  <table
+                    mat-table
+                    [dataSource]="organizationUsers"
+                    class="mat-elevation-z8 w-full"
+                  >
+                    <ng-container matColumnDef="emailAddress">
+                      <th mat-header-cell *matHeaderCellDef>Email Address</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.emailAddress }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                      <th mat-header-cell *matHeaderCellDef>Name</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.given + " " + element.family }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="birthDate">
+                      <th mat-header-cell *matHeaderCellDef>Birth Date</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.birthDate | date }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="gender">
+                      <th mat-header-cell *matHeaderCellDef>Gender</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.gender ? "Male" : "Female" }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="role">
+                      <th mat-header-cell *matHeaderCellDef>Role</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.role }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="options">
+                      <th mat-header-cell *matHeaderCellDef>Options</th>
+                      <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="options-cell"
+                      >
+                        <button
+                          mat-raised-button
+                          color="warn"
+                          (click)="
+                            onRemoveUserFromOrganizationClick(
+                              organization,
+                              element
+                            )
+                          "
+                        >
+                          <label>Remove</label>
+                          <app-spinner
+                            *ngIf="
+                              selectActiveRemovingUserIdFromOrganization ===
+                              element.id
+                            "
+                          ></app-spinner>
+                        </button>
+                      </td>
+                    </ng-container>
+
+                    <tr
+                      mat-header-row
+                      *matHeaderRowDef="displayedUserColumns"
+                    ></tr>
+                    <tr
+                      mat-row
+                      *matRowDef="let row; columns: displayedUserColumns"
+                      class="user-row"
+                    ></tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-container>

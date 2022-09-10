@@ -20,7 +20,28 @@ module.exports.verifyTokenAndSetUser = function (req, res, next) {
 };
 
 module.exports.verifyAdmin = function (req, res, next) {
-  if (req.user?.role !== "ADMIN") {
+  if (req.user?.role !== "Admin") {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+  next();
+};
+
+module.exports.verifyNurse = function (req, res, next) {
+  if (req.user?.role !== "Nurse") {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+  next();
+};
+
+module.exports.verifyDoctor = function (req, res, next) {
+  if (req.user?.role !== "Doctor") {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+  next();
+};
+
+module.exports.verifyNurseOrDoctor = function (req, res, next) {
+  if (req.user?.role === "Nurse" || req.user?.role === "Doctor") {
     return res.status(403).json({ error: "Forbidden" });
   }
   next();
@@ -65,11 +86,11 @@ module.exports.initializeDatabaseAdminUser = async function (db) {
       family,
       birthDate,
       emailAddress,
-      gender: gender === "true",
+      gender: gender,
       line,
       city,
       country,
-      role: "ADMIN",
+      role: "Admin",
     };
     await db.user.findOrCreate({
       where: newUser,

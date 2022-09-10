@@ -19,7 +19,6 @@ export class UpsertOrganizationModalComponent implements OnInit {
 
   form!: FormGroup;
   loading$!: Observable<boolean>;
-  close$!: Observable<boolean>;
 
   formConfig = formConfig;
 

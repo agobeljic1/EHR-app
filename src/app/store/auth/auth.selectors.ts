@@ -13,11 +13,6 @@ export const selectToken = createSelector(
   (state: AuthState) => state.token
 );
 
-export const selectLoadingRegister = createSelector(
-  selectAuth,
-  (state: AuthState) => state.loadingRegister
-);
-
 export const selectLoadingLogin = createSelector(
   selectAuth,
   (state: AuthState) => state.loadingLogin
@@ -31,11 +26,6 @@ export const selectLoadingProfile = createSelector(
 export const selectLoginOpen = createSelector(
   selectAuth,
   (state: AuthState) => state.loginOpen
-);
-
-export const selectRegisterOpen = createSelector(
-  selectAuth,
-  (state: AuthState) => state.registerOpen
 );
 
 export const selectProfileOpen = createSelector(

@@ -1,21 +1,14 @@
 import { Injectable } from '@angular/core';
-import {
-  CanActivate,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { CanActivate } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter, map, Observable, withLatestFrom } from 'rxjs';
-import { AuthActions, AuthSelectors } from '../store/auth';
+import { AuthSelectors } from '../store/auth';
 
 @Injectable()
 export class AdminGuard implements CanActivate {
   constructor(private store: Store) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean | Observable<boolean> {
+  canActivate(): boolean | Observable<boolean> {
     return this.store.select(AuthSelectors.selectUser as any).pipe(
       withLatestFrom(
         this.store.select(AuthSelectors.selectLoadingProfile as any),
@@ -25,7 +18,7 @@ export class AdminGuard implements CanActivate {
         return !loadingProfile && !loadingRefreshToken;
       }),
       map(([user, ,]: any) => {
-        return user && user.role === 'ADMIN';
+        return user && user.role === 'Admin';
       })
     );
   }

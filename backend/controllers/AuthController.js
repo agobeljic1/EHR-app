@@ -3,31 +3,6 @@ var jwt = require("jsonwebtoken");
 const { createAccessAndRefreshTokens } = require("../utils/Auth");
 
 module.exports = function (app, db) {
-  app.post("/signup", async (req, res) => {
-    const { given, family, birthDate, emailAddress, password } = req.body;
-    try {
-      const hash = await bcrypt.hash(password, 10);
-
-      const newUser = {
-        given,
-        family,
-        birthDate,
-        emailAddress,
-        password: hash,
-      };
-      db.user
-        .create(newUser)
-        .then(() => {
-          res.status(201).json({ success: true });
-        })
-        .catch(() => {
-          res.status(409).json({ error: "Failed to create the user" });
-        });
-    } catch {
-      res.status(500).json({ error: "Unexpected error" });
-    }
-  });
-
   app.post("/login", async (req, res) => {
     const { emailAddress, password } = req.body;
     try {

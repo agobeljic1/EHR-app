@@ -5,7 +5,6 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { AuthActions, AuthSelectors } from 'src/app/store/auth';
 import { LoginModalComponent } from '../../modals/login-modal/login-modal.component';
 import { ProfileModalComponent } from '../../modals/profile-modal/profile-modal.component';
-import { RegisterModalComponent } from '../../modals/register-modal/register-modal.component';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +21,6 @@ export class HeaderComponent implements OnInit {
 
   loginDialogRef!: MatDialogRef<LoginModalComponent> | null;
   profileDialogRef!: MatDialogRef<ProfileModalComponent> | null;
-  registerDialogRef!: MatDialogRef<RegisterModalComponent> | null;
 
   constructor(
     private readonly store: Store,
@@ -47,17 +45,6 @@ export class HeaderComponent implements OnInit {
       });
 
     this.store
-      .select(AuthSelectors.selectRegisterOpen as any)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((registerOpen) => {
-        if (registerOpen) {
-          this.openRegisterModal();
-        } else {
-          this.closeRegisterModal();
-        }
-      });
-
-    this.store
       .select(AuthSelectors.selectProfileOpen as any)
       .pipe(takeUntil(this.destroy$))
       .subscribe((profileOpen) => {
@@ -77,10 +64,6 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(AuthActions.openProfile());
   };
 
-  onRegisterClick = () => {
-    this.store.dispatch(AuthActions.openRegister());
-  };
-
   openLoginModal(): void {
     this.loginDialogRef = this.dialog.open(LoginModalComponent, {
       width: '450px',
@@ -93,21 +76,6 @@ export class HeaderComponent implements OnInit {
     if (this.loginDialogRef) {
       this.loginDialogRef.close();
       this.loginDialogRef = null;
-    }
-  }
-
-  openRegisterModal(): void {
-    this.registerDialogRef = this.dialog.open(RegisterModalComponent, {
-      width: '450px',
-      disableClose: true,
-      data: {},
-    });
-  }
-
-  closeRegisterModal(): void {
-    if (this.registerDialogRef) {
-      this.registerDialogRef.close();
-      this.registerDialogRef = null;
     }
   }
 

@@ -14,6 +14,78 @@ module.exports = function (app, db) {
       });
   });
 
+  app.get("/organizations/:id/users", verifyAdmin, async (req, res) => {
+    const { id } = req.params;
+    const fetchUsersFromOrganizationQuery = `SELECT User.id, User.given, User.family, User.birthDate, User.emailAddress, User.role, User.gender from User, UserOrganization where UserOrganization.organizationId = ${id} AND UserOrganization.userId = User.id`;
+
+    const fetchUsersFromOrganization = db.sequelize.query(
+      fetchUsersFromOrganizationQuery,
+      {
+        type: db.Sequelize.QueryTypes.SELECT,
+      }
+    );
+
+    fetchUsersFromOrganization
+      .then((users) => {
+        res.json({ users });
+      })
+      .catch(() => {
+        res.status(500).json({ error: "Failed to fetch organization users" });
+      });
+  });
+
+  app.get("/organizations/:id", verifyAdmin, async (req, res) => {
+    const { id } = req.params;
+    const fetchOrganizationbyId = db.organization
+      .findOne({
+        attributes: ["id", "name", "line", "city", "country"],
+        where: { id },
+      })
+      .then(({ dataValues: organization }) => organization);
+
+    fetchOrganizationbyId
+      .then((organization) => {
+        res.json({ organization });
+      })
+      .catch(() => {
+        res.status(500).json({ error: "Failed to fetch organization" });
+      });
+  });
+
+  app.delete(
+    "/organizations/:organizationId/users/:userId",
+    verifyAdmin,
+    (req, res) => {
+      const { organizationId, userId } = req.params;
+      db.userOrganization
+        .destroy({ where: { organizationId, userId } })
+        .then(() => {
+          res.status(200).json({ success: true });
+        })
+        .catch(() => {
+          res
+            .status(500)
+            .json({ error: "Failed to delete user from organization" });
+        });
+    }
+  );
+
+  app.post(
+    "/organizations/:organizationId/users/:userId",
+    verifyAdmin,
+    (req, res) => {
+      const { organizationId, userId } = req.params;
+      db.userOrganization
+        .findOrCreate({ where: { organizationId, userId } })
+        .then(() => {
+          res.status(200).json({ success: true });
+        })
+        .catch(() => {
+          res.status(500).json({ error: "Failed to add user to organization" });
+        });
+    }
+  );
+
   app.post("/organizations", verifyAdmin, (req, res) => {
     const { name, line, city, country } = req.body;
     db.organization
@@ -65,3 +137,34 @@ module.exports = function (app, db) {
       });
   });
 };
+
+// app.get("/organizations/users", verifyAdmin, async (req, res) => {
+//   const { id } = req.params;
+//   const fetchUsersFromOrganizationQuery = `SELECT User.id, User.given, User.family, User.birthDate, User.emailAddress, User.role, User.gender from User, UserOrganization where UserOrganization.organizationId = ${id} AND UserOrganization.userId = User.id`;
+
+//   const fetchOrganizationbyId = db.organization
+//     .findOne({
+//       attributes: ["id", "name", "line", "city", "country"],
+//       where: { id },
+//     })
+//     .then(({ dataValues: user }) => user);
+
+//   const fetchUsersFromOrganization = db.sequelize.query(
+//     fetchUsersFromOrganizationQuery,
+//     {
+//       type: db.Sequelize.QueryTypes.SELECT,
+//     }
+//   );
+
+//   Promise.all([fetchOrganizationbyId, fetchUsersFromOrganization])
+//     .then(([organization, users]) => {
+//       const finalOrganization = {
+//         ...organization,
+//         users,
+//       };
+//       res.json({ organization: finalOrganization });
+//     })
+//     .catch(() => {
+//       res.status(500).json({ error: "Failed to fetch organization" });
+//     });
+// });

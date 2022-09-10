@@ -23,3 +23,13 @@
 .organization-row:hover {
   background-color: rgb(248, 248, 248);
 }
+
+.options-cell button:not(:first-child) {
+  margin-left: 8px;
+}
+
+.options-buttons-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

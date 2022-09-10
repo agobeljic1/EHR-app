@@ -15,7 +15,7 @@
         user ? user.given + " " + user.family : "Unknown"
       }}</label>
       <label class="profile-title-subtext d-block">{{
-        user?.admin ? "Admin" : "Regular user"
+        user?.role || "Unknown"
       }}</label>
     </div>
   </div>

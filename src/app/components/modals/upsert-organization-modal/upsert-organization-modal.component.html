@@ -25,20 +25,21 @@
     [errorConfig]="formConfig['line'].errorConfig"
   ></app-form-field>
   <app-form-field
+    name="country"
+    label="Country"
+    type="select-autocomplete"
+    class="country-field"
+    [formGroup]="form"
+    [options]="formConfig['country'].options"
+    [errorConfig]="formConfig['country'].errorConfig"
+  ></app-form-field>
+  <app-form-field
     name="city"
     label="City"
     type="text"
     class="city-field"
     [formGroup]="form"
     [errorConfig]="formConfig['city'].errorConfig"
-  ></app-form-field>
-  <app-form-field
-    name="country"
-    label="Country"
-    type="text"
-    class="country-field"
-    [formGroup]="form"
-    [errorConfig]="formConfig['country'].errorConfig"
   ></app-form-field>
 
   <button
