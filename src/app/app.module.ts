@@ -34,6 +34,8 @@ import { OrganizationDetailsPageComponent } from './components/pages/organizatio
 import { AddUserToOrganizationModalComponent } from './components/modals/add-user-to-organization-modal/add-user-to-organization-modal.component';
 import { AutocompleteFieldComponent } from './components/shared/autocomplete-field/autocomplete-field.component';
 import { EncountersPageComponent } from './components/pages/encounters-page/encounters-page.component';
+import { EncounterEffects } from './store/encounter/encounter.effects';
+import { UpsertEncounterModalComponent } from './components/modals/upsert-encounter-modal/upsert-encounter-modal.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,7 @@ import { EncountersPageComponent } from './components/pages/encounters-page/enco
     AddUserToOrganizationModalComponent,
     AutocompleteFieldComponent,
     EncountersPageComponent,
+    UpsertEncounterModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,7 +68,12 @@ import { EncountersPageComponent } from './components/pages/encounters-page/enco
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([AuthEffects, OrganizationEffects, UserEffects]),
+    EffectsModule.forRoot([
+      AuthEffects,
+      OrganizationEffects,
+      UserEffects,
+      EncounterEffects,
+    ]),
     MaterialModule,
     BrowserAnimationsModule,
   ],

@@ -1,0 +1,46 @@
+<form [formGroup]="form">
+  <button class="close-icon button-img" (click)="close()">
+    <img src="assets/close-icon.svg" alt="close" />
+  </button>
+  <label *ngIf="data.encounter" class="modal-title">Update encounter</label>
+  <label *ngIf="!data.encounter" class="modal-title">Create encounter</label>
+  <app-form-field
+    name="name"
+    label="Name"
+    type="text"
+    class="name-field"
+    [formGroup]="form"
+    [errorConfig]="formConfig['name'].errorConfig"
+  ></app-form-field>
+  <app-form-field
+    name="line"
+    label="Street"
+    type="text"
+    class="line-field"
+    [formGroup]="form"
+    [errorConfig]="formConfig['line'].errorConfig"
+  ></app-form-field>
+  <app-form-field
+    name="country"
+    label="Country"
+    type="select-autocomplete"
+    class="country-field"
+    [formGroup]="form"
+    [options]="formConfig['country'].options"
+    [errorConfig]="formConfig['country'].errorConfig"
+  ></app-form-field>
+  <app-form-field
+    name="city"
+    label="City"
+    type="text"
+    class="city-field"
+    [formGroup]="form"
+    [errorConfig]="formConfig['city'].errorConfig"
+  ></app-form-field>
+
+  <button (click)="submitUpsertEncounter()" mat-raised-button color="primary">
+    <label *ngIf="!data.encounter">Create encounter</label>
+    <label *ngIf="data.encounter">Update encounter</label>
+    <app-spinner *ngIf="loading$ | async"></app-spinner>
+  </button>
+</form>
