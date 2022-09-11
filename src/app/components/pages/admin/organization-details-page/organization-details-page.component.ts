@@ -9,8 +9,8 @@ import {
   OrganizationActions,
   OrganizationSelectors,
 } from 'src/app/store/organization';
-import { AddUserToOrganizationModalComponent } from '../../modals/add-user-to-organization-modal/add-user-to-organization-modal.component';
-import { UpsertOrganizationModalComponent } from '../../modals/upsert-organization-modal/upsert-organization-modal.component';
+import { AddUserToOrganizationModalComponent } from '../../../modals/add-user-to-organization-modal/add-user-to-organization-modal.component';
+import { UpsertOrganizationModalComponent } from '../../../modals/upsert-organization-modal/upsert-organization-modal.component';
 
 @Component({
   selector: 'app-organization-details-page',

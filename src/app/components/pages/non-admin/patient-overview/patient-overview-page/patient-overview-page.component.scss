@@ -1,0 +1,17 @@
+.patient-overview-wrapper {
+  width: 100%;
+  padding: 20px;
+  min-height: calc(100vh - 80px);
+}
+
+.headline-wrapper {
+  margin-bottom: 16px;
+
+  h2 {
+    margin-bottom: 0;
+  }
+
+  > div {
+    gap: 8px;
+  }
+}

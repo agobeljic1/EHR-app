@@ -7,7 +7,7 @@ import {
   OrganizationActions,
   OrganizationSelectors,
 } from 'src/app/store/organization';
-import { UpsertOrganizationModalComponent } from '../../modals/upsert-organization-modal/upsert-organization-modal.component';
+import { UpsertOrganizationModalComponent } from '../../../modals/upsert-organization-modal/upsert-organization-modal.component';
 
 @Component({
   selector: 'app-organizations-page',

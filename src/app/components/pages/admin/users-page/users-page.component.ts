@@ -5,7 +5,7 @@ import { Observable, Subject, takeUntil, withLatestFrom, map } from 'rxjs';
 import { User } from 'src/app/models/user/User';
 import { UserActions, UserSelectors } from 'src/app/store/user';
 import { AuthSelectors } from 'src/app/store/auth';
-import { UpsertUserModalComponent } from '../../modals/upsert-user-modal/upsert-user-modal.component';
+import { UpsertUserModalComponent } from '../../../modals/upsert-user-modal/upsert-user-modal.component';
 
 @Component({
   selector: 'app-users-page',

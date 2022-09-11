@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Encounter } from 'src/app/models/encounter/Encounter';
 import { EncounterActions, EncounterSelectors } from 'src/app/store/encounter';
-import { UpsertEncounterModalComponent } from '../../modals/upsert-encounter-modal/upsert-encounter-modal.component';
+import { UpsertEncounterModalComponent } from '../../../modals/upsert-encounter-modal/upsert-encounter-modal.component';
 
 @Component({
   selector: 'app-encounters-page',

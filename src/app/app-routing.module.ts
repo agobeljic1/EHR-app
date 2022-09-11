@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EncountersPageComponent } from './components/pages/encounters-page/encounters-page.component';
-import { HomePageComponent } from './components/pages/home-page/home-page.component';
-import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
-import { OrganizationDetailsPageComponent } from './components/pages/organization-details-page/organization-details-page.component';
-import { OrganizationsPageComponent } from './components/pages/organizations-page/organizations-page.component';
-import { PatientOverviewPageComponent } from './components/pages/patient-overview-page/patient-overview-page.component';
-import { PatientsPageComponent } from './components/pages/patients-page/patients-page.component';
-import { UsersPageComponent } from './components/pages/users-page/users-page.component';
+import { EncountersPageComponent } from './components/pages/non-admin/encounters-page/encounters-page.component';
+import { HomePageComponent } from './components/pages/shared/home-page/home-page.component';
+import { NotFoundPageComponent } from './components/pages/shared/not-found-page/not-found-page.component';
+import { OrganizationDetailsPageComponent } from './components/pages/admin/organization-details-page/organization-details-page.component';
+import { OrganizationsPageComponent } from './components/pages/admin/organizations-page/organizations-page.component';
+import { PatientOverviewPageComponent } from './components/pages/non-admin/patient-overview/patient-overview-page/patient-overview-page.component';
+import { PatientsPageComponent } from './components/pages/non-admin/patients-page/patients-page.component';
+import { UsersPageComponent } from './components/pages/admin/users-page/users-page.component';
 import { AdminGuard } from './guards/admin.guard';
 import { DoctorOrNurseGuard } from './guards/doctor-or-nurse.guard';
 
