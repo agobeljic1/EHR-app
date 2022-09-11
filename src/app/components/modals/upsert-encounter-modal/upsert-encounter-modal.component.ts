@@ -1,9 +1,16 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
+import { Patient } from 'src/app/models/patient/Patient';
 import { EncounterActions, EncounterSelectors } from 'src/app/store/encounter';
+import { PatientActions, PatientSelectors } from 'src/app/store/patient';
+import { UpsertPatientModalComponent } from '../upsert-patient-modal/upsert-patient-modal.component';
 import { formConfig } from './upsert-encounter.form-config';
 
 @Component({
@@ -17,12 +24,18 @@ export class UpsertEncounterModalComponent implements OnInit {
   form!: FormGroup;
   loading$!: Observable<boolean>;
 
+  loadingPatients$!: Observable<boolean>;
+  patients$!: Observable<any[]>;
+  selectedPatient$!: Observable<Patient>;
+  upsertPatientDialogRef!: MatDialogRef<UpsertPatientModalComponent> | null;
+
   formConfig = formConfig;
 
   constructor(
     private formBuilder: FormBuilder,
     private store: Store,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -32,6 +45,34 @@ export class UpsertEncounterModalComponent implements OnInit {
     this.loading$ = this.store.select(
       EncounterSelectors.selectLoadingUpsertEncounter as any
     );
+
+    this.loadingPatients$ = this.store.select(
+      PatientSelectors.selectLoadingSearchPatientsByQuery as any
+    );
+
+    this.selectedPatient$ = this.store.select(
+      EncounterSelectors.selectedPatientForEncounter as any
+    );
+
+    this.patients$ = this.store
+      .select(PatientSelectors.selectFoundPatientsByQuery as any)
+      .pipe(
+        tap((a: any) => {
+          console.log(a);
+          return a as any;
+        })
+      );
+
+    this.store
+      .select(PatientSelectors.selectUpsertPatientOpen as any)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((upsertPatientOpen) => {
+        if (upsertPatientOpen) {
+          this.openUpsertPatientModal();
+        } else {
+          this.closeUpsertPatientModal();
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -58,23 +99,28 @@ export class UpsertEncounterModalComponent implements OnInit {
     this.form.setValue(formValues);
   }
 
-  submitUpsertEncounter() {
+  submitUpsertEncounter(selectedPatient) {
     this.form.markAllAsTouched();
-    if (this.form.valid) {
+    if (selectedPatient && this.form.valid) {
+      const { patient, ...encounterValues } = this.form.value;
+      const encounter = {
+        ...encounterValues,
+        patientId: selectedPatient.id,
+      };
       const editMode = !!this.data.encounter;
       if (editMode) {
         this.store.dispatch(
           EncounterActions.updateEncounter({
             encounter: {
               id: this.data.encounter.id,
-              ...this.form.value,
+              ...encounter,
             },
           })
         );
       } else {
         this.store.dispatch(
           EncounterActions.createEncounter({
-            encounter: this.form.value,
+            encounter,
           })
         );
       }
@@ -83,5 +129,39 @@ export class UpsertEncounterModalComponent implements OnInit {
 
   close() {
     this.store.dispatch(EncounterActions.closeUpsertEncounter());
+  }
+
+  searchPatients(query: string) {
+    console.log('dadada');
+    console.log(query);
+    this.store.dispatch(PatientActions.searchPatientsByQuery({ query }));
+  }
+
+  selectPatient(patient: Patient) {
+    this.store.dispatch(EncounterActions.setPatientForEncounter({ patient }));
+  }
+
+  onCreateNewPatientForEncounterClick() {
+    this.store.dispatch(PatientActions.openUpsertPatient({ patient: null }));
+  }
+
+  openUpsertPatientModal() {
+    this.upsertPatientDialogRef = this.dialog.open(
+      UpsertPatientModalComponent,
+      {
+        width: '450px',
+        disableClose: true,
+        data: {
+          patient: null,
+        },
+      }
+    );
+  }
+
+  closeUpsertPatientModal(): void {
+    if (this.upsertPatientDialogRef) {
+      this.upsertPatientDialogRef.close();
+      this.upsertPatientDialogRef = null;
+    }
   }
 }

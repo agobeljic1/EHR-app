@@ -37,3 +37,8 @@ export const selectLoadingRefreshToken = createSelector(
   selectAuth,
   (state: AuthState) => state.loadingRefreshToken
 );
+
+export const selectSelectedOrganization = createSelector(
+  selectAuth,
+  (state: AuthState) => state.selectedOrganization
+);

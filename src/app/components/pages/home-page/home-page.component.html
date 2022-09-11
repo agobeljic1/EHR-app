@@ -1,1 +1,15 @@
-<p>home-page works!</p>
+<ng-container *ngLet="loggedUser$ | async as loggedUser">
+  <div class="welcome-wrapper">
+    <label class="welcome-message">Welcome</label>
+    <label class="welcome-hint" *ngIf="!loggedUser"
+      >Please log in to continue</label
+    >
+    <label
+      class="welcome-hint"
+      *ngIf="
+        loggedUser && !loggedUser.selectedOrganizationId && !loggedUser.admin
+      "
+      >Please select organization in your profile</label
+    >
+  </div>
+</ng-container>

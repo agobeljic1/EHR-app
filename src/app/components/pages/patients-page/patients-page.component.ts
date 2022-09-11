@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil, withLatestFrom, map } from 'rxjs';
 import { Patient } from 'src/app/models/patient/Patient';
 import { PatientActions, PatientSelectors } from 'src/app/store/patient';
-import { AuthSelectors } from 'src/app/store/auth';
 import { UpsertPatientModalComponent } from '../../modals/upsert-patient-modal/upsert-patient-modal.component';
 
 @Component({

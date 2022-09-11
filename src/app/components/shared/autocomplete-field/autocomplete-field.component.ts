@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { debounceTime, filter, Observable, startWith, Subject } from 'rxjs';
 
 @Component({
@@ -10,8 +11,10 @@ export class AutocompleteFieldComponent implements OnInit {
   @Input() name!: string;
   @Input() label!: string;
   @Input() placeholder!: string;
+  @Input() formGroup!: FormGroup;
   @Input() loading!: boolean | null;
   @Input() options!: any[] | null;
+  @Input() errorConfig!: { [key: string]: string };
 
   @Output() onChangeCallback = new EventEmitter();
   @Output() onSelectCallback = new EventEmitter();
@@ -36,5 +39,12 @@ export class AutocompleteFieldComponent implements OnInit {
 
   searchOptions(searchTerm: string = '') {
     this.valueChanges$.next(searchTerm);
+  }
+
+  getErrorMessage() {
+    const errorKey = Object.keys(
+      this.formGroup.controls?.[this.name]?.errors || {}
+    )[0];
+    return (errorKey && this.errorConfig?.[errorKey]) || '';
   }
 }

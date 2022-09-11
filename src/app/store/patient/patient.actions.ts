@@ -27,7 +27,8 @@ export const createPatient = createAction(
 );
 
 export const createPatientSuccess = createAction(
-  '[Patient API] Create Patient Success'
+  '[Patient API] Create Patient Success',
+  props<{ patient: Patient }>()
 );
 
 export const createPatientFailure = createAction(

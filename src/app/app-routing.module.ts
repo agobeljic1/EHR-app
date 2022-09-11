@@ -9,11 +9,16 @@ import { PatientOverviewPageComponent } from './components/pages/patient-overvie
 import { PatientsPageComponent } from './components/pages/patients-page/patients-page.component';
 import { UsersPageComponent } from './components/pages/users-page/users-page.component';
 import { AdminGuard } from './guards/admin.guard';
+import { DoctorOrNurseGuard } from './guards/doctor-or-nurse.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomePageComponent },
-  { path: 'patients', component: PatientsPageComponent },
+  {
+    path: 'patients',
+    component: PatientsPageComponent,
+    canActivate: [DoctorOrNurseGuard],
+  },
   { path: 'users', component: UsersPageComponent, canActivate: [AdminGuard] },
   {
     path: 'organizations',
@@ -25,8 +30,16 @@ const routes: Routes = [
     component: OrganizationDetailsPageComponent,
     canActivate: [AdminGuard],
   },
-  { path: 'admissions', component: EncountersPageComponent },
-  { path: 'patient-overview', component: PatientOverviewPageComponent },
+  {
+    path: 'admissions',
+    component: EncountersPageComponent,
+    canActivate: [DoctorOrNurseGuard],
+  },
+  {
+    path: 'patient-overview',
+    component: PatientOverviewPageComponent,
+    canActivate: [DoctorOrNurseGuard],
+  },
   { path: '**', redirectTo: 'not-found', pathMatch: 'full' },
   { path: 'not-found', component: NotFoundPageComponent },
 ];

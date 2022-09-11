@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { LoginCredentials } from 'src/app/models/auth/LoginCredentials';
+import { Organization } from 'src/app/models/organization/Organization';
 import { User } from 'src/app/models/user/User';
 
 export const loginUser = createAction(
@@ -55,4 +56,17 @@ export const closeProfile = createAction('[Profile Modal] Close Profile Modal');
 
 export const redirectToHomeSuccess = createAction(
   '[Routing] Redirect To Home Success'
+);
+
+export const selectOrganization = createAction(
+  '[Profile Modal] Select Organization',
+  props<{ organization: Organization }>()
+);
+
+export const selectOrganizationSuccess = createAction(
+  '[Profile Modal] Select Organization Success'
+);
+
+export const selectOrganizationFailure = createAction(
+  '[Profile Modal] Select Organization Failure'
 );

@@ -26,6 +26,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 require("./controllers/AuthController.js")(app, db);
 app.use(verifyTokenAndSetUser);
+require("./controllers/MeController.js")(app, db);
 require("./controllers/UserController.js")(app, db);
 require("./controllers/OrganizationController.js")(app, db);
 require("./controllers/PatientController.js")(app, db);

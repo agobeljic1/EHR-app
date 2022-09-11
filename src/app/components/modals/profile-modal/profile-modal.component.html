@@ -44,6 +44,31 @@
       user?.emailAddress || "Unknown"
     }}</label>
   </div>
+  <ng-container *ngIf="user && !user.admin">
+    <div
+      *ngIf="user?.organizations?.length"
+      class="profile-info-row w-full organization-row"
+    >
+      <label class="profile-info-title d-block"
+        >Select active organization</label
+      >
+      <app-form-field
+        name="organization"
+        label="Organization"
+        type="select"
+        class="organization-field"
+        [formGroup]="form"
+        [options]="user?.organizations || []"
+      ></app-form-field>
+    </div>
+
+    <label
+      class="user-missing-organizations"
+      *ngIf="!user?.organizations?.length"
+      >You don't have any organizations assigned. Please contact your
+      administrator.</label
+    >
+  </ng-container>
 
   <button class="logout-button" (click)="logout()">Logout</button>
 </div>

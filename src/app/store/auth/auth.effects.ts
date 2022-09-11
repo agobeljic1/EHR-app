@@ -87,4 +87,18 @@ export class AuthEffects {
       map(() => AuthActions.redirectToHomeSuccess())
     )
   );
+
+  selectOrganization$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.selectOrganization),
+      switchMap(({ organization }) => {
+        return this.authService.updateUserOrganization(organization).pipe(
+          map(() => {
+            return AuthActions.selectOrganizationSuccess();
+          }),
+          catchError(() => of(AuthActions.selectOrganizationFailure()))
+        );
+      })
+    )
+  );
 }

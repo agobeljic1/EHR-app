@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, of, tap, first, filter } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { switchMap, map, catchError, of, tap, withLatestFrom } from 'rxjs';
 import { EncounterService } from 'src/app/services/encounter.service';
 import { EncounterActions } from '.';
+import { AuthSelectors } from '../auth';
+import { PatientActions } from '../patient';
 
 @Injectable()
 export class EncounterEffects {
   constructor(
     private actions$: Actions,
     private encounterService: EncounterService,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) {}
 
   encounters$ = createEffect(() =>
@@ -104,28 +108,6 @@ export class EncounterEffects {
     )
   );
 
-  showEncounterDetails$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(EncounterActions.showEncounterDetails),
-      tap(({ encounter }) =>
-        this.router.navigate(['encounters', encounter.id])
-      ),
-      map(() => {
-        return EncounterActions.showEncounterDetailsSuccess();
-      })
-    )
-  );
-
-  showEncounters$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(EncounterActions.deleteEncounterSuccess),
-      tap(() => this.router.navigate(['encounters'])),
-      map(() => {
-        return EncounterActions.showEncountersSuccess();
-      })
-    )
-  );
-
   loadEncounterById$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EncounterActions.loadEncounterByIdFromRoute),
@@ -144,86 +126,28 @@ export class EncounterEffects {
     )
   );
 
-  loadEncounterUsersById$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(EncounterActions.loadEncounterUsersByIdFromRoute),
-      switchMap(({ encounterId }) => {
-        return this.encounterService.getEncounterUsersById(encounterId).pipe(
-          map(({ users }: any) => {
-            return EncounterActions.loadEncounterUsersByIdFromRouteSuccess({
-              users,
-              encounterId,
-            });
-          }),
-          catchError(() => {
-            return of(
-              EncounterActions.loadEncounterUsersByIdFromRouteFailure()
-            );
-          })
-        );
-      })
-    )
-  );
+  //Patient overview
 
-  addUserToEncounter$ = createEffect(() =>
+  showPatientOverview$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(EncounterActions.addNewUserToEncounter),
-      switchMap(({ encounter, user }) => {
-        return this.encounterService
-          .addNewUserToEncounter(encounter, user)
-          .pipe(
-            map(() => {
-              return EncounterActions.addNewUserToEncounterSuccess({
-                encounterId: encounter.id,
-              });
-            }),
-            catchError(() => {
-              return of(EncounterActions.addNewUserToEncounterFailure());
-            })
-          );
-      })
-    )
-  );
-
-  closeAddUserToEncounter$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(EncounterActions.addNewUserToEncounterSuccess),
-      map(() => {
-        return EncounterActions.closeAddUserToEncounter();
-      })
-    )
-  );
-
-  removeUserFromEncounter$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(EncounterActions.removeUserFromEncounter),
-      switchMap(({ encounter, user }) => {
-        return this.encounterService
-          .removeUserFromEncounter(encounter, user)
-          .pipe(
-            map(() => {
-              return EncounterActions.removeUserFromEncounterSuccess({
-                encounterId: encounter.id,
-              });
-            }),
-            catchError(() => {
-              return of(EncounterActions.removeUserFromEncounterFailure());
-            })
-          );
-      })
-    )
-  );
-
-  refetchEncounterUsers$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(
-        EncounterActions.removeUserFromEncounterSuccess,
-        EncounterActions.addNewUserToEncounterSuccess
+      ofType(EncounterActions.showPatientOverview),
+      tap(({ encounter }) =>
+        this.router.navigate(['patient-overview'], {
+          queryParams: { encounterId: encounter.id },
+        })
       ),
-      map(({ encounterId }) => {
-        return EncounterActions.loadEncounterUsersByIdFromRoute({
-          encounterId,
-        });
+      map(() => {
+        return EncounterActions.showPatientOverviewSuccess();
+      })
+    )
+  );
+
+  showEncounters$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(EncounterActions.deleteEncounterSuccess),
+      tap(() => this.router.navigate(['encounters'])),
+      map(() => {
+        return EncounterActions.showEncountersSuccess();
       })
     )
   );

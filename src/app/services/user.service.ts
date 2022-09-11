@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,7 @@ export class UserService {
     if (query) {
       params = params.set('query', query);
     }
-    return this.httpClient.get('/users', { params });
+    return this.httpClient.get('/users', { params }).pipe(map(this.mapUsers));
   }
 
   createUser(user) {
@@ -26,5 +27,14 @@ export class UserService {
 
   deleteUser(user) {
     return this.httpClient.delete(`/users/${user.id}`);
+  }
+
+  private mapUsers({ users }: any) {
+    return {
+      users: users.map((user) => ({
+        ...user,
+        displayName: `[${user.id}] ${user.given} ${user.family}(${user.city})`,
+      })),
+    };
   }
 }

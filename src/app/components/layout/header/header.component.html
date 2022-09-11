@@ -13,7 +13,12 @@
       </ng-container>
       <ng-container *ngIf="!loading">
         <ng-container
-          *ngTemplateOutlet="navbarOptions; context: { loggedUser: loggedUser }"
+          *ngTemplateOutlet="
+            navbarOptions;
+            context: {
+              loggedUser: loggedUser
+            }
+          "
         ></ng-container>
         <button
           *ngIf="sidenavOpen"
@@ -39,7 +44,12 @@
     >
       <ng-container *ngIf="sidenavOpen">
         <ng-container
-          *ngTemplateOutlet="navbarOptions; context: { loggedUser: loggedUser }"
+          *ngTemplateOutlet="
+            navbarOptions;
+            context: {
+              loggedUser: loggedUser
+            }
+          "
         ></ng-container
       ></ng-container>
     </div>
@@ -56,7 +66,9 @@
       >Login</label
     >
     <label
-      *ngIf="loggedUser && !loggedUser.admin"
+      *ngIf="
+        loggedUser && !loggedUser.admin && loggedUser.selectedOrganizationId
+      "
       class="nav-link"
       tabindex="0"
       routerLink="patient-overview"
@@ -64,14 +76,18 @@
     >
 
     <label
-      *ngIf="loggedUser && !loggedUser.admin"
+      *ngIf="
+        loggedUser && !loggedUser.admin && loggedUser.selectedOrganizationId
+      "
       class="nav-link"
       tabindex="0"
       routerLink="patients"
       >Patients</label
     >
     <label
-      *ngIf="loggedUser && !loggedUser.admin"
+      *ngIf="
+        loggedUser && !loggedUser.admin && loggedUser.selectedOrganizationId
+      "
       class="nav-link"
       tabindex="0"
       routerLink="admissions"

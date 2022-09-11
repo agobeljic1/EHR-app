@@ -51,8 +51,8 @@ module.exports = function (app, db) {
     };
     db.patient
       .create(newPatient)
-      .then(() => {
-        res.status(201).json({ success: true });
+      .then(({ dataValues: patient }) => {
+        res.status(201).json({ patient });
       })
       .catch((e) => {
         console.log(e);

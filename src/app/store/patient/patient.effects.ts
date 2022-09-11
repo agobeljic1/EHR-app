@@ -4,6 +4,7 @@ import { switchMap, map, catchError, of } from 'rxjs';
 import { Patient } from 'src/app/models/patient/Patient';
 import { PatientService } from 'src/app/services/patient.service';
 import { PatientActions } from '.';
+import { EncounterActions } from '../encounter';
 
 @Injectable()
 export class PatientEffects {
@@ -35,8 +36,10 @@ export class PatientEffects {
       ofType(PatientActions.createPatient),
       switchMap(({ patient }) => {
         return this.patientService.createPatient(patient).pipe(
-          map(() => {
-            return PatientActions.createPatientSuccess();
+          map(({ patient: createdPatient }: any) => {
+            return PatientActions.createPatientSuccess({
+              patient: createdPatient,
+            });
           }),
           catchError(() => {
             return of(PatientActions.createPatientFailure());
@@ -108,27 +111,28 @@ export class PatientEffects {
       ofType(PatientActions.searchPatientsByQuery),
       switchMap(({ query }) => {
         return this.patientService.getPatients(query).pipe(
-          map(({ patients }: any) => ({
-            patients: patients.map((patient) => ({
-              ...patient,
-              displayName:
-                patient.given +
-                ' ' +
-                patient.family +
-                ' (' +
-                patient.city +
-                ')',
-            })),
-          })),
           map(({ patients }: any) => {
+            console.log('patients');
+            console.log(patients);
             return PatientActions.searchPatientsByQuerySuccess({
               patients,
             });
           }),
-          catchError(() => {
+          catchError((e) => {
+            console.log('patientssss');
+            console.log(e);
             return of(PatientActions.searchPatientsByQueryFailure());
           })
         );
+      })
+    )
+  );
+
+  setPatientForEncounter$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PatientActions.createPatientSuccess),
+      map(({ patient }) => {
+        return EncounterActions.setPatientForEncounter({ patient });
       })
     )
   );

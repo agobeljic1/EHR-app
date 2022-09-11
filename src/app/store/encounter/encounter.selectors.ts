@@ -44,37 +44,7 @@ export const selectLoadingEncounterById = createSelector(
   (state: EncounterState) => state.loadingEncounterById
 );
 
-export const selectAddUserToEncounterOpen = createSelector(
+export const selectedPatientForEncounter = createSelector(
   selectEncounters,
-  (state: EncounterState) => state.addUserToEncounterOpen
-);
-
-export const selectAddUserToEncounterData = createSelector(
-  selectEncounters,
-  (state: EncounterState) => state.addUserToEncounterData
-);
-
-export const selectLoadingAddUserToEncounter = createSelector(
-  selectEncounters,
-  (state: EncounterState) => state.loadingAddUserToEncounter
-);
-
-export const selectActiveRemovingUserIdFromEncounter = createSelector(
-  selectEncounters,
-  (state: EncounterState) => state.activeRemovingUserIdFromEncounter
-);
-
-export const selectActiveUserToAddToEncounter = createSelector(
-  selectEncounters,
-  (state: EncounterState) => state.activeUserToAddToEncounter
-);
-
-export const selectEncounterUsersById = createSelector(
-  selectEncounters,
-  (state: EncounterState) => state.encounterUsersById
-);
-
-export const selectLoadingEncounterUsersById = createSelector(
-  selectEncounters,
-  (state: EncounterState) => state.loadingEncounterUsersById
+  (state: EncounterState) => state.selectedPatientForEncounter
 );

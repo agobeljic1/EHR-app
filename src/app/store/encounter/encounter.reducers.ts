@@ -1,11 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { Encounter } from 'src/app/models/encounter/Encounter';
-import { User } from 'src/app/models/user/User';
+import { Patient } from 'src/app/models/patient/Patient';
 import {
-  addNewUserToEncounter,
-  addNewUserToEncounterFailure,
-  addNewUserToEncounterSuccess,
-  closeAddUserToEncounter,
   closeUpsertEncounter,
   createEncounter,
   createEncounterFailure,
@@ -19,15 +15,8 @@ import {
   loadEncounters,
   loadEncountersFailure,
   loadEncountersSuccess,
-  loadEncounterUsersByIdFromRoute,
-  loadEncounterUsersByIdFromRouteFailure,
-  loadEncounterUsersByIdFromRouteSuccess,
-  openAddUserToEncounter,
   openUpsertEncounter,
-  removeUserFromEncounter,
-  removeUserFromEncounterFailure,
-  removeUserFromEncounterSuccess,
-  setActiveUserToAddToEncounter,
+  setPatientForEncounter,
   updateEncounter,
   updateEncounterFailure,
   updateEncounterSuccess,
@@ -41,14 +30,8 @@ export interface EncounterState {
   loadingUpsertEncounter: boolean;
   loadingDeleteEncounter: boolean;
   loadingEncounterById: boolean;
-  loadingEncounterUsersById: boolean;
   encounterById: Encounter | null;
-  encounterUsersById: User[] | null;
-  addUserToEncounterOpen: boolean;
-  addUserToEncounterData: Encounter | null;
-  activeRemovingUserIdFromEncounter: string | null;
-  loadingAddUserToEncounter: boolean;
-  activeUserToAddToEncounter: User | null;
+  selectedPatientForEncounter: Patient | null;
 }
 
 export const initialState: EncounterState = {
@@ -59,14 +42,8 @@ export const initialState: EncounterState = {
   loadingUpsertEncounter: false,
   loadingDeleteEncounter: false,
   loadingEncounterById: false,
-  loadingEncounterUsersById: false,
   encounterById: null,
-  encounterUsersById: null,
-  addUserToEncounterOpen: false,
-  addUserToEncounterData: null,
-  activeRemovingUserIdFromEncounter: null,
-  loadingAddUserToEncounter: false,
-  activeUserToAddToEncounter: null,
+  selectedPatientForEncounter: null,
 };
 
 export const encounterReducer = createReducer(
@@ -85,11 +62,13 @@ export const encounterReducer = createReducer(
     ...state,
     upsertEncounterData: encounter,
     upsertEncounterOpen: true,
+    selectedPatientForEncounter: null,
   })),
   on(closeUpsertEncounter, (state) => ({
     ...state,
     upsertEncounterData: null,
     upsertEncounterOpen: false,
+    selectedPatientForEncounter: null,
   })),
   on(createEncounter, (state) => ({
     ...state,
@@ -141,58 +120,8 @@ export const encounterReducer = createReducer(
     loadingEncounterById: false,
     encounterById: null,
   })),
-  on(loadEncounterUsersByIdFromRoute, (state) => ({
+  on(setPatientForEncounter, (state, { patient }) => ({
     ...state,
-    loadingEncounterUsersById: true,
-  })),
-  on(loadEncounterUsersByIdFromRouteSuccess, (state, { users }) => ({
-    ...state,
-    loadingEncounterUsersById: false,
-    encounterUsersById: users,
-  })),
-  on(loadEncounterUsersByIdFromRouteFailure, (state) => ({
-    ...state,
-    loadingEncounterUsersById: false,
-    encounterUsersById: null,
-  })),
-  on(openAddUserToEncounter, (state, { encounter }) => ({
-    ...state,
-    addUserToEncounterOpen: true,
-    addUserToEncounterData: encounter,
-  })),
-  on(closeAddUserToEncounter, (state) => ({
-    ...state,
-    addUserToEncounterOpen: false,
-    addUserToEncounterData: null,
-    activeUserToAddToEncounter: null,
-  })),
-  on(addNewUserToEncounter, (state) => ({
-    ...state,
-    loadingAddUserToEncounter: true,
-  })),
-  on(addNewUserToEncounterSuccess, (state) => ({
-    ...state,
-    loadingAddUserToEncounter: false,
-    activeUserToAddToEncounter: null,
-  })),
-  on(addNewUserToEncounterFailure, (state) => ({
-    ...state,
-    loadingAddUserToEncounter: false,
-  })),
-  on(removeUserFromEncounter, (state, { user }) => ({
-    ...state,
-    activeRemovingUserIdFromEncounter: user.id,
-  })),
-  on(removeUserFromEncounterSuccess, (state) => ({
-    ...state,
-    activeRemovingUserIdFromEncounter: null,
-  })),
-  on(removeUserFromEncounterFailure, (state) => ({
-    ...state,
-    activeRemovingUserIdFromEncounter: null,
-  })),
-  on(setActiveUserToAddToEncounter, (state, { user }) => ({
-    ...state,
-    activeUserToAddToEncounter: user,
+    selectedPatientForEncounter: patient,
   }))
 );

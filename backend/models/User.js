@@ -56,6 +56,11 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         unique: false,
       },
+      selectedOrganizationId: {
+        type: DataTypes.STRING(10),
+        allowNull: true,
+        unique: false,
+      },
     },
     {
       tableName: "User",

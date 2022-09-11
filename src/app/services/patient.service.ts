@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,9 @@ export class PatientService {
     if (query) {
       params = params.set('query', query);
     }
-    return this.httpClient.get('/patients', { params });
+    return this.httpClient
+      .get('/patients', { params })
+      .pipe(map(this.mapPatients));
   }
 
   createPatient(patient) {
@@ -26,5 +29,14 @@ export class PatientService {
 
   deletePatient(patient) {
     return this.httpClient.delete(`/patients/${patient.id}`);
+  }
+
+  mapPatients({ patients }: any) {
+    return {
+      patients: patients.map((patient) => ({
+        ...patient,
+        displayName: `[${patient.id}] ${patient.given} ${patient.family}(${patient.city})`,
+      })),
+    };
   }
 }

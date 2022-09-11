@@ -9,6 +9,8 @@
         name="user"
         label="User"
         placeholder="Search users"
+        [formGroup]="form"
+        [errorConfig]="formConfig['user'].errorConfig"
         (onChangeCallback)="searchUsers($event)"
         (onSelectCallback)="selectUser($event)"
         [loading]="loadingUsers$ | async"
@@ -58,7 +60,7 @@
       (click)="submitAddUserToOrganization(selectedUser)"
       mat-raised-button
       color="primary"
-      [disabled]="!selectedUser"
+      [disabled]="!selectedUser || !this.form.valid"
     >
       <label>Confirm</label>
       <app-spinner *ngIf="loading$ | async"></app-spinner>

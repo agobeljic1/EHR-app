@@ -38,6 +38,7 @@ import { EncounterEffects } from './store/encounter/encounter.effects';
 import { UpsertEncounterModalComponent } from './components/modals/upsert-encounter-modal/upsert-encounter-modal.component';
 import { UpsertPatientModalComponent } from './components/modals/upsert-patient-modal/upsert-patient-modal.component';
 import { PatientEffects } from './store/patient/patient.effects';
+import { DoctorOrNurseGuard } from './guards/doctor-or-nurse.guard';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { PatientEffects } from './store/patient/patient.effects';
       multi: true,
     },
     AdminGuard,
+    DoctorOrNurseGuard,
   ],
 
   bootstrap: [AppComponent],

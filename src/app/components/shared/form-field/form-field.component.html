@@ -28,9 +28,9 @@
     <mat-autocomplete #auto="matAutocomplete">
       <mat-option
         *ngFor="let option of filteredOptions$ | async"
-        [value]="option"
+        [value]="option.value"
       >
-        {{ option }}
+        {{ option.displayName }}
       </mat-option>
     </mat-autocomplete>
     <mat-error>{{ getErrorMessage() }}</mat-error>
@@ -44,8 +44,11 @@
   >
     <mat-label>{{ label }}</mat-label>
     <mat-select [formControlName]="name">
-      <mat-option *ngFor="let option of options" [value]="option">
-        {{ option }}
+      <mat-option
+        *ngFor="let option of transformedOptions"
+        [value]="option.value"
+      >
+        {{ option.displayName }}
       </mat-option>
     </mat-select>
     <mat-error>{{ getErrorMessage() }}</mat-error>

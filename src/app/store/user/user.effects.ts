@@ -15,6 +15,7 @@ export class UserEffects {
       switchMap(() => {
         return this.userService.getUsers().pipe(
           map(({ users }: any) => {
+            console.log(users);
             return UserActions.loadUsersSuccess({
               users,
             });
@@ -102,13 +103,6 @@ export class UserEffects {
       ofType(UserActions.searchUsersByQuery),
       switchMap(({ query }) => {
         return this.userService.getUsers(query).pipe(
-          map(({ users }: any) => ({
-            users: users.map((user) => ({
-              ...user,
-              displayName:
-                user.given + ' ' + user.family + ' (' + user.city + ')',
-            })),
-          })),
           map(({ users }: any) => {
             return UserActions.searchUsersByQuerySuccess({
               users,

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import { LoginCredentials } from '../models/auth/LoginCredentials';
-import { RegisterCredentials } from '../models/auth/RegisterCredentials';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +22,13 @@ export class AuthService {
   }
 
   me() {
-    return this.httpClient.get('/me');
+    return this.httpClient.get('/me').pipe(map(this.mapUserOrganizations));
+  }
+
+  updateUserOrganization(organization) {
+    return this.httpClient.patch('/me/organization', {
+      selectedOrganizationId: organization.id,
+    });
   }
 
   logout() {
@@ -30,4 +36,14 @@ export class AuthService {
       withCredentials: true,
     });
   }
+
+  private mapUserOrganizations = ({ user }: any) => ({
+    user: {
+      ...user,
+      organizations: user.organizations.map((organization) => ({
+        ...organization,
+        displayName: `[${organization.id}] ${organization.name} (${organization.line}, ${organization.city})`,
+      })),
+    },
+  });
 }

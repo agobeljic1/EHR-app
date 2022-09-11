@@ -57,7 +57,7 @@ export class UpsertOrganizationModalComponent implements OnInit {
     if (!this.data.organization) {
       return;
     }
-    const { id, ...formValues } = this.data.organization;
+    const { id, displayName, ...formValues } = this.data.organization;
     this.form.setValue(formValues);
   }
 

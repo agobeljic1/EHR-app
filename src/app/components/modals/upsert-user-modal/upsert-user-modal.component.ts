@@ -54,7 +54,7 @@ export class UpsertUserModalComponent implements OnInit {
     if (!this.data.user) {
       return;
     }
-    const { id, ...formValues } = this.data.user;
+    const { id, displayName, ...formValues } = this.data.user;
     this.form.setValue(formValues);
   }
 

@@ -12,8 +12,16 @@ export class FormFieldComponent implements OnInit {
   @Input() label!: string;
   @Input() type!: string;
   @Input() formGroup!: FormGroup;
-  @Input() options!: any[];
   @Input() errorConfig!: { [key: string]: string };
+  @Input() set options(optionsList: any[]) {
+    this.transformedOptions = optionsList.map((option) => {
+      const displayName =
+        typeof option === 'object' ? option.displayName : option;
+      return { value: option, displayName };
+    });
+  }
+
+  transformedOptions!: any[];
 
   filteredOptions$!: Observable<any[]>;
 
@@ -32,8 +40,8 @@ export class FormFieldComponent implements OnInit {
 
   private filterOptions(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.options.filter((option) =>
-      option.toLowerCase().includes(filterValue)
+    return this.transformedOptions.filter((option) =>
+      option.displayName.toLowerCase().includes(filterValue)
     );
   }
 

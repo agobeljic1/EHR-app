@@ -137,34 +137,3 @@ module.exports = function (app, db) {
       });
   });
 };
-
-// app.get("/organizations/users", verifyAdmin, async (req, res) => {
-//   const { id } = req.params;
-//   const fetchUsersFromOrganizationQuery = `SELECT User.id, User.given, User.family, User.birthDate, User.emailAddress, User.role, User.gender from User, UserOrganization where UserOrganization.organizationId = ${id} AND UserOrganization.userId = User.id`;
-
-//   const fetchOrganizationbyId = db.organization
-//     .findOne({
-//       attributes: ["id", "name", "line", "city", "country"],
-//       where: { id },
-//     })
-//     .then(({ dataValues: user }) => user);
-
-//   const fetchUsersFromOrganization = db.sequelize.query(
-//     fetchUsersFromOrganizationQuery,
-//     {
-//       type: db.Sequelize.QueryTypes.SELECT,
-//     }
-//   );
-
-//   Promise.all([fetchOrganizationbyId, fetchUsersFromOrganization])
-//     .then(([organization, users]) => {
-//       const finalOrganization = {
-//         ...organization,
-//         users,
-//       };
-//       res.json({ organization: finalOrganization });
-//     })
-//     .catch(() => {
-//       res.status(500).json({ error: "Failed to fetch organization" });
-//     });
-// });

@@ -16,8 +16,10 @@ import {
   openProfile,
   updateToken,
   logoutUserSuccess,
+  selectOrganization,
 } from './auth.actions';
 import { User } from 'src/app/models/user/User';
+import { Organization } from 'src/app/models/organization/Organization';
 
 export interface AuthState {
   user: User | null;
@@ -28,6 +30,7 @@ export interface AuthState {
   loadingProfile: boolean;
   loginOpen: boolean;
   profileOpen: boolean;
+  selectedOrganization: Organization | null;
 }
 
 export const initialState: AuthState = {
@@ -39,6 +42,7 @@ export const initialState: AuthState = {
   loadingProfile: true,
   loginOpen: false,
   profileOpen: false,
+  selectedOrganization: null,
 };
 
 export const authReducer = createReducer(
@@ -138,6 +142,16 @@ export const authReducer = createReducer(
     return {
       ...state,
       profileOpen: false,
+    };
+  }),
+  on(selectOrganization, (state, { organization }) => {
+    return {
+      ...state,
+      selectedOrganization: organization,
+      user: {
+        ...(state.user as any),
+        selectedOrganizationId: organization.id,
+      },
     };
   })
 );

@@ -1,0 +1,18 @@
+.welcome-wrapper {
+  width: 100%;
+  height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 80px;
+}
+
+.welcome-message {
+  font-size: 28px;
+}
+
+.welcome-hint {
+  margin-top: 24px;
+  font-size: 20px;
+  color: red;
+}

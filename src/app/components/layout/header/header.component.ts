@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
+import { Organization } from 'src/app/models/organization/Organization';
 import { AuthActions, AuthSelectors } from 'src/app/store/auth';
 import { LoginModalComponent } from '../../modals/login-modal/login-modal.component';
 import { ProfileModalComponent } from '../../modals/profile-modal/profile-modal.component';

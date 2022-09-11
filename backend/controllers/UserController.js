@@ -3,33 +3,6 @@ const { verifyAdmin } = require("../utils/Auth");
 
 module.exports = function (app, db) {
   const { Op } = db.Sequelize;
-  app.get("/me", async (req, res) => {
-    const { id } = req.user;
-    db.user
-      .findOne({
-        attributes: [
-          "id",
-          "given",
-          "family",
-          "birthDate",
-          "emailAddress",
-          "role",
-        ],
-        where: {
-          id,
-        },
-      })
-      .then((user) => {
-        if (user) {
-          return res.json({ user });
-        }
-        return res.status(404).json({ error: "No user found" });
-      })
-      .catch((e) => {
-        console.log(e);
-        res.status(500).json({ error: "Failed to fetch user" });
-      });
-  });
 
   app.get("/users", verifyAdmin, async (req, res) => {
     const { query } = req.query;
@@ -102,8 +75,7 @@ module.exports = function (app, db) {
         .then(() => {
           res.status(201).json({ success: true });
         })
-        .catch((E) => {
-          console.log(E);
+        .catch(() => {
           res.status(409).json({ error: "Failed to create the user" });
         });
     } catch {

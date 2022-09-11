@@ -105,3 +105,13 @@
   font-size: 14px;
   line-height: 14px;
 }
+
+.organization-row {
+  > label {
+    margin-bottom: 4px;
+  }
+}
+
+.user-missing-organizations {
+  color: red;
+}

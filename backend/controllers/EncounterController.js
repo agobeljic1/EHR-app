@@ -1,21 +1,18 @@
-const { verifyNurse, verifyNurseOrDoctor } = require("../utils/Auth");
+const { verifyNurseOrDoctor } = require("../utils/Auth");
 
 module.exports = function (app, db) {
   app.get("/encounters", verifyNurseOrDoctor, async (req, res) => {
-    const { patientId, organizationId } = req.params;
+    const { organizationId } = req.query;
 
-    db.encounter
-      .findAll({
-        attributes: [
-          "id",
-          "status",
-          "priority",
-          "periodStart",
-          "periodEnd",
-          "patientId",
-          "organizationId",
-        ],
-      })
+    const fetchEncountersByOrganizationQuery = `SELECT Encounter.id, Encounter.status, Encounter.priority, Encounter.periodStart, Encounter.periodEnd, Encounter.patientId, Encounter.organizationId, Organization.name as organizationName, Patient.given as patientGiven, Patient.family as patientFamily from Organization, Patient, Encounter where Organization.id = ${organizationId} AND Patient.id = Encounter.patientId AND Encounter.organizationId = Organization.id`;
+    const fetchEncountersByOrganization = db.sequelize.query(
+      fetchEncountersByOrganizationQuery,
+      {
+        type: db.Sequelize.QueryTypes.SELECT,
+      }
+    );
+
+    fetchEncountersByOrganization
       .then((encounters) => {
         res.json({ encounters });
       })
@@ -49,15 +46,9 @@ module.exports = function (app, db) {
       });
   });
 
-  app.post("/encounters", verifyNurse, (req, res) => {
-    const {
-      status,
-      priority,
-      periodStart,
-      periodEnd,
-      patientId,
-      organizationId,
-    } = req.body;
+  app.post("/encounters", verifyNurseOrDoctor, (req, res) => {
+    const { organizationId } = req.query;
+    const { status, priority, periodStart, periodEnd, patientId } = req.body;
     db.encounter
       .create({
         status,
@@ -70,21 +61,16 @@ module.exports = function (app, db) {
       .then((encounter) => {
         res.status(201).json({ encounter });
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e);
         res.status(400).json({ error: "Failed to create encounter" });
       });
   });
 
   app.put("/encounters", verifyNurseOrDoctor, (req, res) => {
-    const {
-      id,
-      status,
-      priority,
-      periodStart,
-      periodEnd,
-      patientId,
-      organizationId,
-    } = req.body;
+    const { organizationId } = req.query;
+    const { id, status, priority, periodStart, periodEnd, patientId } =
+      req.body;
     db.encounter
       .update(
         {

@@ -20,7 +20,6 @@ export class EncountersPageComponent implements OnInit {
     'status',
     'priority',
     'start',
-    'end',
     'patient',
     'organization',
     'options',
@@ -82,9 +81,9 @@ export class EncountersPageComponent implements OnInit {
     this.store.dispatch(EncounterActions.openUpsertEncounter({ encounter }));
   };
 
-  onShowEncounterDetails = (e, encounter) => {
+  onShowPatientOverview = (e, encounter) => {
     e.preventDefault();
-    this.store.dispatch(EncounterActions.showEncounterDetails({ encounter }));
+    this.store.dispatch(EncounterActions.showPatientOverview({ encounter }));
   };
 
   onDeleteEncounterClick = (e, encounter) => {
