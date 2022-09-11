@@ -17,11 +17,16 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         unique: false,
       },
+      recordedDate: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        unique: false,
+      },
       encounterId: {
         type: DataTypes.INTEGER(10),
         allowNull: false,
         references: {
-          model: "User",
+          model: "Encounter",
           key: "id",
         },
       },

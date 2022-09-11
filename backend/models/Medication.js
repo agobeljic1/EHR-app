@@ -22,11 +22,16 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         unique: false,
       },
+      form: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+        unique: false,
+      },
       encounterId: {
         type: DataTypes.INTEGER(10),
         allowNull: false,
         references: {
-          model: "User",
+          model: "Encounter",
           key: "id",
         },
       },
