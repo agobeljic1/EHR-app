@@ -31,6 +31,7 @@ require("./controllers/UserController.js")(app, db);
 require("./controllers/OrganizationController.js")(app, db);
 require("./controllers/PatientController.js")(app, db);
 require("./controllers/EncounterController.js")(app, db);
+require("./controllers/ConditionController.js")(app, db);
 
 app.listen(port, () => {
   console.log("server successfully started on port " + port);
