@@ -1,0 +1,104 @@
+<ng-container *ngLet="allergys$ | async as allergys">
+  <ng-container *ngLet="loading$ | async as loading">
+    <ng-container
+      *ngLet="activeDeleteAllergyId$ | async as activeDeleteAllergyId"
+    >
+      <div class="w-full allergys-wrapper">
+        <div
+          class="d-flex justify-content-between align-items-center w-full headline-wrapper"
+        >
+          <h2>Allergies</h2>
+          <div class="d-flex align-items-center">
+            <app-spinner *ngIf="loading" [dark]="true"></app-spinner>
+            <button
+              (click)="onCreateAllergyClick()"
+              mat-raised-button
+              color="primary"
+            >
+              Create new allergy
+            </button>
+          </div>
+        </div>
+        <table
+          mat-table
+          [dataSource]="allergys"
+          class="mat-elevation-z8 w-full"
+        >
+          <ng-container matColumnDef="onsetDateTime">
+            <th mat-header-cell *matHeaderCellDef>Discovered date</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.onsetDateTime | date }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="recordedDate">
+            <th mat-header-cell *matHeaderCellDef>Recorded date</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.recordedDate | date }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="recorder">
+            <th mat-header-cell *matHeaderCellDef>Recorder</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.userGiven + " " + element.userFamily }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef>Category</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.category }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="criticality">
+            <th mat-header-cell *matHeaderCellDef>Criticality</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.criticality }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="clinicalStatus">
+            <th mat-header-cell *matHeaderCellDef>Clinical status</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.clinicalStatus }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="options">
+            <th mat-header-cell *matHeaderCellDef>Options</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="options-buttons-wrapper">
+                <button
+                  (click)="onUpdateAllergyClick($event, element)"
+                  mat-raised-button
+                  color="primary"
+                >
+                  <label>Details</label>
+                </button>
+                <button
+                  (click)="onDeleteAllergyClick($event, element)"
+                  mat-raised-button
+                  color="warn"
+                >
+                  <label>Delete</label>
+                  <app-spinner
+                    *ngIf="activeDeleteAllergyId === element.id"
+                  ></app-spinner>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            class="allergy-row"
+          ></tr>
+        </table>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>

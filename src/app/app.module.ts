@@ -41,9 +41,11 @@ import { PatientEffects } from './store/patient/patient.effects';
 import { DoctorOrNurseGuard } from './guards/doctor-or-nurse.guard';
 import { ConditionsPageComponent } from './components/pages/non-admin/encounter-details/conditions-page/conditions-page.component';
 import { MedicationsPageComponent } from './components/pages/non-admin/encounter-details/medications-page/medications-page.component';
-import { AllergiesPageComponent } from './components/pages/non-admin/encounter-details/allergies-page/allergies-page.component';
 import { ConditionEffects } from './store/condition/condition.effects';
 import { UpsertConditionModalComponent } from './components/modals/upsert-condition-modal/upsert-condition-modal.component';
+import { AllergysPageComponent } from './components/pages/non-admin/encounter-details/allergys-page/allergys-page.component';
+import { UpsertAllergyModalComponent } from './components/modals/upsert-allergy-modal/upsert-allergy-modal.component';
+import { AllergyEffects } from './store/allergy/allergy.effects';
 
 @NgModule({
   declarations: [
@@ -71,8 +73,9 @@ import { UpsertConditionModalComponent } from './components/modals/upsert-condit
     UpsertPatientModalComponent,
     ConditionsPageComponent,
     MedicationsPageComponent,
-    AllergiesPageComponent,
     UpsertConditionModalComponent,
+    AllergysPageComponent,
+    UpsertAllergyModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -88,6 +91,7 @@ import { UpsertConditionModalComponent } from './components/modals/upsert-condit
       EncounterEffects,
       PatientEffects,
       ConditionEffects,
+      AllergyEffects,
     ]),
     MaterialModule,
     BrowserAnimationsModule,

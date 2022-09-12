@@ -1,4 +1,5 @@
 import { ActionReducerMap } from '@ngrx/store';
+import { allergyReducer, AllergyState } from './allergy/allergy.reducers';
 import { authReducer, AuthState } from './auth/auth.reducers';
 import {
   conditionReducer,
@@ -22,6 +23,7 @@ export interface AppState {
   encounterState: EncounterState;
   patientState: PatientState;
   conditionState: ConditionState;
+  allergyState: AllergyState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -31,4 +33,5 @@ export const reducers: ActionReducerMap<AppState> = {
   encounterState: encounterReducer,
   patientState: patientReducer,
   conditionState: conditionReducer,
+  allergyState: allergyReducer,
 };

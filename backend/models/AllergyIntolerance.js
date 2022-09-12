@@ -32,6 +32,11 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         unique: false,
       },
+      note: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        unique: false,
+      },
       encounterId: {
         type: DataTypes.INTEGER(10),
         allowNull: false,

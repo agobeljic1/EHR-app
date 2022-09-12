@@ -1,0 +1,56 @@
+<form [formGroup]="form">
+  <button class="close-icon button-img" (click)="close()">
+    <img src="assets/close-icon.svg" alt="close" />
+  </button>
+  <label *ngIf="data.allergy" class="modal-title">Update allergy</label>
+  <label *ngIf="!data.allergy" class="modal-title">Create allergy</label>
+  <app-form-field
+    name="onsetDateTime"
+    label="Discovered date"
+    type="date"
+    class="onsetDateTime-field"
+    [formGroup]="form"
+    [errorConfig]="formConfig['onsetDateTime'].errorConfig"
+  ></app-form-field>
+  <app-form-field
+    name="category"
+    label="Category"
+    type="select"
+    class="category-field"
+    [formGroup]="form"
+    [options]="formConfig['category'].options"
+    [errorConfig]="formConfig['category'].errorConfig"
+  ></app-form-field>
+  <app-form-field
+    name="clinicalStatus"
+    label="Clinical status"
+    type="select"
+    class="clinicalStatus-field"
+    [formGroup]="form"
+    [options]="formConfig['clinicalStatus'].options"
+    [errorConfig]="formConfig['clinicalStatus'].errorConfig"
+  ></app-form-field>
+  <app-form-field
+    name="criticality"
+    label="Criticality"
+    type="select"
+    class="criticality-field"
+    [formGroup]="form"
+    [options]="formConfig['criticality'].options"
+    [errorConfig]="formConfig['criticality'].errorConfig"
+  ></app-form-field>
+  <app-form-field
+    name="note"
+    label="Note"
+    type="textarea"
+    class="note-field"
+    [formGroup]="form"
+    [errorConfig]="formConfig['note'].errorConfig"
+    [rows]="formConfig['note'].rows"
+  ></app-form-field>
+  <button (click)="submitUpsertAllergy()" mat-raised-button color="primary">
+    <label *ngIf="!data.allergy">Create allergy</label>
+    <label *ngIf="data.allergy">Update allergy</label>
+    <app-spinner *ngIf="loading$ | async"></app-spinner>
+  </button>
+</form>

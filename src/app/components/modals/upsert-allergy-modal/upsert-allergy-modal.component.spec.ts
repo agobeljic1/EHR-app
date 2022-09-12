@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AllergiesPageComponent } from './allergies-page.component';
+import { UpsertAllergyModalComponent } from './upsert-allergy-modal.component';
 
-describe('AllergiesPageComponent', () => {
-  let component: AllergiesPageComponent;
-  let fixture: ComponentFixture<AllergiesPageComponent>;
+describe('UpsertAllergyModalComponent', () => {
+  let component: UpsertAllergyModalComponent;
+  let fixture: ComponentFixture<UpsertAllergyModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AllergiesPageComponent ]
+      declarations: [ UpsertAllergyModalComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AllergiesPageComponent);
+    fixture = TestBed.createComponent(UpsertAllergyModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

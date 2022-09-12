@@ -3,15 +3,18 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { ConditionActions, ConditionSelectors } from 'src/app/store/condition';
-import { formConfig } from './upsert-condition.form-config';
+import {
+  AllergyActions,
+  AllergySelectors,
+} from '../../../../app/store/allergy';
+import { formConfig } from './upsert-allergy.form-config';
 
 @Component({
-  selector: 'app-upsert-condition-modal',
-  templateUrl: './upsert-condition-modal.component.html',
-  styleUrls: ['./upsert-condition-modal.component.scss'],
+  selector: 'app-upsert-allergy-modal',
+  templateUrl: './upsert-allergy-modal.component.html',
+  styleUrls: ['./upsert-allergy-modal.component.scss'],
 })
-export class UpsertConditionModalComponent implements OnInit {
+export class UpsertAllergyModalComponent implements OnInit {
   private readonly destroy$ = new Subject();
 
   form!: FormGroup;
@@ -30,7 +33,7 @@ export class UpsertConditionModalComponent implements OnInit {
     this.populateForm();
 
     this.loading$ = this.store.select(
-      ConditionSelectors.selectLoadingUpsertCondition as any
+      AllergySelectors.selectLoadingUpsertAllergy as any
     );
   }
 
@@ -51,7 +54,7 @@ export class UpsertConditionModalComponent implements OnInit {
   }
 
   private populateForm(): void {
-    if (!this.data.condition) {
+    if (!this.data.allergy) {
       return;
     }
     const {
@@ -63,27 +66,27 @@ export class UpsertConditionModalComponent implements OnInit {
       userGiven,
       userFamily,
       ...formValues
-    } = this.data.condition;
+    } = this.data.allergy;
     this.form.setValue(formValues);
   }
 
-  submitUpsertCondition() {
+  submitUpsertAllergy() {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      const editMode = !!this.data.condition;
+      const editMode = !!this.data.allergy;
       if (editMode) {
         this.store.dispatch(
-          ConditionActions.updateCondition({
-            condition: {
-              id: this.data.condition.id,
+          AllergyActions.updateAllergy({
+            allergy: {
+              id: this.data.allergy.id,
               ...this.form.value,
             },
           })
         );
       } else {
         this.store.dispatch(
-          ConditionActions.createCondition({
-            condition: this.form.value,
+          AllergyActions.createAllergy({
+            allergy: this.form.value,
           })
         );
       }
@@ -91,6 +94,6 @@ export class UpsertConditionModalComponent implements OnInit {
   }
 
   close() {
-    this.store.dispatch(ConditionActions.closeUpsertCondition());
+    this.store.dispatch(AllergyActions.closeUpsertAllergy());
   }
 }

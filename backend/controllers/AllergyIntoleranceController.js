@@ -1,11 +1,11 @@
 const { verifyNurseOrDoctor } = require("../utils/Auth");
 
 module.exports = function (app, db) {
-  app.get("/allergies", verifyNurseOrDoctor, async (req, res) => {
+  app.get("/allergys", verifyNurseOrDoctor, async (req, res) => {
     const { encounterId } = req.query;
 
     const fetchAllergyIntolerancesByEncounterIdQuery =
-      "SELECT allergy.id, allergy.onsetDateTime, allergy.recordedDate, allergy.category, allergy.criticality, allergy.clinicalStatus, allergy.encounterId, User.given as userGiven, User.family as userFamily from `AllergyIntolerance` allergy, User where allergy.recorder = User.id AND allergy.encounterId = " +
+      "SELECT allergy.id, allergy.onsetDateTime, allergy.recordedDate, allergy.category, allergy.criticality, allergy.clinicalStatus, allergy.note, allergy.encounterId, User.given as userGiven, User.family as userFamily from `AllergyIntolerance` allergy, User where allergy.recorder = User.id AND allergy.encounterId = " +
       encounterId;
     const fetchAllergyIntolerancesByEncounterId = db.sequelize.query(
       fetchAllergyIntolerancesByEncounterIdQuery,
@@ -15,8 +15,8 @@ module.exports = function (app, db) {
     );
 
     fetchAllergyIntolerancesByEncounterId
-      .then((allergies) => {
-        res.json({ allergies });
+      .then((allergys) => {
+        res.json({ allergys });
       })
       .catch((e) => {
         console.log(e);
@@ -24,10 +24,11 @@ module.exports = function (app, db) {
       });
   });
 
-  app.post("/allergies", verifyNurseOrDoctor, (req, res) => {
+  app.post("/allergys", verifyNurseOrDoctor, (req, res) => {
     const { encounterId } = req.query;
     const { id: userId } = req.user;
-    const { onsetDateTime, category, criticality, clinicalStatus } = req.body;
+    const { onsetDateTime, category, criticality, clinicalStatus, note } =
+      req.body;
     db.allergyIntolerance
       .create({
         onsetDateTime,
@@ -35,6 +36,7 @@ module.exports = function (app, db) {
         criticality,
         clinicalStatus,
         encounterId,
+        note,
         recordedDate: new Date(),
         recorder: userId,
       })
@@ -47,8 +49,8 @@ module.exports = function (app, db) {
       });
   });
 
-  app.put("/allergies", verifyNurseOrDoctor, (req, res) => {
-    const { id, onsetDateTime, category, criticality, clinicalStatus } =
+  app.put("/allergys", verifyNurseOrDoctor, (req, res) => {
+    const { id, onsetDateTime, category, criticality, clinicalStatus, note } =
       req.body;
     db.allergyIntolerance
       .update(
@@ -57,6 +59,7 @@ module.exports = function (app, db) {
           category,
           criticality,
           clinicalStatus,
+          note,
         },
         { where: { id } }
       )
@@ -69,7 +72,7 @@ module.exports = function (app, db) {
       });
   });
 
-  app.delete("/allergies/:id", verifyNurseOrDoctor, (req, res) => {
+  app.delete("/allergys/:id", verifyNurseOrDoctor, (req, res) => {
     const { id } = req.params;
     db.allergyIntolerance
       .destroy({ where: { id } })
