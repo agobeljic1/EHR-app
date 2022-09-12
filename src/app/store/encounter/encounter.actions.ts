@@ -65,7 +65,7 @@ export const deleteEncounterFailure = createAction(
   '[Encounter API] Delete Encounter Failure'
 );
 
-export const showPatientOverview = createAction(
+export const showEncounterDetails = createAction(
   '[Encounters Page] Show Patient Overview',
   props<{ encounter: Encounter }>()
 );
@@ -75,7 +75,7 @@ export const setPatientForEncounter = createAction(
   props<{ patient: Patient }>()
 );
 
-export const showPatientOverviewSuccess = createAction(
+export const showEncounterDetailsSuccess = createAction(
   '[Encounters Page] Show Patient Overview Success'
 );
 
@@ -99,5 +99,5 @@ export const loadEncounterByIdFromRouteFailure = createAction(
 
 export const setEncounterId = createAction(
   '[Patient Overview Page] Set Encounter Id',
-  props<{ user: User }>()
+  props<{ encounterId: string }>()
 );

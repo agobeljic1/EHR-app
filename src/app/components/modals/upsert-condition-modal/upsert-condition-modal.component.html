@@ -1,0 +1,30 @@
+<form [formGroup]="form">
+  <button class="close-icon button-img" (click)="close()">
+    <img src="assets/close-icon.svg" alt="close" />
+  </button>
+  <label *ngIf="data.condition" class="modal-title">Update condition</label>
+  <label *ngIf="!data.condition" class="modal-title">Create condition</label>
+  <app-form-field
+    name="status"
+    label="Status"
+    type="textarea"
+    class="status-field"
+    [formGroup]="form"
+    [errorConfig]="formConfig['status'].errorConfig"
+    [rows]="formConfig['status'].rows"
+  ></app-form-field>
+  <app-form-field
+    name="severity"
+    label="Severity"
+    type="select"
+    class="severity-field"
+    [formGroup]="form"
+    [options]="formConfig['severity'].options"
+    [errorConfig]="formConfig['severity'].errorConfig"
+  ></app-form-field>
+  <button (click)="submitUpsertCondition()" mat-raised-button color="primary">
+    <label *ngIf="!data.condition">Create condition</label>
+    <label *ngIf="data.condition">Update condition</label>
+    <app-spinner *ngIf="loading$ | async"></app-spinner>
+  </button>
+</form>

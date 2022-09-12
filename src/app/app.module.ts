@@ -20,7 +20,7 @@ import { LetDirective } from './directives/let/let.directive';
 import { NotFoundPageComponent } from './components/pages/shared/not-found-page/not-found-page.component';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PatientOverviewPageComponent } from './components/pages/non-admin/patient-overview/patient-overview-page/patient-overview-page.component';
+import { EncounterDetailsPageComponent } from './components/pages/non-admin/encounter-details/encounter-details-page/encounter-details-page.component';
 import { PatientsPageComponent } from './components/pages/non-admin/patients-page/patients-page.component';
 import { UsersPageComponent } from './components/pages/admin/users-page/users-page.component';
 import { HomePageComponent } from './components/pages/shared/home-page/home-page.component';
@@ -39,6 +39,11 @@ import { UpsertEncounterModalComponent } from './components/modals/upsert-encoun
 import { UpsertPatientModalComponent } from './components/modals/upsert-patient-modal/upsert-patient-modal.component';
 import { PatientEffects } from './store/patient/patient.effects';
 import { DoctorOrNurseGuard } from './guards/doctor-or-nurse.guard';
+import { ConditionsPageComponent } from './components/pages/non-admin/encounter-details/conditions-page/conditions-page.component';
+import { MedicationsPageComponent } from './components/pages/non-admin/encounter-details/medications-page/medications-page.component';
+import { AllergiesPageComponent } from './components/pages/non-admin/encounter-details/allergies-page/allergies-page.component';
+import { ConditionEffects } from './store/condition/condition.effects';
+import { UpsertConditionModalComponent } from './components/modals/upsert-condition-modal/upsert-condition-modal.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +56,7 @@ import { DoctorOrNurseGuard } from './guards/doctor-or-nurse.guard';
     LetDirective,
     NotFoundPageComponent,
     EncountersPageComponent,
-    PatientOverviewPageComponent,
+    EncounterDetailsPageComponent,
     PatientsPageComponent,
     UsersPageComponent,
     HomePageComponent,
@@ -64,6 +69,10 @@ import { DoctorOrNurseGuard } from './guards/doctor-or-nurse.guard';
     EncountersPageComponent,
     UpsertEncounterModalComponent,
     UpsertPatientModalComponent,
+    ConditionsPageComponent,
+    MedicationsPageComponent,
+    AllergiesPageComponent,
+    UpsertConditionModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,6 +87,7 @@ import { DoctorOrNurseGuard } from './guards/doctor-or-nurse.guard';
       UserEffects,
       EncounterEffects,
       PatientEffects,
+      ConditionEffects,
     ]),
     MaterialModule,
     BrowserAnimationsModule,

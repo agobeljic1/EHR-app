@@ -8,7 +8,7 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
       },
       status: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(255),
         allowNull: false,
         unique: false,
       },
@@ -27,6 +27,14 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         references: {
           model: "Encounter",
+          key: "id",
+        },
+      },
+      recorder: {
+        type: DataTypes.INTEGER(10),
+        allowNull: false,
+        references: {
+          model: "User",
           key: "id",
         },
       },

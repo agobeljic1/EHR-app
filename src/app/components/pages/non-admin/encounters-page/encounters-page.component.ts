@@ -81,9 +81,9 @@ export class EncountersPageComponent implements OnInit {
     this.store.dispatch(EncounterActions.openUpsertEncounter({ encounter }));
   };
 
-  onShowPatientOverview = (e, encounter) => {
+  onShowEncounterDetails = (e, encounter) => {
     e.preventDefault();
-    this.store.dispatch(EncounterActions.showPatientOverview({ encounter }));
+    this.store.dispatch(EncounterActions.showEncounterDetails({ encounter }));
   };
 
   onDeleteEncounterClick = (e, encounter) => {

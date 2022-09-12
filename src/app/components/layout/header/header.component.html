@@ -65,15 +65,6 @@
       tabindex="0"
       >Login</label
     >
-    <label
-      *ngIf="
-        loggedUser && !loggedUser.admin && loggedUser.selectedOrganizationId
-      "
-      class="nav-link"
-      tabindex="0"
-      routerLink="patient-overview"
-      >Patient overview</label
-    >
 
     <label
       *ngIf="

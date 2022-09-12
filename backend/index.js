@@ -9,7 +9,7 @@ const {
 } = require("./utils/Auth.js");
 const port = process.env.PORT || 8000;
 db.sequelize
-  .sync()
+  .sync({ alter: true })
   .then(() => {
     console.log("Successfully connected with the database");
     initializeDatabaseAdminUser(db);

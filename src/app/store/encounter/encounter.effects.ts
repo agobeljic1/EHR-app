@@ -126,18 +126,16 @@ export class EncounterEffects {
     )
   );
 
-  //Patient overview
+  //Encounter details
 
-  showPatientOverview$ = createEffect(() =>
+  showEncounterDetails$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(EncounterActions.showPatientOverview),
+      ofType(EncounterActions.showEncounterDetails),
       tap(({ encounter }) =>
-        this.router.navigate(['patient-overview'], {
-          queryParams: { encounterId: encounter.id },
-        })
+        this.router.navigate(['encounters', encounter.id])
       ),
       map(() => {
-        return EncounterActions.showPatientOverviewSuccess();
+        return EncounterActions.showEncounterDetailsSuccess();
       })
     )
   );

@@ -11,6 +11,7 @@ export class FormFieldComponent implements OnInit {
   @Input() name!: string;
   @Input() label!: string;
   @Input() type!: string;
+  @Input() rows!: number;
   @Input() formGroup!: FormGroup;
   @Input() errorConfig!: { [key: string]: string };
   @Input() set options(optionsList: any[]) {

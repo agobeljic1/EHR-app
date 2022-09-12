@@ -4,46 +4,38 @@ module.exports = function (app, db) {
   app.get("/conditions", verifyNurseOrDoctor, async (req, res) => {
     const { encounterId } = req.query;
 
-    db.condition
-      .findAll({
-        attributes: ["id", "status", "severity", "recordedDate", "encounterId"],
-        where: {
-          encounterId,
-        },
-      })
+    const fetchConditionsByEncounterIdQuery =
+      "SELECT cond.id, cond.status, cond.severity, cond.recordedDate, cond.recorder, cond.encounterId, User.given as userGiven, User.family as userFamily from `Condition` cond, User where cond.recorder = User.id AND cond.encounterId = " +
+      encounterId;
+    const fetchConditionsByEncounterId = db.sequelize.query(
+      fetchConditionsByEncounterIdQuery,
+      {
+        type: db.Sequelize.QueryTypes.SELECT,
+      }
+    );
+
+    fetchConditionsByEncounterId
       .then((conditions) => {
         res.json({ conditions });
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e);
         res.status(500).json({ error: "Failed to fetch conditions" });
       });
   });
 
-  app.get("/conditions/:id", verifyNurseOrDoctor, async (req, res) => {
-    const { id } = req.params;
-    const fetchConditionById = db.condition
-      .findOne({
-        attributes: ["id", "status", "severity", "redordedDate", "encounterId"],
-        where: { id },
-      })
-      .then(({ dataValues: condition }) => condition);
-    fetchConditionById
-      .then((condition) => {
-        res.json({ condition });
-      })
-      .catch(() => {
-        res.status(500).json({ error: "Failed to fetch condition" });
-      });
-  });
-
   app.post("/conditions", verifyNurseOrDoctor, (req, res) => {
+    const { encounterId } = req.query;
+    const { id: userId } = req.user;
     const { status, priority, severity } = req.body;
     db.condition
       .create({
         status,
         priority,
         severity,
+        encounterId,
         recordedDate: new Date(),
+        recorder: userId,
       })
       .then((condition) => {
         res.status(201).json({ condition });
@@ -55,12 +47,11 @@ module.exports = function (app, db) {
   });
 
   app.put("/conditions", verifyNurseOrDoctor, (req, res) => {
-    const { id, status, priority, severity } = req.body;
+    const { id, status, severity } = req.body;
     db.condition
       .update(
         {
           status,
-          priority,
           severity,
         },
         { where: { id } }

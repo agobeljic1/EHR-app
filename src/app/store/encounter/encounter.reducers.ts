@@ -16,6 +16,7 @@ import {
   loadEncountersFailure,
   loadEncountersSuccess,
   openUpsertEncounter,
+  setEncounterId,
   setPatientForEncounter,
   updateEncounter,
   updateEncounterFailure,
@@ -32,6 +33,7 @@ export interface EncounterState {
   loadingEncounterById: boolean;
   encounterById: Encounter | null;
   selectedPatientForEncounter: Patient | null;
+  encounterId: string | null;
 }
 
 export const initialState: EncounterState = {
@@ -44,6 +46,7 @@ export const initialState: EncounterState = {
   loadingEncounterById: false,
   encounterById: null,
   selectedPatientForEncounter: null,
+  encounterId: null,
 };
 
 export const encounterReducer = createReducer(
@@ -123,5 +126,9 @@ export const encounterReducer = createReducer(
   on(setPatientForEncounter, (state, { patient }) => ({
     ...state,
     selectedPatientForEncounter: patient,
+  })),
+  on(setEncounterId, (state, { encounterId }) => ({
+    ...state,
+    encounterId,
   }))
 );

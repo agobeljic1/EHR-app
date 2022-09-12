@@ -1,6 +1,10 @@
 import { ActionReducerMap } from '@ngrx/store';
 import { authReducer, AuthState } from './auth/auth.reducers';
 import {
+  conditionReducer,
+  ConditionState,
+} from './condition/condition.reducers';
+import {
   encounterReducer,
   EncounterState,
 } from './encounter/encounter.reducers';
@@ -17,6 +21,7 @@ export interface AppState {
   userState: UserState;
   encounterState: EncounterState;
   patientState: PatientState;
+  conditionState: ConditionState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -25,4 +30,5 @@ export const reducers: ActionReducerMap<AppState> = {
   userState: userReducer,
   encounterState: encounterReducer,
   patientState: patientReducer,
+  conditionState: conditionReducer,
 };

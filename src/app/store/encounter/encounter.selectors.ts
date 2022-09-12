@@ -48,3 +48,8 @@ export const selectedPatientForEncounter = createSelector(
   selectEncounters,
   (state: EncounterState) => state.selectedPatientForEncounter
 );
+
+export const selectEncounterId = createSelector(
+  selectEncounters,
+  (state: EncounterState) => state.encounterId
+);
