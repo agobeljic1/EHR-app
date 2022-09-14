@@ -95,17 +95,24 @@ export class UpsertEncounterModalComponent implements OnInit {
     if (!this.data.encounter) {
       return;
     }
-    const { id, ...formValues } = this.data.encounter;
-    this.form.setValue(formValues);
+    const { status, priority, periodStart, periodEnd } = this.data.encounter;
+    console.log(this.data.encounter);
+    this.form.setValue({
+      status,
+      priority,
+      periodStart,
+      periodEnd,
+      patient: {},
+    });
   }
 
   submitUpsertEncounter(selectedPatient) {
     this.form.markAllAsTouched();
-    if (selectedPatient && this.form.valid) {
+    if ((this.data.encounter || selectedPatient) && this.form.valid) {
       const { patient, ...encounterValues } = this.form.value;
       const encounter = {
         ...encounterValues,
-        patientId: selectedPatient.id,
+        patientId: this.data.encounter?.patientId || selectedPatient.id,
       };
       const editMode = !!this.data.encounter;
       if (editMode) {
@@ -132,8 +139,6 @@ export class UpsertEncounterModalComponent implements OnInit {
   }
 
   searchPatients(query: string) {
-    console.log('dadada');
-    console.log(query);
     this.store.dispatch(PatientActions.searchPatientsByQuery({ query }));
   }
 

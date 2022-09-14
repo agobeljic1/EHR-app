@@ -21,9 +21,10 @@
   ></app-form-field>
 
   <button
-    class="login-button d-flex align-items-center justify-content-center"
-    (click)="submitLogin()"
+    mat-raised-button
+    color="primary"
     [disabled]="loading$ | async"
+    (click)="submitLogin()"
   >
     <label>Login to your Account</label>
     <app-spinner *ngIf="loading$ | async"></app-spinner>

@@ -1,90 +1,92 @@
 <ng-container *ngLet="conditions$ | async as conditions">
   <ng-container *ngLet="loading$ | async as loading">
-    <ng-container
-      *ngLet="activeDeleteConditionId$ | async as activeDeleteConditionId"
-    >
-      <div class="w-full conditions-wrapper">
-        <div
-          class="d-flex justify-content-between align-items-center w-full headline-wrapper"
-        >
-          <h2>Conditions</h2>
-          <div class="d-flex align-items-center">
-            <app-spinner *ngIf="loading" [dark]="true"></app-spinner>
-            <button
-              (click)="onCreateConditionClick()"
-              mat-raised-button
-              color="primary"
-            >
-              Create new condition
-            </button>
+    <ng-container *ngLet="loggedUser$ | async as loggedUser">
+      <ng-container
+        *ngLet="activeDeleteConditionId$ | async as activeDeleteConditionId"
+      >
+        <div class="w-full conditions-wrapper">
+          <div
+            class="d-flex justify-content-between align-items-center w-full headline-wrapper"
+          >
+            <h2>Conditions</h2>
+            <div class="d-flex align-items-center" *ngIf="loggedUser.doctor">
+              <app-spinner *ngIf="loading" [dark]="true"></app-spinner>
+              <button
+                (click)="onCreateConditionClick()"
+                mat-raised-button
+                color="primary"
+              >
+                Create new condition
+              </button>
+            </div>
           </div>
+          <table
+            mat-table
+            [dataSource]="conditions"
+            class="mat-elevation-z8 w-full"
+          >
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.status }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="severity">
+              <th mat-header-cell *matHeaderCellDef>Severity</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.severity }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="recorder">
+              <th mat-header-cell *matHeaderCellDef>Recorder</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.userGiven + " " + element.userFamily }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="recordedDate">
+              <th mat-header-cell *matHeaderCellDef>Recorded date</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.recordedDate | date }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="options">
+              <th mat-header-cell *matHeaderCellDef>Options</th>
+              <td mat-cell *matCellDef="let element">
+                <div class="options-buttons-wrapper">
+                  <button
+                    (click)="onUpdateConditionClick($event, element)"
+                    mat-raised-button
+                    color="primary"
+                  >
+                    <label>Details</label>
+                  </button>
+                  <button
+                    (click)="onDeleteConditionClick($event, element)"
+                    mat-raised-button
+                    color="warn"
+                  >
+                    <label>Delete</label>
+                    <app-spinner
+                      *ngIf="activeDeleteConditionId === element.id"
+                    ></app-spinner>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              class="condition-row"
+            ></tr>
+          </table>
         </div>
-        <table
-          mat-table
-          [dataSource]="conditions"
-          class="mat-elevation-z8 w-full"
-        >
-          <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef>Status</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.status }}
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="severity">
-            <th mat-header-cell *matHeaderCellDef>Severity</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.severity }}
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="recorder">
-            <th mat-header-cell *matHeaderCellDef>Recorder</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.userGiven + " " + element.userFamily }}
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="recordedDate">
-            <th mat-header-cell *matHeaderCellDef>Recorded date</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.recordedDate | date }}
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="options">
-            <th mat-header-cell *matHeaderCellDef>Options</th>
-            <td mat-cell *matCellDef="let element">
-              <div class="options-buttons-wrapper">
-                <button
-                  (click)="onUpdateConditionClick($event, element)"
-                  mat-raised-button
-                  color="primary"
-                >
-                  <label>Details</label>
-                </button>
-                <button
-                  (click)="onDeleteConditionClick($event, element)"
-                  mat-raised-button
-                  color="warn"
-                >
-                  <label>Delete</label>
-                  <app-spinner
-                    *ngIf="activeDeleteConditionId === element.id"
-                  ></app-spinner>
-                </button>
-              </div>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr
-            mat-row
-            *matRowDef="let row; columns: displayedColumns"
-            class="condition-row"
-          ></tr>
-        </table>
-      </div>
+      </ng-container>
     </ng-container>
   </ng-container>
 </ng-container>

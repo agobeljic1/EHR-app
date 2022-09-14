@@ -3,22 +3,6 @@
     [formGroup]="formGroup"
     appearance="outline"
     class="form-field"
-    *ngSwitchCase="'text'"
-  >
-    <mat-label>{{ label }}</mat-label>
-    <input
-      matInput
-      [formControlName]="name"
-      [attr.type]="type"
-      [attr.name]="name"
-    />
-    <mat-error>{{ getErrorMessage() }}</mat-error>
-  </mat-form-field>
-
-  <mat-form-field
-    [formGroup]="formGroup"
-    appearance="outline"
-    class="form-field"
     *ngSwitchCase="'textarea'"
   >
     <mat-label>{{ label }}</mat-label>
@@ -84,6 +68,22 @@
         {{ option.displayName }}
       </mat-option>
     </mat-select>
+    <mat-error>{{ getErrorMessage() }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field
+    [formGroup]="formGroup"
+    appearance="outline"
+    class="form-field"
+    *ngSwitchDefault
+  >
+    <mat-label>{{ label }}</mat-label>
+    <input
+      matInput
+      [formControlName]="name"
+      [attr.type]="type"
+      [attr.name]="name"
+    />
     <mat-error>{{ getErrorMessage() }}</mat-error>
   </mat-form-field>
 </ng-container>

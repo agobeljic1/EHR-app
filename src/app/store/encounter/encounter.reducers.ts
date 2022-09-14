@@ -9,6 +9,9 @@ import {
   deleteEncounter,
   deleteEncounterFailure,
   deleteEncounterSuccess,
+  dischargePatient,
+  dischargePatientFailure,
+  dischargePatientSuccess,
   loadEncounterByIdFromRoute,
   loadEncounterByIdFromRouteFailure,
   loadEncounterByIdFromRouteSuccess,
@@ -34,6 +37,7 @@ export interface EncounterState {
   encounterById: Encounter | null;
   selectedPatientForEncounter: Patient | null;
   encounterId: string | null;
+  loadingDischargePatient: boolean;
 }
 
 export const initialState: EncounterState = {
@@ -47,6 +51,7 @@ export const initialState: EncounterState = {
   encounterById: null,
   selectedPatientForEncounter: null,
   encounterId: null,
+  loadingDischargePatient: false,
 };
 
 export const encounterReducer = createReducer(
@@ -99,15 +104,15 @@ export const encounterReducer = createReducer(
   })),
   on(deleteEncounter, (state, { encounter }) => ({
     ...state,
-    activeDeleteEncounterId: encounter.id,
+    loadingDeleteEncounter: true,
   })),
   on(deleteEncounterSuccess, (state) => ({
     ...state,
-    activeDeleteEncounterId: null,
+    loadingDeleteEncounter: false,
   })),
   on(deleteEncounterFailure, (state) => ({
     ...state,
-    activeDeleteEncounterId: null,
+    loadingDeleteEncounter: false,
   })),
   on(loadEncounterByIdFromRoute, (state) => ({
     ...state,
@@ -130,5 +135,17 @@ export const encounterReducer = createReducer(
   on(setEncounterId, (state, { encounterId }) => ({
     ...state,
     encounterId,
+  })),
+  on(dischargePatient, (state) => ({
+    ...state,
+    loadingDischargePatient: true,
+  })),
+  on(dischargePatientSuccess, (state) => ({
+    ...state,
+    loadingDischargePatient: false,
+  })),
+  on(dischargePatientFailure, (state) => ({
+    ...state,
+    loadingDischargePatient: false,
   }))
 );

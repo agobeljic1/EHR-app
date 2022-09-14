@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, of } from 'rxjs';
+import { switchMap, map, catchError, of, tap } from 'rxjs';
 import { Patient } from 'src/app/models/patient/Patient';
 import { PatientService } from 'src/app/services/patient.service';
 import { PatientActions } from '.';
@@ -10,7 +11,8 @@ import { EncounterActions } from '../encounter';
 export class PatientEffects {
   constructor(
     private actions$: Actions,
-    private patientService: PatientService
+    private patientService: PatientService,
+    private snackBar: MatSnackBar
   ) {}
 
   patients$ = createEffect(() =>
@@ -24,7 +26,11 @@ export class PatientEffects {
             });
           }),
           catchError(() => {
-            return of(PatientActions.loadPatientsFailure());
+            return of(
+              PatientActions.loadPatientsFailure({
+                message: 'Failed to load patients',
+              })
+            );
           })
         );
       })
@@ -39,10 +45,15 @@ export class PatientEffects {
           map(({ patient: createdPatient }: any) => {
             return PatientActions.createPatientSuccess({
               patient: createdPatient,
+              message: 'Successfully created patient',
             });
           }),
           catchError(() => {
-            return of(PatientActions.createPatientFailure());
+            return of(
+              PatientActions.createPatientFailure({
+                message: 'Failed to update patient',
+              })
+            );
           })
         );
       })
@@ -55,10 +66,16 @@ export class PatientEffects {
       switchMap(({ patient }) => {
         return this.patientService.updatePatient(patient).pipe(
           map(() => {
-            return PatientActions.updatePatientSuccess();
+            return PatientActions.updatePatientSuccess({
+              message: 'Successfully updated patient',
+            });
           }),
           catchError(() => {
-            return of(PatientActions.updatePatientFailure());
+            return of(
+              PatientActions.updatePatientFailure({
+                message: 'Failed to update patient',
+              })
+            );
           })
         );
       })
@@ -71,10 +88,16 @@ export class PatientEffects {
       switchMap(({ patient }) => {
         return this.patientService.deletePatient(patient).pipe(
           map(() => {
-            return PatientActions.deletePatientSuccess();
+            return PatientActions.deletePatientSuccess({
+              message: 'Successfully deleted patient',
+            });
           }),
           catchError(() => {
-            return of(PatientActions.deletePatientFailure());
+            return of(
+              PatientActions.deletePatientFailure({
+                message: 'Failed to delete patient',
+              })
+            );
           })
         );
       })
@@ -112,16 +135,16 @@ export class PatientEffects {
       switchMap(({ query }) => {
         return this.patientService.getPatients(query).pipe(
           map(({ patients }: any) => {
-            console.log('patients');
-            console.log(patients);
             return PatientActions.searchPatientsByQuerySuccess({
               patients,
             });
           }),
           catchError((e) => {
-            console.log('patientssss');
-            console.log(e);
-            return of(PatientActions.searchPatientsByQueryFailure());
+            return of(
+              PatientActions.searchPatientsByQueryFailure({
+                message: 'Failed to search patients',
+              })
+            );
           })
         );
       })
@@ -134,6 +157,23 @@ export class PatientEffects {
       map(({ patient }) => {
         return EncounterActions.setPatientForEncounter({ patient });
       })
+    )
+  );
+
+  showMessage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        PatientActions.loadPatientsFailure,
+        PatientActions.createPatientSuccess,
+        PatientActions.createPatientFailure,
+        PatientActions.updatePatientSuccess,
+        PatientActions.updatePatientFailure,
+        PatientActions.deletePatientSuccess,
+        PatientActions.deletePatientFailure,
+        PatientActions.searchPatientsByQueryFailure
+      ),
+      tap(({ message }) => this.snackBar.open(message)),
+      map(() => PatientActions.showMessageSuccess())
     )
   );
 }

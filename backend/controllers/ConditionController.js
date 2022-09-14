@@ -1,4 +1,4 @@
-const { verifyNurseOrDoctor } = require("../utils/Auth");
+const { verifyNurseOrDoctor, verifyDoctor } = require("../utils/Auth");
 
 module.exports = function (app, db) {
   app.get("/conditions", verifyNurseOrDoctor, async (req, res) => {
@@ -24,7 +24,7 @@ module.exports = function (app, db) {
       });
   });
 
-  app.post("/conditions", verifyNurseOrDoctor, (req, res) => {
+  app.post("/conditions", verifyDoctor, (req, res) => {
     const { encounterId } = req.query;
     const { id: userId } = req.user;
     const { status, priority, severity } = req.body;

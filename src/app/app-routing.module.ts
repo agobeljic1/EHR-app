@@ -36,7 +36,7 @@ const routes: Routes = [
     canActivate: [DoctorOrNurseGuard],
   },
   {
-    path: 'encounters/:id',
+    path: 'admissions/:id',
     component: EncounterDetailsPageComponent,
     canActivate: [DoctorOrNurseGuard],
   },

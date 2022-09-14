@@ -9,7 +9,8 @@ export const loadConditionsSuccess = createAction(
 );
 
 export const loadConditionsFailure = createAction(
-  '[Condition API] Conditions Load Failure'
+  '[Condition API] Conditions Load Failure',
+  props<{ message: string }>()
 );
 
 export const openUpsertCondition = createAction(
@@ -28,11 +29,12 @@ export const createCondition = createAction(
 
 export const createConditionSuccess = createAction(
   '[Condition API] Create Condition Success',
-  props<{ condition: Condition }>()
+  props<{ condition: Condition; message: string }>()
 );
 
 export const createConditionFailure = createAction(
-  '[Condition API] Create Condition Failure'
+  '[Condition API] Create Condition Failure',
+  props<{ message: string }>()
 );
 
 export const updateCondition = createAction(
@@ -41,11 +43,13 @@ export const updateCondition = createAction(
 );
 
 export const updateConditionSuccess = createAction(
-  '[Condition API] Update Condition Success'
+  '[Condition API] Update Condition Success',
+  props<{ message: string }>()
 );
 
 export const updateConditionFailure = createAction(
-  '[Condition API] Update Condition Failure'
+  '[Condition API] Update Condition Failure',
+  props<{ message: string }>()
 );
 
 export const deleteCondition = createAction(
@@ -54,23 +58,15 @@ export const deleteCondition = createAction(
 );
 
 export const deleteConditionSuccess = createAction(
-  '[Condition API] Delete Condition Success'
+  '[Condition API] Delete Condition Success',
+  props<{ message: string }>()
 );
 
 export const deleteConditionFailure = createAction(
-  '[Condition API] Delete Condition Failure'
+  '[Condition API] Delete Condition Failure',
+  props<{ message: string }>()
 );
 
-export const searchConditionsByQuery = createAction(
-  '[Condition API] Search Conditions By Query',
-  props<{ query: string }>()
-);
-
-export const searchConditionsByQuerySuccess = createAction(
-  '[Condition API] Search Conditions By Query Success',
-  props<{ conditions: Condition[] }>()
-);
-
-export const searchConditionsByQueryFailure = createAction(
-  '[Condition API] Search Conditions By Query Failure'
+export const showMessageSuccess = createAction(
+  '[Condition API] Show Message Success'
 );

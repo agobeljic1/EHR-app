@@ -26,7 +26,12 @@ module.exports = function (app, db) {
           id,
         },
       })
-      .then(({ dataValues: user }) => user);
+      .then((resp) => {
+        if (!resp?.dataValues) {
+          throw new Error();
+        }
+        return resp.dataValues;
+      });
 
     Promise.all([fetchProfileInfo, fetchOrganizationsForUser])
       .then(([user, organizations]) => {

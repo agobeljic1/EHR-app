@@ -1,13 +1,29 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { debounceTime, filter, Observable, startWith, Subject } from 'rxjs';
+import {
+  debounceTime,
+  filter,
+  Observable,
+  startWith,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 
 @Component({
   selector: 'app-autocomplete-field',
   templateUrl: './autocomplete-field.component.html',
   styleUrls: ['./autocomplete-field.component.scss'],
 })
-export class AutocompleteFieldComponent implements OnInit {
+export class AutocompleteFieldComponent implements OnInit, OnDestroy {
+  private readonly destroy$ = new Subject();
+
   @Input() name!: string;
   @Input() label!: string;
   @Input() placeholder!: string;
@@ -30,11 +46,17 @@ export class AutocompleteFieldComponent implements OnInit {
         filter((query) => {
           return query.length > 1;
         }),
-        debounceTime(300)
+        debounceTime(300),
+        takeUntil(this.destroy$)
       )
       .subscribe((value) => {
         this.onChangeCallback.emit(value);
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   searchOptions(searchTerm: string = '') {

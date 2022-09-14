@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { switchMap, map, catchError, of, withLatestFrom } from 'rxjs';
-import { Allergy } from 'src/app/models/allergy/Allergy';
+import { switchMap, map, catchError, of, withLatestFrom, tap } from 'rxjs';
 import { AllergyService } from '../../services/allergy.service';
 import { AllergyActions } from '.';
-import { EncounterActions, EncounterSelectors } from '../encounter';
+import { EncounterSelectors } from '../encounter';
+import { AuthActions } from '../auth';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class AllergyEffects {
   constructor(
     private actions$: Actions,
     private allergyService: AllergyService,
-    private store: Store
+    private store: Store,
+    private snackBar: MatSnackBar
   ) {}
 
   allergys$ = createEffect(() =>
@@ -29,7 +31,11 @@ export class AllergyEffects {
             });
           }),
           catchError(() => {
-            return of(AllergyActions.loadAllergysFailure());
+            return of(
+              AllergyActions.loadAllergysFailure({
+                message: 'Failed to load allergies',
+              })
+            );
           })
         );
       })
@@ -47,10 +53,15 @@ export class AllergyEffects {
           map(({ allergy: createdAllergy }: any) => {
             return AllergyActions.createAllergySuccess({
               allergy: createdAllergy,
+              message: 'Successfully created allergy',
             });
           }),
           catchError(() => {
-            return of(AllergyActions.createAllergyFailure());
+            return of(
+              AllergyActions.createAllergyFailure({
+                message: 'Failed to create allergy',
+              })
+            );
           })
         );
       })
@@ -63,10 +74,16 @@ export class AllergyEffects {
       switchMap(({ allergy }) => {
         return this.allergyService.updateAllergy(allergy).pipe(
           map(() => {
-            return AllergyActions.updateAllergySuccess();
+            return AllergyActions.updateAllergySuccess({
+              message: 'Successfully updated allergy',
+            });
           }),
           catchError(() => {
-            return of(AllergyActions.updateAllergyFailure());
+            return of(
+              AllergyActions.updateAllergyFailure({
+                message: 'Failed to update allergy',
+              })
+            );
           })
         );
       })
@@ -79,10 +96,16 @@ export class AllergyEffects {
       switchMap(({ allergy }) => {
         return this.allergyService.deleteAllergy(allergy).pipe(
           map(() => {
-            return AllergyActions.deleteAllergySuccess();
+            return AllergyActions.deleteAllergySuccess({
+              message: 'Successfully deleted allergy',
+            });
           }),
           catchError(() => {
-            return of(AllergyActions.deleteAllergyFailure());
+            return of(
+              AllergyActions.deleteAllergyFailure({
+                message: 'Failed to delete allergy',
+              })
+            );
           })
         );
       })
@@ -114,21 +137,19 @@ export class AllergyEffects {
     )
   );
 
-  searchAllergysByQuery$ = createEffect(() =>
+  showMessage$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AllergyActions.searchAllergysByQuery),
-      switchMap(({ query }) => {
-        return this.allergyService.getAllergys(query).pipe(
-          map(({ allergys }: any) => {
-            return AllergyActions.searchAllergysByQuerySuccess({
-              allergys,
-            });
-          }),
-          catchError((e) => {
-            return of(AllergyActions.searchAllergysByQueryFailure());
-          })
-        );
-      })
+      ofType(
+        AllergyActions.loadAllergysFailure,
+        AllergyActions.createAllergySuccess,
+        AllergyActions.createAllergyFailure,
+        AllergyActions.updateAllergySuccess,
+        AllergyActions.updateAllergyFailure,
+        AllergyActions.deleteAllergySuccess,
+        AllergyActions.deleteAllergyFailure
+      ),
+      tap(({ message }) => this.snackBar.open(message)),
+      map(() => AllergyActions.showMessageSuccess())
     )
   );
 }

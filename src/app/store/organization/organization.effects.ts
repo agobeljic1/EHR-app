@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, of, tap, first, filter } from 'rxjs';
@@ -10,7 +11,8 @@ export class OrganizationEffects {
   constructor(
     private actions$: Actions,
     private organizationService: OrganizationService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   organizations$ = createEffect(() =>
@@ -24,7 +26,11 @@ export class OrganizationEffects {
             });
           }),
           catchError(() => {
-            return of(OrganizationActions.loadOrganizationsFailure());
+            return of(
+              OrganizationActions.loadOrganizationsFailure({
+                message: 'Failed to load organizations',
+              })
+            );
           })
         );
       })
@@ -37,10 +43,16 @@ export class OrganizationEffects {
       switchMap(({ organization }) => {
         return this.organizationService.createOrganization(organization).pipe(
           map(() => {
-            return OrganizationActions.createOrganizationSuccess();
+            return OrganizationActions.createOrganizationSuccess({
+              message: 'Successfully created organization',
+            });
           }),
           catchError(() => {
-            return of(OrganizationActions.createOrganizationFailure());
+            return of(
+              OrganizationActions.createOrganizationFailure({
+                message: 'Failed to create organization',
+              })
+            );
           })
         );
       })
@@ -55,10 +67,15 @@ export class OrganizationEffects {
           map(() => {
             return OrganizationActions.updateOrganizationSuccess({
               organizationId: organization.id,
+              message: 'Successfully updated organization',
             });
           }),
           catchError(() => {
-            return of(OrganizationActions.updateOrganizationFailure());
+            return of(
+              OrganizationActions.updateOrganizationFailure({
+                message: 'Failed to update organization',
+              })
+            );
           })
         );
       })
@@ -73,10 +90,15 @@ export class OrganizationEffects {
           map(() => {
             return OrganizationActions.deleteOrganizationSuccess({
               organizationId: organization.id,
+              message: 'Successfully deleted organization',
             });
           }),
           catchError(() => {
-            return of(OrganizationActions.deleteOrganizationFailure());
+            return of(
+              OrganizationActions.deleteOrganizationFailure({
+                message: 'Failed to delete organization',
+              })
+            );
           })
         );
       })
@@ -140,7 +162,9 @@ export class OrganizationEffects {
             }),
             catchError(() => {
               return of(
-                OrganizationActions.loadOrganizationByIdFromRouteFailure()
+                OrganizationActions.loadOrganizationByIdFromRouteFailure({
+                  message: 'Failed to load organization',
+                })
               );
             })
           );
@@ -165,7 +189,9 @@ export class OrganizationEffects {
             }),
             catchError(() => {
               return of(
-                OrganizationActions.loadOrganizationUsersByIdFromRouteFailure()
+                OrganizationActions.loadOrganizationUsersByIdFromRouteFailure({
+                  message: 'Failed to load organization users',
+                })
               );
             })
           );
@@ -183,10 +209,15 @@ export class OrganizationEffects {
             map(() => {
               return OrganizationActions.addNewUserToOrganizationSuccess({
                 organizationId: organization.id,
+                message: 'Successfully added user to organization',
               });
             }),
             catchError(() => {
-              return of(OrganizationActions.addNewUserToOrganizationFailure());
+              return of(
+                OrganizationActions.addNewUserToOrganizationFailure({
+                  message: 'Failed to add user to organization',
+                })
+              );
             })
           );
       })
@@ -212,11 +243,14 @@ export class OrganizationEffects {
             map(() => {
               return OrganizationActions.removeUserFromOrganizationSuccess({
                 organizationId: organization.id,
+                message: 'Successfully removed user from organization',
               });
             }),
             catchError(() => {
               return of(
-                OrganizationActions.removeUserFromOrganizationFailure()
+                OrganizationActions.removeUserFromOrganizationFailure({
+                  message: 'Failed to remove user from organization',
+                })
               );
             })
           );
@@ -246,6 +280,28 @@ export class OrganizationEffects {
           organizationId,
         });
       })
+    )
+  );
+
+  showMessage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        OrganizationActions.loadOrganizationsFailure,
+        OrganizationActions.createOrganizationSuccess,
+        OrganizationActions.createOrganizationFailure,
+        OrganizationActions.updateOrganizationSuccess,
+        OrganizationActions.updateOrganizationFailure,
+        OrganizationActions.deleteOrganizationSuccess,
+        OrganizationActions.deleteOrganizationFailure,
+        OrganizationActions.loadOrganizationByIdFromRouteFailure,
+        OrganizationActions.loadOrganizationUsersByIdFromRouteFailure,
+        OrganizationActions.addNewUserToOrganizationSuccess,
+        OrganizationActions.addNewUserToOrganizationFailure,
+        OrganizationActions.removeUserFromOrganizationSuccess,
+        OrganizationActions.removeUserFromOrganizationFailure
+      ),
+      tap(({ message }) => this.snackBar.open(message)),
+      map(() => OrganizationActions.showMessageSuccess())
     )
   );
 }

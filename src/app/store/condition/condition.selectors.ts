@@ -33,13 +33,3 @@ export const selectActiveDeleteConditionId = createSelector(
   selectConditions,
   (state: ConditionState) => state.activeDeleteConditionId
 );
-
-export const selectLoadingSearchConditionsByQuery = createSelector(
-  selectConditions,
-  (state: ConditionState) => state.loadingSearchConditionsByQuery
-);
-
-export const selectFoundConditionsByQuery = createSelector(
-  selectConditions,
-  (state: ConditionState) => state.foundConditionsByQuery
-);

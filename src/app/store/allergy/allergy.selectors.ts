@@ -33,13 +33,3 @@ export const selectActiveDeleteAllergyId = createSelector(
   selectAllergys,
   (state: AllergyState) => state.activeDeleteAllergyId
 );
-
-export const selectLoadingSearchAllergysByQuery = createSelector(
-  selectAllergys,
-  (state: AllergyState) => state.loadingSearchAllergysByQuery
-);
-
-export const selectFoundAllergysByQuery = createSelector(
-  selectAllergys,
-  (state: AllergyState) => state.foundAllergysByQuery
-);

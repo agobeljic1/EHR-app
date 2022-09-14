@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, of } from 'rxjs';
-import { User } from 'src/app/models/user/User';
+import { switchMap, map, catchError, of, tap } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { UserActions } from '.';
 
 @Injectable()
 export class UserEffects {
-  constructor(private actions$: Actions, private userService: UserService) {}
+  constructor(
+    private actions$: Actions,
+    private userService: UserService,
+    private snackBar: MatSnackBar
+  ) {}
 
   users$ = createEffect(() =>
     this.actions$.pipe(
@@ -21,7 +25,11 @@ export class UserEffects {
             });
           }),
           catchError(() => {
-            return of(UserActions.loadUsersFailure());
+            return of(
+              UserActions.loadUsersFailure({
+                message: 'Failed to load users',
+              })
+            );
           })
         );
       })
@@ -34,10 +42,16 @@ export class UserEffects {
       switchMap(({ user }) => {
         return this.userService.createUser(user).pipe(
           map(() => {
-            return UserActions.createUserSuccess();
+            return UserActions.createUserSuccess({
+              message: 'Successfully created user',
+            });
           }),
           catchError(() => {
-            return of(UserActions.createUserFailure());
+            return of(
+              UserActions.createUserFailure({
+                message: 'Failed to create user',
+              })
+            );
           })
         );
       })
@@ -50,10 +64,16 @@ export class UserEffects {
       switchMap(({ user }) => {
         return this.userService.updateUser(user).pipe(
           map(() => {
-            return UserActions.updateUserSuccess();
+            return UserActions.updateUserSuccess({
+              message: 'Successfully updated user',
+            });
           }),
           catchError(() => {
-            return of(UserActions.updateUserFailure());
+            return of(
+              UserActions.updateUserFailure({
+                message: 'Failed to update user',
+              })
+            );
           })
         );
       })
@@ -66,10 +86,16 @@ export class UserEffects {
       switchMap(({ user }) => {
         return this.userService.deleteUser(user).pipe(
           map(() => {
-            return UserActions.deleteUserSuccess();
+            return UserActions.deleteUserSuccess({
+              message: 'Successfully deleted user',
+            });
           }),
           catchError(() => {
-            return of(UserActions.deleteUserFailure());
+            return of(
+              UserActions.deleteUserFailure({
+                message: 'Failed to delete user',
+              })
+            );
           })
         );
       })
@@ -109,10 +135,31 @@ export class UserEffects {
             });
           }),
           catchError(() => {
-            return of(UserActions.searchUsersByQueryFailure());
+            return of(
+              UserActions.searchUsersByQueryFailure({
+                message: 'Failed to search user',
+              })
+            );
           })
         );
       })
+    )
+  );
+
+  showMessage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        UserActions.loadUsersFailure,
+        UserActions.createUserSuccess,
+        UserActions.createUserFailure,
+        UserActions.updateUserSuccess,
+        UserActions.updateUserFailure,
+        UserActions.deleteUserSuccess,
+        UserActions.deleteUserFailure,
+        UserActions.searchUsersByQueryFailure
+      ),
+      tap(({ message }) => this.snackBar.open(message)),
+      map(() => UserActions.showMessageSuccess())
     )
   );
 }

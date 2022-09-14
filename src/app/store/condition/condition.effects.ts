@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { switchMap, map, catchError, of, withLatestFrom } from 'rxjs';
-import { Condition } from 'src/app/models/condition/Condition';
+import { switchMap, map, catchError, of, withLatestFrom, tap } from 'rxjs';
 import { ConditionService } from 'src/app/services/condition.service';
 import { ConditionActions } from '.';
-import { EncounterActions, EncounterSelectors } from '../encounter';
+import { EncounterSelectors } from '../encounter';
 
 @Injectable()
 export class ConditionEffects {
   constructor(
     private actions$: Actions,
     private conditionService: ConditionService,
-    private store: Store
+    private store: Store,
+    private snackBar: MatSnackBar
   ) {}
 
   conditions$ = createEffect(() =>
@@ -29,7 +30,11 @@ export class ConditionEffects {
             });
           }),
           catchError(() => {
-            return of(ConditionActions.loadConditionsFailure());
+            return of(
+              ConditionActions.loadConditionsFailure({
+                message: 'Failed to load conditions',
+              })
+            );
           })
         );
       })
@@ -49,10 +54,15 @@ export class ConditionEffects {
             map(({ condition: createdCondition }: any) => {
               return ConditionActions.createConditionSuccess({
                 condition: createdCondition,
+                message: 'Successfully created condition',
               });
             }),
             catchError(() => {
-              return of(ConditionActions.createConditionFailure());
+              return of(
+                ConditionActions.createConditionFailure({
+                  message: 'Failed to create condition',
+                })
+              );
             })
           );
       })
@@ -65,10 +75,16 @@ export class ConditionEffects {
       switchMap(({ condition }) => {
         return this.conditionService.updateCondition(condition).pipe(
           map(() => {
-            return ConditionActions.updateConditionSuccess();
+            return ConditionActions.updateConditionSuccess({
+              message: 'Successfully updated condition',
+            });
           }),
           catchError(() => {
-            return of(ConditionActions.updateConditionFailure());
+            return of(
+              ConditionActions.updateConditionFailure({
+                message: 'Failed to update condition',
+              })
+            );
           })
         );
       })
@@ -81,10 +97,16 @@ export class ConditionEffects {
       switchMap(({ condition }) => {
         return this.conditionService.deleteCondition(condition).pipe(
           map(() => {
-            return ConditionActions.deleteConditionSuccess();
+            return ConditionActions.deleteConditionSuccess({
+              message: 'Successfully deleted condition',
+            });
           }),
           catchError(() => {
-            return of(ConditionActions.deleteConditionFailure());
+            return of(
+              ConditionActions.deleteConditionFailure({
+                message: 'Failed to delete condition',
+              })
+            );
           })
         );
       })
@@ -116,21 +138,19 @@ export class ConditionEffects {
     )
   );
 
-  searchConditionsByQuery$ = createEffect(() =>
+  showMessage$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ConditionActions.searchConditionsByQuery),
-      switchMap(({ query }) => {
-        return this.conditionService.getConditions(query).pipe(
-          map(({ conditions }: any) => {
-            return ConditionActions.searchConditionsByQuerySuccess({
-              conditions,
-            });
-          }),
-          catchError((e) => {
-            return of(ConditionActions.searchConditionsByQueryFailure());
-          })
-        );
-      })
+      ofType(
+        ConditionActions.loadConditionsFailure,
+        ConditionActions.createConditionSuccess,
+        ConditionActions.createConditionFailure,
+        ConditionActions.updateConditionSuccess,
+        ConditionActions.updateConditionFailure,
+        ConditionActions.deleteConditionSuccess,
+        ConditionActions.deleteConditionFailure
+      ),
+      tap(({ message }) => this.snackBar.open(message)),
+      map(() => ConditionActions.showMessageSuccess())
     )
   );
 }

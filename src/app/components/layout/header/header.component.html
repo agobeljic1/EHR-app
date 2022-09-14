@@ -58,13 +58,22 @@
 
 <ng-template #navbarOptions let-loggedUser="loggedUser">
   <div class="nav-options d-flex justify-content-end align-items-center">
-    <label
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="!loggedUser"
+      class="nav-link"
+      (click)="onLoginClick()"
+    >
+      Login
+    </button>
+    <!-- <label
       *ngIf="!loggedUser"
       class="nav-link login-link"
       (click)="onLoginClick()"
       tabindex="0"
       >Login</label
-    >
+    > -->
 
     <label
       *ngIf="
@@ -107,7 +116,7 @@
         class="button-img cursor-pointer sidenav-hidden nav-profile"
         (click)="onProfileClick()"
       >
-        <img src="assets/navbar-profile-image.png" class="cursor-pointer" />
+        <img src="assets/profile-image.jpeg" class="cursor-pointer" />
       </button>
     </div>
   </div>

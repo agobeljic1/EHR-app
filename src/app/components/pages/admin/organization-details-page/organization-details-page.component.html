@@ -24,16 +24,6 @@
 
                 <div class="d-flex align-items-center" *ngIf="!loading">
                   <button
-                    (click)="onDeleteOrganizationClick(organization)"
-                    mat-raised-button
-                    color="warn"
-                  >
-                    <label>Delete</label>
-                    <app-spinner
-                      *ngIf="loadingDeleteOrganization"
-                    ></app-spinner>
-                  </button>
-                  <button
                     (click)="onUpdateOrganizationClick(organization)"
                     mat-raised-button
                     color="primary"

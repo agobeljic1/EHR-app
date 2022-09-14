@@ -12,9 +12,6 @@ import {
   loadConditionsFailure,
   loadConditionsSuccess,
   openUpsertCondition,
-  searchConditionsByQuery,
-  searchConditionsByQueryFailure,
-  searchConditionsByQuerySuccess,
   updateCondition,
   updateConditionFailure,
   updateConditionSuccess,
@@ -27,8 +24,6 @@ export interface ConditionState {
   upsertConditionData: Condition | null;
   loadingUpsertCondition: boolean;
   activeDeleteConditionId: string | null;
-  loadingSearchConditionsByQuery: boolean;
-  foundConditionsByQuery: Condition[];
 }
 
 export const initialState: ConditionState = {
@@ -38,8 +33,6 @@ export const initialState: ConditionState = {
   upsertConditionData: null,
   loadingUpsertCondition: false,
   activeDeleteConditionId: null,
-  loadingSearchConditionsByQuery: false,
-  foundConditionsByQuery: [],
 };
 
 export const conditionReducer = createReducer(
@@ -99,18 +92,5 @@ export const conditionReducer = createReducer(
   on(deleteConditionFailure, (state) => ({
     ...state,
     activeDeleteConditionId: null,
-  })),
-  on(searchConditionsByQuery, (state) => ({
-    ...state,
-    loadingSearchConditionsByQuery: true,
-  })),
-  on(searchConditionsByQuerySuccess, (state, { conditions }) => ({
-    ...state,
-    loadingSearchConditionsByQuery: false,
-    foundConditionsByQuery: conditions,
-  })),
-  on(searchConditionsByQueryFailure, (state) => ({
-    ...state,
-    loadingSearchConditionsByQuery: false,
   }))
 );

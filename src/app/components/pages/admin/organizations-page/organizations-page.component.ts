@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil, withLatestFrom } from 'rxjs';
@@ -14,7 +14,7 @@ import { UpsertOrganizationModalComponent } from '../../../modals/upsert-organiz
   templateUrl: './organizations-page.component.html',
   styleUrls: ['./organizations-page.component.scss'],
 })
-export class OrganizationsPageComponent implements OnInit {
+export class OrganizationsPageComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject();
 
   organizations$!: Observable<Organization>;
@@ -50,6 +50,11 @@ export class OrganizationsPageComponent implements OnInit {
           this.closeUpsertOrganizationModal();
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   openUpsertOrganizationModal(): void {

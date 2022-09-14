@@ -127,10 +127,24 @@ module.exports = function (app, db) {
 
   app.delete("/organizations/:id", verifyAdmin, (req, res) => {
     const { id } = req.params;
-    db.organization
-      .destroy({ where: { id } })
+
+    const deleteOrganizationUsers = db.userOrganization.destroy({
+      where: {
+        organizationId: id,
+      },
+    });
+    const deleteOrganization = db.organization.destroy({ where: { id } });
+
+    deleteOrganizationUsers
       .then(() => {
-        res.status(200).json({ success: true });
+        deleteOrganization
+          .then(() => {
+            res.status(200).json({ success: true });
+          })
+          .catch((e) => {
+            console.log(e);
+            res.status(500).json({ error: "Failed to delete organization" });
+          });
       })
       .catch(() => {
         res.status(500).json({ error: "Failed to delete organization" });

@@ -10,6 +10,10 @@ import {
   EncounterState,
 } from './encounter/encounter.reducers';
 import {
+  medicationReducer,
+  MedicationState,
+} from './medication/medication.reducers';
+import {
   organizationReducer,
   OrganizationState,
 } from './organization/organization.reducers';
@@ -24,6 +28,7 @@ export interface AppState {
   patientState: PatientState;
   conditionState: ConditionState;
   allergyState: AllergyState;
+  medicationState: MedicationState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -34,4 +39,5 @@ export const reducers: ActionReducerMap<AppState> = {
   patientState: patientReducer,
   conditionState: conditionReducer,
   allergyState: allergyReducer,
+  medicationState: medicationReducer,
 };

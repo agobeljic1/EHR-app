@@ -15,3 +15,23 @@
     gap: 8px;
   }
 }
+
+.encounter-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  .encounter-details-row {
+    gap: 8px;
+  }
+
+  .details-key {
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
+
+::ng-deep div[role="tab"]:focus {
+  background-color: lightblue;
+}

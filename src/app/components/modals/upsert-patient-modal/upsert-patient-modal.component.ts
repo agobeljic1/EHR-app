@@ -54,7 +54,8 @@ export class UpsertPatientModalComponent implements OnInit {
     if (!this.data.patient) {
       return;
     }
-    const { id, displayName, ...formValues } = this.data.patient;
+    const { id, displayName, organizationId, ...formValues } =
+      this.data.patient;
     this.form.setValue(formValues);
   }
 

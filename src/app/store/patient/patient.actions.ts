@@ -9,7 +9,8 @@ export const loadPatientsSuccess = createAction(
 );
 
 export const loadPatientsFailure = createAction(
-  '[Patient API] Patients Load Failure'
+  '[Patient API] Patients Load Failure',
+  props<{ message: string }>()
 );
 
 export const openUpsertPatient = createAction(
@@ -28,11 +29,12 @@ export const createPatient = createAction(
 
 export const createPatientSuccess = createAction(
   '[Patient API] Create Patient Success',
-  props<{ patient: Patient }>()
+  props<{ patient: Patient; message: string }>()
 );
 
 export const createPatientFailure = createAction(
-  '[Patient API] Create Patient Failure'
+  '[Patient API] Create Patient Failure',
+  props<{ message: string }>()
 );
 
 export const updatePatient = createAction(
@@ -41,11 +43,13 @@ export const updatePatient = createAction(
 );
 
 export const updatePatientSuccess = createAction(
-  '[Patient API] Update Patient Success'
+  '[Patient API] Update Patient Success',
+  props<{ message: string }>()
 );
 
 export const updatePatientFailure = createAction(
-  '[Patient API] Update Patient Failure'
+  '[Patient API] Update Patient Failure',
+  props<{ message: string }>()
 );
 
 export const deletePatient = createAction(
@@ -54,11 +58,13 @@ export const deletePatient = createAction(
 );
 
 export const deletePatientSuccess = createAction(
-  '[Patient API] Delete Patient Success'
+  '[Patient API] Delete Patient Success',
+  props<{ message: string }>()
 );
 
 export const deletePatientFailure = createAction(
-  '[Patient API] Delete Patient Failure'
+  '[Patient API] Delete Patient Failure',
+  props<{ message: string }>()
 );
 
 export const searchPatientsByQuery = createAction(
@@ -72,5 +78,10 @@ export const searchPatientsByQuerySuccess = createAction(
 );
 
 export const searchPatientsByQueryFailure = createAction(
-  '[Patient API] Search Patients By Query Failure'
+  '[Patient API] Search Patients By Query Failure',
+  props<{ message: string }>()
+);
+
+export const showMessageSuccess = createAction(
+  '[Patient API] Show Message Success'
 );

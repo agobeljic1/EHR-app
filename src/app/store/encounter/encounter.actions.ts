@@ -1,8 +1,6 @@
-import { ActivatedRoute } from '@angular/router';
 import { createAction, props } from '@ngrx/store';
 import { Encounter } from 'src/app/models/encounter/Encounter';
 import { Patient } from 'src/app/models/patient/Patient';
-import { User } from 'src/app/models/user/User';
 
 export const loadEncounters = createAction('[Encounter Page] Load Encounters');
 
@@ -12,7 +10,8 @@ export const loadEncountersSuccess = createAction(
 );
 
 export const loadEncountersFailure = createAction(
-  '[Encounter API] Encounters Load Failure'
+  '[Encounter API] Encounters Load Failure',
+  props<{ message: string }>()
 );
 
 export const openUpsertEncounter = createAction(
@@ -30,11 +29,13 @@ export const createEncounter = createAction(
 );
 
 export const createEncounterSuccess = createAction(
-  '[Encounter API] Create Encounter Success'
+  '[Encounter API] Create Encounter Success',
+  props<{ message: string }>()
 );
 
 export const createEncounterFailure = createAction(
-  '[Encounter API] Create Encounter Failure'
+  '[Encounter API] Create Encounter Failure',
+  props<{ message: string }>()
 );
 
 export const updateEncounter = createAction(
@@ -44,11 +45,12 @@ export const updateEncounter = createAction(
 
 export const updateEncounterSuccess = createAction(
   '[Encounter API] Update Encounter Success',
-  props<{ encounterId: string }>()
+  props<{ encounterId: string; message: string }>()
 );
 
 export const updateEncounterFailure = createAction(
-  '[Encounter API] Update Encounter Failure'
+  '[Encounter API] Update Encounter Failure',
+  props<{ message: string }>()
 );
 
 export const deleteEncounter = createAction(
@@ -58,11 +60,12 @@ export const deleteEncounter = createAction(
 
 export const deleteEncounterSuccess = createAction(
   '[Encounter API] Delete Encounter Success',
-  props<{ encounterId: string }>()
+  props<{ encounterId: string; message: string }>()
 );
 
 export const deleteEncounterFailure = createAction(
-  '[Encounter API] Delete Encounter Failure'
+  '[Encounter API] Delete Encounter Failure',
+  props<{ message: string }>()
 );
 
 export const showEncounterDetails = createAction(
@@ -94,10 +97,30 @@ export const loadEncounterByIdFromRouteSuccess = createAction(
 );
 
 export const loadEncounterByIdFromRouteFailure = createAction(
-  '[Patient Overview Page] Load Encounter By Id From Route Failure'
+  '[Patient Overview Page] Load Encounter By Id From Route Failure',
+  props<{ message: string }>()
 );
 
 export const setEncounterId = createAction(
   '[Patient Overview Page] Set Encounter Id',
   props<{ encounterId: string }>()
+);
+
+export const dischargePatient = createAction(
+  '[Encounter Details Page] Discharge Patient',
+  props<{ encounter: Encounter }>()
+);
+
+export const dischargePatientSuccess = createAction(
+  '[Encounter API] Discharge Patient Success',
+  props<{ encounter: Encounter; message: string }>()
+);
+
+export const dischargePatientFailure = createAction(
+  '[Encounter API] Discharge Patient Failure',
+  props<{ message: string }>()
+);
+
+export const showMessageSuccess = createAction(
+  '[Encounter API] Show Message Success'
 );

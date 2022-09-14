@@ -1,0 +1,61 @@
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+
+  .close-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+* {
+  font-family: "Ubuntu";
+  font-style: normal;
+  font-weight: 500;
+}
+
+.modal-title {
+  font-size: 20px;
+  line-height: 20px;
+  text-align: center;
+  color: #334144;
+  margin-bottom: 20px;
+}
+
+.register-button {
+  width: 100%;
+  height: 50px;
+  border-radius: 3px;
+  background: linear-gradient(270deg, #ecbcb3 0%, #eaa79e 100%);
+  box-shadow: 0px 15px 20px rgba(234, 168, 159, 0.2);
+  margin-top: 20px;
+  border-radius: 3px;
+  border: 0;
+  color: white;
+  font-size: 14px;
+  line-height: 14px;
+  text-align: center;
+  cursor: pointer;
+
+  label {
+    margin-right: 8px;
+  }
+
+  * {
+    cursor: pointer;
+  }
+}
+
+.name-fields > * {
+  width: 49%;
+}
+
+form > * {
+  width: 100%;
+}

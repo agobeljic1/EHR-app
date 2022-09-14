@@ -13,7 +13,8 @@ export const loadOrganizationsSuccess = createAction(
 );
 
 export const loadOrganizationsFailure = createAction(
-  '[Organization API] Organizations Load Failure'
+  '[Organization API] Organizations Load Failure',
+  props<{ message: string }>()
 );
 
 export const openUpsertOrganization = createAction(
@@ -31,11 +32,13 @@ export const createOrganization = createAction(
 );
 
 export const createOrganizationSuccess = createAction(
-  '[Organization API] Create Organization Success'
+  '[Organization API] Create Organization Success',
+  props<{ message: string }>()
 );
 
 export const createOrganizationFailure = createAction(
-  '[Organization API] Create Organization Failure'
+  '[Organization API] Create Organization Failure',
+  props<{ message: string }>()
 );
 
 export const updateOrganization = createAction(
@@ -45,11 +48,12 @@ export const updateOrganization = createAction(
 
 export const updateOrganizationSuccess = createAction(
   '[Organization API] Update Organization Success',
-  props<{ organizationId: string }>()
+  props<{ organizationId: string; message: string }>()
 );
 
 export const updateOrganizationFailure = createAction(
-  '[Organization API] Update Organization Failure'
+  '[Organization API] Update Organization Failure',
+  props<{ message: string }>()
 );
 
 export const deleteOrganization = createAction(
@@ -59,11 +63,12 @@ export const deleteOrganization = createAction(
 
 export const deleteOrganizationSuccess = createAction(
   '[Organization API] Delete Organization Success',
-  props<{ organizationId: string }>()
+  props<{ organizationId: string; message: string }>()
 );
 
 export const deleteOrganizationFailure = createAction(
-  '[Organization API] Delete Organization Failure'
+  '[Organization API] Delete Organization Failure',
+  props<{ message: string }>()
 );
 
 export const showOrganizationDetails = createAction(
@@ -90,7 +95,8 @@ export const loadOrganizationByIdFromRouteSuccess = createAction(
 );
 
 export const loadOrganizationByIdFromRouteFailure = createAction(
-  '[Organization Details Page] Load Organization By Id From Route Failure'
+  '[Organization Details Page] Load Organization By Id From Route Failure',
+  props<{ message: string }>()
 );
 
 export const loadOrganizationUsersByIdFromRoute = createAction(
@@ -104,7 +110,9 @@ export const loadOrganizationUsersByIdFromRouteSuccess = createAction(
 );
 
 export const loadOrganizationUsersByIdFromRouteFailure = createAction(
-  '[Organization Details Page] Load Organization Users By Id From Route Failure'
+  '[Organization Details Page] Load Organization Users By Id From Route Failure',
+
+  props<{ message: string }>()
 );
 
 export const openAddUserToOrganization = createAction(
@@ -123,11 +131,12 @@ export const addNewUserToOrganization = createAction(
 
 export const addNewUserToOrganizationSuccess = createAction(
   '[Organization API] Add New User To Organization Success',
-  props<{ organizationId: string }>()
+  props<{ organizationId: string; message: string }>()
 );
 
 export const addNewUserToOrganizationFailure = createAction(
-  '[Organization API] Add New User To Organization Failure'
+  '[Organization API] Add New User To Organization Failure',
+  props<{ message: string }>()
 );
 
 export const removeUserFromOrganization = createAction(
@@ -137,11 +146,12 @@ export const removeUserFromOrganization = createAction(
 
 export const removeUserFromOrganizationSuccess = createAction(
   '[Organization API] Remove User From Organization Success',
-  props<{ organizationId: string }>()
+  props<{ organizationId: string; message: string }>()
 );
 
 export const removeUserFromOrganizationFailure = createAction(
-  '[Organization API] Remove User From Organization Failure'
+  '[Organization API] Remove User From Organization Failure',
+  props<{ message: string }>()
 );
 
 export const setActiveUserToAddToOrganization = createAction(
@@ -154,7 +164,6 @@ export const setOrganizationId = createAction(
   props<{ user: User }>()
 );
 
-export const loadOrganizationUsers = createAction(
-  '[Organization Details Page] Load Organization Users',
-  props<{ organization: Organization }>()
+export const showMessageSuccess = createAction(
+  '[Organization API] Show Message Success'
 );

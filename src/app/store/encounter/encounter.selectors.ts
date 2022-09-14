@@ -53,3 +53,8 @@ export const selectEncounterId = createSelector(
   selectEncounters,
   (state: EncounterState) => state.encounterId
 );
+
+export const selectLoadingDischargePatient = createSelector(
+  selectEncounters,
+  (state: EncounterState) => state.loadingDischargePatient
+);

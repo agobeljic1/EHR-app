@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil, withLatestFrom, map } from 'rxjs';
@@ -11,7 +11,7 @@ import { UpsertPatientModalComponent } from '../../../modals/upsert-patient-moda
   templateUrl: './patients-page.component.html',
   styleUrls: ['./patients-page.component.scss'],
 })
-export class PatientsPageComponent implements OnInit {
+export class PatientsPageComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject();
 
   patients$!: Observable<Patient>;
@@ -20,7 +20,14 @@ export class PatientsPageComponent implements OnInit {
   upsertPatientData$!: Observable<Patient | null>;
 
   upsertPatientDialogRef!: MatDialogRef<UpsertPatientModalComponent> | null;
-  displayedColumns: string[] = ['name', 'birthDate', 'gender', 'options'];
+  displayedColumns: string[] = [
+    'name',
+    'birthDate',
+    'gender',
+    'city',
+    'country',
+    'options',
+  ];
 
   constructor(private store: Store, private readonly dialog: MatDialog) {}
 
@@ -51,6 +58,11 @@ export class PatientsPageComponent implements OnInit {
           this.closeUpsertPatientModal();
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   onCreatePatientClick = () => {

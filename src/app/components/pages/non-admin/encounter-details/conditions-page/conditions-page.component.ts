@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil, withLatestFrom, map } from 'rxjs';
 import { UpsertConditionModalComponent } from 'src/app/components/modals/upsert-condition-modal/upsert-condition-modal.component';
 import { Condition } from 'src/app/models/condition/Condition';
+import { User } from 'src/app/models/user/User';
+import { AuthSelectors } from 'src/app/store/auth';
 import { ConditionActions, ConditionSelectors } from 'src/app/store/condition';
 
 @Component({
@@ -12,13 +14,14 @@ import { ConditionActions, ConditionSelectors } from 'src/app/store/condition';
   templateUrl: './conditions-page.component.html',
   styleUrls: ['./conditions-page.component.scss'],
 })
-export class ConditionsPageComponent implements OnInit {
+export class ConditionsPageComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject();
 
   conditions$!: Observable<Condition>;
   loading$!: Observable<boolean>;
   activeDeleteConditionId$!: Observable<string | null>;
   upsertConditionData$!: Observable<Condition | null>;
+  loggedUser$!: Observable<User | null>;
 
   upsertConditionDialogRef!: MatDialogRef<UpsertConditionModalComponent> | null;
   displayedColumns: string[] = [
@@ -52,6 +55,8 @@ export class ConditionsPageComponent implements OnInit {
       ConditionSelectors.selectUpsertConditionData as any
     );
 
+    this.loggedUser$ = this.store.select(AuthSelectors.selectUser as any);
+
     this.store
       .select(ConditionSelectors.selectUpsertConditionOpen as any)
       .pipe(withLatestFrom(this.upsertConditionData$), takeUntil(this.destroy$))
@@ -62,6 +67,11 @@ export class ConditionsPageComponent implements OnInit {
           this.closeUpsertConditionModal();
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   onCreateConditionClick = () => {

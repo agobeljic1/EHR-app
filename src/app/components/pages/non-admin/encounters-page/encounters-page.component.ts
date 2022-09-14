@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Encounter } from 'src/app/models/encounter/Encounter';
+import { User } from 'src/app/models/user/User';
+import { AuthSelectors } from 'src/app/store/auth';
 import { EncounterActions, EncounterSelectors } from 'src/app/store/encounter';
 import { UpsertEncounterModalComponent } from '../../../modals/upsert-encounter-modal/upsert-encounter-modal.component';
 
@@ -11,11 +13,12 @@ import { UpsertEncounterModalComponent } from '../../../modals/upsert-encounter-
   templateUrl: './encounters-page.component.html',
   styleUrls: ['./encounters-page.component.scss'],
 })
-export class EncountersPageComponent implements OnInit {
+export class EncountersPageComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject();
   encounters$!: Observable<Encounter>;
   loading$!: Observable<boolean>;
   loadingDeleteEncounter$!: Observable<boolean>;
+  loggedUser$!: Observable<User | null>;
   displayedColumns: string[] = [
     'status',
     'priority',
@@ -39,6 +42,9 @@ export class EncountersPageComponent implements OnInit {
     this.loadingDeleteEncounter$ = this.store.select(
       EncounterSelectors.selectLoadingDeleteEncounter as any
     );
+
+    this.loggedUser$ = this.store.select(AuthSelectors.selectUser as any);
+
     this.store
       .select(EncounterSelectors.selectUpsertEncounterOpen as any)
       .pipe(takeUntil(this.destroy$))
@@ -49,6 +55,11 @@ export class EncountersPageComponent implements OnInit {
           this.closeUpsertEncounterModal();
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   openUpsertEncounterModal(): void {

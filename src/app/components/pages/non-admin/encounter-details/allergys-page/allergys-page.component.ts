@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -15,7 +15,7 @@ import {
   templateUrl: './allergys-page.component.html',
   styleUrls: ['./allergys-page.component.scss'],
 })
-export class AllergysPageComponent implements OnInit {
+export class AllergysPageComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject();
 
   allergys$!: Observable<Allergy>;
@@ -25,6 +25,7 @@ export class AllergysPageComponent implements OnInit {
 
   upsertAllergyDialogRef!: MatDialogRef<UpsertAllergyModalComponent> | null;
   displayedColumns: string[] = [
+    'note',
     'onsetDateTime',
     'category',
     'criticality',
@@ -67,6 +68,11 @@ export class AllergysPageComponent implements OnInit {
           this.closeUpsertAllergyModal();
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   onCreateAllergyClick = () => {

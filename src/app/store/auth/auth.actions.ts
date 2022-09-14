@@ -10,14 +10,20 @@ export const loginUser = createAction(
 
 export const loginUserSuccess = createAction(
   '[Login API] User Login Success',
-  props<{ token: string }>()
+  props<{ token: string; message: string }>()
 );
 
-export const loginUserFailure = createAction('[Login API] User Login Failure');
+export const loginUserFailure = createAction(
+  '[Login API] User Login Failure',
+  props<{ message: string }>()
+);
 
 export const logoutUser = createAction('[User API] Logout User');
 
-export const logoutUserSuccess = createAction('[User API] Logout User Success');
+export const logoutUserSuccess = createAction(
+  '[User API] Logout User Success',
+  props<{ message: string }>()
+);
 
 export const refreshToken = createAction('[User API] Refresh Token');
 
@@ -64,9 +70,15 @@ export const selectOrganization = createAction(
 );
 
 export const selectOrganizationSuccess = createAction(
-  '[Profile Modal] Select Organization Success'
+  '[Profile Modal] Select Organization Success',
+  props<{ message: string }>()
 );
 
 export const selectOrganizationFailure = createAction(
-  '[Profile Modal] Select Organization Failure'
+  '[Profile Modal] Select Organization Failure',
+  props<{ message: string }>()
+);
+
+export const showMessageSuccess = createAction(
+  '[Auth API] Show Message Success'
 );

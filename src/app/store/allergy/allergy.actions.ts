@@ -9,7 +9,8 @@ export const loadAllergysSuccess = createAction(
 );
 
 export const loadAllergysFailure = createAction(
-  '[Allergy API] Allergys Load Failure'
+  '[Allergy API] Allergys Load Failure',
+  props<{ message: string }>()
 );
 
 export const openUpsertAllergy = createAction(
@@ -28,11 +29,12 @@ export const createAllergy = createAction(
 
 export const createAllergySuccess = createAction(
   '[Allergy API] Create Allergy Success',
-  props<{ allergy: Allergy }>()
+  props<{ allergy: Allergy; message: string }>()
 );
 
 export const createAllergyFailure = createAction(
-  '[Allergy API] Create Allergy Failure'
+  '[Allergy API] Create Allergy Failure',
+  props<{ message: string }>()
 );
 
 export const updateAllergy = createAction(
@@ -41,11 +43,13 @@ export const updateAllergy = createAction(
 );
 
 export const updateAllergySuccess = createAction(
-  '[Allergy API] Update Allergy Success'
+  '[Allergy API] Update Allergy Success',
+  props<{ message: string }>()
 );
 
 export const updateAllergyFailure = createAction(
-  '[Allergy API] Update Allergy Failure'
+  '[Allergy API] Update Allergy Failure',
+  props<{ message: string }>()
 );
 
 export const deleteAllergy = createAction(
@@ -54,23 +58,15 @@ export const deleteAllergy = createAction(
 );
 
 export const deleteAllergySuccess = createAction(
-  '[Allergy API] Delete Allergy Success'
+  '[Allergy API] Delete Allergy Success',
+  props<{ message: string }>()
 );
 
 export const deleteAllergyFailure = createAction(
-  '[Allergy API] Delete Allergy Failure'
+  '[Allergy API] Delete Allergy Failure',
+  props<{ message: string }>()
 );
 
-export const searchAllergysByQuery = createAction(
-  '[Allergy API] Search Allergys By Query',
-  props<{ query: string }>()
-);
-
-export const searchAllergysByQuerySuccess = createAction(
-  '[Allergy API] Search Allergys By Query Success',
-  props<{ allergys: Allergy[] }>()
-);
-
-export const searchAllergysByQueryFailure = createAction(
-  '[Allergy API] Search Allergys By Query Failure'
+export const showMessageSuccess = createAction(
+  '[Allergy API] Show Message Success'
 );

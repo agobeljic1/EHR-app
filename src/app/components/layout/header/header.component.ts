@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { Organization } from 'src/app/models/organization/Organization';
 import { AuthActions, AuthSelectors } from 'src/app/store/auth';
 import { LoginModalComponent } from '../../modals/login-modal/login-modal.component';
 import { ProfileModalComponent } from '../../modals/profile-modal/profile-modal.component';
@@ -12,7 +11,7 @@ import { ProfileModalComponent } from '../../modals/profile-modal/profile-modal.
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject();
 
   sidenavOpen: boolean = false;
@@ -57,6 +56,11 @@ export class HeaderComponent implements OnInit {
       });
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
+
   onLoginClick = () => {
     this.store.dispatch(AuthActions.openLogin());
   };
@@ -83,6 +87,7 @@ export class HeaderComponent implements OnInit {
   openProfileModal(): void {
     this.profileDialogRef = this.dialog.open(ProfileModalComponent, {
       width: '450px',
+      disableClose: true,
       data: {},
     });
   }
@@ -92,11 +97,6 @@ export class HeaderComponent implements OnInit {
       this.profileDialogRef.close();
       this.profileDialogRef = null;
     }
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.complete();
   }
 
   toggleSidenav() {

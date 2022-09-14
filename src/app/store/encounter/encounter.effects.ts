@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { switchMap, map, catchError, of, tap, withLatestFrom } from 'rxjs';
+import { switchMap, map, catchError, of, tap } from 'rxjs';
 import { EncounterService } from 'src/app/services/encounter.service';
 import { EncounterActions } from '.';
-import { AuthSelectors } from '../auth';
-import { PatientActions } from '../patient';
 
 @Injectable()
 export class EncounterEffects {
@@ -14,7 +13,8 @@ export class EncounterEffects {
     private actions$: Actions,
     private encounterService: EncounterService,
     private router: Router,
-    private store: Store
+    private store: Store,
+    private snackBar: MatSnackBar
   ) {}
 
   encounters$ = createEffect(() =>
@@ -28,7 +28,11 @@ export class EncounterEffects {
             });
           }),
           catchError(() => {
-            return of(EncounterActions.loadEncountersFailure());
+            return of(
+              EncounterActions.loadEncountersFailure({
+                message: 'Failed to load admissions',
+              })
+            );
           })
         );
       })
@@ -41,10 +45,16 @@ export class EncounterEffects {
       switchMap(({ encounter }) => {
         return this.encounterService.createEncounter(encounter).pipe(
           map(() => {
-            return EncounterActions.createEncounterSuccess();
+            return EncounterActions.createEncounterSuccess({
+              message: 'Successfully created admission',
+            });
           }),
           catchError(() => {
-            return of(EncounterActions.createEncounterFailure());
+            return of(
+              EncounterActions.createEncounterFailure({
+                message: 'Failed to create admission',
+              })
+            );
           })
         );
       })
@@ -59,10 +69,15 @@ export class EncounterEffects {
           map(() => {
             return EncounterActions.updateEncounterSuccess({
               encounterId: encounter.id,
+              message: 'Successfully updated admission',
             });
           }),
           catchError(() => {
-            return of(EncounterActions.updateEncounterFailure());
+            return of(
+              EncounterActions.updateEncounterFailure({
+                message: 'Failed to update admisson',
+              })
+            );
           })
         );
       })
@@ -77,10 +92,15 @@ export class EncounterEffects {
           map(() => {
             return EncounterActions.deleteEncounterSuccess({
               encounterId: encounter.id,
+              message: 'Successfully deleted admission',
             });
           }),
           catchError(() => {
-            return of(EncounterActions.deleteEncounterFailure());
+            return of(
+              EncounterActions.deleteEncounterFailure({
+                message: 'Failed to delete admission',
+              })
+            );
           })
         );
       })
@@ -119,20 +139,22 @@ export class EncounterEffects {
             });
           }),
           catchError(() => {
-            return of(EncounterActions.loadEncounterByIdFromRouteFailure());
+            return of(
+              EncounterActions.loadEncounterByIdFromRouteFailure({
+                message: 'Failed to load admission',
+              })
+            );
           })
         );
       })
     )
   );
 
-  //Encounter details
-
   showEncounterDetails$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EncounterActions.showEncounterDetails),
       tap(({ encounter }) =>
-        this.router.navigate(['encounters', encounter.id])
+        this.router.navigate(['admissions', encounter.id])
       ),
       map(() => {
         return EncounterActions.showEncounterDetailsSuccess();
@@ -142,8 +164,11 @@ export class EncounterEffects {
 
   showEncounters$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(EncounterActions.deleteEncounterSuccess),
-      tap(() => this.router.navigate(['encounters'])),
+      ofType(
+        EncounterActions.deleteEncounterSuccess,
+        EncounterActions.loadEncounterByIdFromRouteFailure
+      ),
+      tap(() => this.router.navigate(['admissions'])),
       map(() => {
         return EncounterActions.showEncountersSuccess();
       })
@@ -158,6 +183,48 @@ export class EncounterEffects {
           encounterId,
         });
       })
+    )
+  );
+
+  dischargePatient$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(EncounterActions.dischargePatient),
+      switchMap(({ encounter }) => {
+        return this.encounterService.dischargePatient(encounter).pipe(
+          map(({ encounter }: any) => {
+            return EncounterActions.dischargePatientSuccess({
+              encounter,
+              message: 'Successfully discharged patient',
+            });
+          }),
+          catchError(() => {
+            return of(
+              EncounterActions.dischargePatientFailure({
+                message: 'Failed to discharge patient',
+              })
+            );
+          })
+        );
+      })
+    )
+  );
+
+  showMessage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        EncounterActions.loadEncountersFailure,
+        EncounterActions.createEncounterSuccess,
+        EncounterActions.createEncounterFailure,
+        EncounterActions.updateEncounterSuccess,
+        EncounterActions.updateEncounterFailure,
+        EncounterActions.deleteEncounterSuccess,
+        EncounterActions.deleteEncounterFailure,
+        EncounterActions.loadEncounterByIdFromRouteFailure,
+        EncounterActions.dischargePatientSuccess,
+        EncounterActions.dischargePatientFailure
+      ),
+      tap(({ message }) => this.snackBar.open(message)),
+      map(() => EncounterActions.showMessageSuccess())
     )
   );
 }

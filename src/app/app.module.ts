@@ -46,6 +46,9 @@ import { UpsertConditionModalComponent } from './components/modals/upsert-condit
 import { AllergysPageComponent } from './components/pages/non-admin/encounter-details/allergys-page/allergys-page.component';
 import { UpsertAllergyModalComponent } from './components/modals/upsert-allergy-modal/upsert-allergy-modal.component';
 import { AllergyEffects } from './store/allergy/allergy.effects';
+import { UpsertMedicationModalComponent } from './components/modals/upsert-medication-modal/upsert-medication-modal.component';
+import { MedicationEffects } from './store/medication/medication.effects';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -76,6 +79,7 @@ import { AllergyEffects } from './store/allergy/allergy.effects';
     UpsertConditionModalComponent,
     AllergysPageComponent,
     UpsertAllergyModalComponent,
+    UpsertMedicationModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,6 +96,7 @@ import { AllergyEffects } from './store/allergy/allergy.effects';
       PatientEffects,
       ConditionEffects,
       AllergyEffects,
+      MedicationEffects,
     ]),
     MaterialModule,
     BrowserAnimationsModule,
@@ -103,6 +108,7 @@ import { AllergyEffects } from './store/allergy/allergy.effects';
       useClass: AuthInterceptor,
       multi: true,
     },
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
     AdminGuard,
     DoctorOrNurseGuard,
   ],

@@ -1,0 +1,31 @@
+.medications-wrapper {
+  width: 100%;
+  padding: 20px;
+  min-height: calc(100vh - 80px);
+}
+
+.create-medication-button {
+  margin-left: 12px;
+}
+
+.headline-wrapper {
+  margin-bottom: 16px;
+
+  h2 {
+    margin-bottom: 0;
+  }
+
+  > div {
+    gap: 8px;
+  }
+}
+
+.medication-row:hover {
+  background-color: rgb(248, 248, 248);
+}
+
+.options-buttons-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

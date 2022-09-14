@@ -12,9 +12,6 @@ import {
   loadAllergysFailure,
   loadAllergysSuccess,
   openUpsertAllergy,
-  searchAllergysByQuery,
-  searchAllergysByQueryFailure,
-  searchAllergysByQuerySuccess,
   updateAllergy,
   updateAllergyFailure,
   updateAllergySuccess,
@@ -27,8 +24,6 @@ export interface AllergyState {
   upsertAllergyData: Allergy | null;
   loadingUpsertAllergy: boolean;
   activeDeleteAllergyId: string | null;
-  loadingSearchAllergysByQuery: boolean;
-  foundAllergysByQuery: Allergy[];
 }
 
 export const initialState: AllergyState = {
@@ -38,8 +33,6 @@ export const initialState: AllergyState = {
   upsertAllergyData: null,
   loadingUpsertAllergy: false,
   activeDeleteAllergyId: null,
-  loadingSearchAllergysByQuery: false,
-  foundAllergysByQuery: [],
 };
 
 export const allergyReducer = createReducer(
@@ -99,18 +92,5 @@ export const allergyReducer = createReducer(
   on(deleteAllergyFailure, (state) => ({
     ...state,
     activeDeleteAllergyId: null,
-  })),
-  on(searchAllergysByQuery, (state) => ({
-    ...state,
-    loadingSearchAllergysByQuery: true,
-  })),
-  on(searchAllergysByQuerySuccess, (state, { allergys }) => ({
-    ...state,
-    loadingSearchAllergysByQuery: false,
-    foundAllergysByQuery: allergys,
-  })),
-  on(searchAllergysByQueryFailure, (state) => ({
-    ...state,
-    loadingSearchAllergysByQuery: false,
   }))
 );

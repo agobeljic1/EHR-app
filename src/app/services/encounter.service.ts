@@ -27,6 +27,10 @@ export class EncounterService {
     return this.httpClient.put('/encounters', encounter);
   }
 
+  dischargePatient(encounter) {
+    return this.httpClient.post(`/encounters/${encounter.id}/discharge`, {});
+  }
+
   deleteEncounter(encounter) {
     return this.httpClient.delete(`/encounters/${encounter.id}`);
   }

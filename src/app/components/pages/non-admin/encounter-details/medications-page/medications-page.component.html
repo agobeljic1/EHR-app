@@ -1,1 +1,90 @@
-<p>medications-page works!</p>
+<ng-container *ngLet="medications$ | async as medications">
+  <ng-container *ngLet="loading$ | async as loading">
+    <ng-container
+      *ngLet="activeDeleteMedicationId$ | async as activeDeleteMedicationId"
+    >
+      <div class="w-full medications-wrapper">
+        <div
+          class="d-flex justify-content-between align-items-center w-full headline-wrapper"
+        >
+          <h2>Medications</h2>
+          <div class="d-flex align-items-center">
+            <app-spinner *ngIf="loading" [dark]="true"></app-spinner>
+            <button
+              (click)="onCreateMedicationClick()"
+              mat-raised-button
+              color="primary"
+            >
+              Create new medication
+            </button>
+          </div>
+        </div>
+        <table
+          mat-table
+          [dataSource]="medications"
+          class="mat-elevation-z8 w-full"
+        >
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.code }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.status }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef>Amount</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.amount }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="form">
+            <th mat-header-cell *matHeaderCellDef>Form</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.form }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="options">
+            <th mat-header-cell *matHeaderCellDef>Options</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="options-buttons-wrapper">
+                <button
+                  (click)="onUpdateMedicationClick($event, element)"
+                  mat-raised-button
+                  color="primary"
+                >
+                  <label>Details</label>
+                </button>
+                <button
+                  (click)="onDeleteMedicationClick($event, element)"
+                  mat-raised-button
+                  color="warn"
+                >
+                  <label>Delete</label>
+                  <app-spinner
+                    *ngIf="activeDeleteMedicationId === element.id"
+                  ></app-spinner>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            class="medication-row"
+          ></tr>
+        </table>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>

@@ -42,6 +42,16 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         unique: false,
       },
+      organizationId: {
+        type: DataTypes.INTEGER(10),
+        allowNull: false,
+        onDelete: "cascade",
+        hooks: true,
+        references: {
+          model: "Organization",
+          key: "id",
+        },
+      },
     },
     {
       tableName: "Patient",

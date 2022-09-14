@@ -5,7 +5,7 @@
     </button>
     <label *ngIf="data.encounter" class="modal-title">Update admission</label>
     <label *ngIf="!data.encounter" class="modal-title">Create admission</label>
-    <div style="position: relative">
+    <div class="user-autocomplete-wrapper" *ngIf="!data.encounter">
       <app-autocomplete-field
         name="patient"
         label="Patient"

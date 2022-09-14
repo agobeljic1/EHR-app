@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil, withLatestFrom, map } from 'rxjs';
@@ -12,7 +12,7 @@ import { UpsertUserModalComponent } from '../../../modals/upsert-user-modal/upse
   templateUrl: './users-page.component.html',
   styleUrls: ['./users-page.component.scss'],
 })
-export class UsersPageComponent implements OnInit {
+export class UsersPageComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject();
 
   users$!: Observable<User>;
@@ -59,6 +59,11 @@ export class UsersPageComponent implements OnInit {
           this.closeUpsertUserModal();
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   onCreateUserClick = () => {

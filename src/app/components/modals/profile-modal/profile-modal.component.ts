@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { first, Observable } from 'rxjs';
+import { first, Observable, Subject, takeUntil } from 'rxjs';
 import { AuthActions, AuthSelectors } from 'src/app/store/auth';
 import { formConfig } from './profile.form-config';
 
@@ -10,7 +10,9 @@ import { formConfig } from './profile.form-config';
   templateUrl: './profile-modal.component.html',
   styleUrls: ['./profile-modal.component.scss'],
 })
-export class ProfileModalComponent implements OnInit {
+export class ProfileModalComponent implements OnInit, OnDestroy {
+  private readonly destroy$ = new Subject();
+
   loggedUser$!: Observable<any>;
 
   form!: FormGroup;
@@ -27,23 +29,30 @@ export class ProfileModalComponent implements OnInit {
     this.createForm();
     this.populateForm();
 
-    this.form.valueChanges.subscribe(({ organization }) => {
-      this.store.dispatch(AuthActions.selectOrganization({ organization }));
-    });
+    this.form.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(({ organization }) => {
+        this.store.dispatch(AuthActions.selectOrganization({ organization }));
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   private populateForm(): void {
-    this.loggedUser$.pipe(first()).subscribe((user) => {
-      // console.log(user);
-      const { selectedOrganizationId } = user;
-      const selectedOrganization = (user?.organizations || []).find((org) => {
-        return +org.id === +selectedOrganizationId;
+    this.loggedUser$
+      .pipe(first(), takeUntil(this.destroy$))
+      .subscribe((user) => {
+        const { selectedOrganizationId } = user;
+        const selectedOrganization = (user?.organizations || []).find((org) => {
+          return +org.id === +selectedOrganizationId;
+        });
+        if (selectedOrganization) {
+          this.form.controls['organization'].setValue(selectedOrganization);
+        }
       });
-      // debugger;
-      if (selectedOrganization) {
-        this.form.controls['organization'].setValue(selectedOrganization);
-      }
-    });
   }
 
   private createForm(): void {

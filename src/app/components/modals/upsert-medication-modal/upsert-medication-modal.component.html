@@ -1,0 +1,46 @@
+<form [formGroup]="form">
+  <button class="close-icon button-img" (click)="close()">
+    <img src="assets/close-icon.svg" alt="close" />
+  </button>
+  <label *ngIf="data.medication" class="modal-title">Update medication</label>
+  <label *ngIf="!data.medication" class="modal-title">Create medication</label>
+  <app-form-field
+    name="code"
+    label="Name"
+    type="text"
+    class="code-field"
+    [formGroup]="form"
+    [errorConfig]="formConfig['code'].errorConfig"
+  ></app-form-field>
+  <app-form-field
+    name="status"
+    label="Status"
+    type="select"
+    class="status-field"
+    [formGroup]="form"
+    [options]="formConfig['status'].options"
+    [errorConfig]="formConfig['status'].errorConfig"
+  ></app-form-field>
+  <app-form-field
+    name="amount"
+    label="Amount"
+    type="text"
+    class="amount-field"
+    [formGroup]="form"
+    [errorConfig]="formConfig['amount'].errorConfig"
+  ></app-form-field>
+  <app-form-field
+    name="form"
+    label="Form"
+    type="select"
+    class="form-field"
+    [formGroup]="form"
+    [options]="formConfig['form'].options"
+    [errorConfig]="formConfig['form'].errorConfig"
+  ></app-form-field>
+  <button (click)="submitUpsertMedication()" mat-raised-button color="primary">
+    <label *ngIf="!data.medication">Create medication</label>
+    <label *ngIf="data.medication">Update medication</label>
+    <app-spinner *ngIf="loading$ | async"></app-spinner>
+  </button>
+</form>

@@ -123,13 +123,26 @@ module.exports = function (app, db) {
 
   app.delete("/users/:id", verifyAdmin, (req, res) => {
     const { id } = req.params;
-    db.user
-      .destroy({ where: { id } })
+
+    // const deleteUserOrganizations = db.userOrganization.destroy({
+    //   where: {
+    //     userId: id,
+    //   },
+    // });
+    const deleteUser = db.user.destroy({ where: { id } });
+
+    // deleteUserOrganizations
+    //   .then(() => {
+    deleteUser
       .then(() => {
         res.status(200).json({ success: true });
       })
       .catch(() => {
         res.status(500).json({ error: "Failed to delete user" });
       });
+    // })
+    // .catch(() => {
+    //   res.status(500).json({ error: "Failed to delete user" });
+    // });
   });
 };

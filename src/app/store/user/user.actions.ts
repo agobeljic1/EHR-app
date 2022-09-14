@@ -8,7 +8,10 @@ export const loadUsersSuccess = createAction(
   props<{ users: User[] }>()
 );
 
-export const loadUsersFailure = createAction('[User API] Users Load Failure');
+export const loadUsersFailure = createAction(
+  '[User API] Users Load Failure',
+  props<{ message: string }>()
+);
 
 export const openUpsertUser = createAction(
   '[Login Modal] Open Upsert User',
@@ -22,27 +25,45 @@ export const createUser = createAction(
   props<{ user: User }>()
 );
 
-export const createUserSuccess = createAction('[User API] Create User Success');
+export const createUserSuccess = createAction(
+  '[User API] Create User Success',
+  props<{ message: string }>()
+);
 
-export const createUserFailure = createAction('[User API] Create User Failure');
+export const createUserFailure = createAction(
+  '[User API] Create User Failure',
+  props<{ message: string }>()
+);
 
 export const updateUser = createAction(
   '[User Page] Update User',
   props<{ user: User }>()
 );
 
-export const updateUserSuccess = createAction('[User API] Update User Success');
+export const updateUserSuccess = createAction(
+  '[User API] Update User Success',
+  props<{ message: string }>()
+);
 
-export const updateUserFailure = createAction('[User API] Update User Failure');
+export const updateUserFailure = createAction(
+  '[User API] Update User Failure',
+  props<{ message: string }>()
+);
 
 export const deleteUser = createAction(
   '[User Page] Delete User',
   props<{ user: User }>()
 );
 
-export const deleteUserSuccess = createAction('[User API] Delete User Success');
+export const deleteUserSuccess = createAction(
+  '[User API] Delete User Success',
+  props<{ message: string }>()
+);
 
-export const deleteUserFailure = createAction('[User API] Delete User Failure');
+export const deleteUserFailure = createAction(
+  '[User API] Delete User Failure',
+  props<{ message: string }>()
+);
 
 export const searchUsersByQuery = createAction(
   '[User API] Search Users By Query',
@@ -55,5 +76,10 @@ export const searchUsersByQuerySuccess = createAction(
 );
 
 export const searchUsersByQueryFailure = createAction(
-  '[User API] Search Users By Query Failure'
+  '[User API] Search Users By Query Failure',
+  props<{ message: string }>()
+);
+
+export const showMessageSuccess = createAction(
+  '[User API] Show Message Success'
 );
